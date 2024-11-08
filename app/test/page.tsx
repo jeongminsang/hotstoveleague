@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createClient } from "@/utils/supabase/server";
+import TeamLogo from "./TeamLogo";
 
 export default async function Component() {
   const supabase = await createClient();
@@ -17,11 +18,7 @@ export default async function Component() {
           <Card className="w-full max-w-5xl">
             <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
-                <img
-                  src={team.logo}
-                  alt={`${team.name} logo`}
-                  className="w-24 h-24"
-                />
+                <TeamLogo team={team} />
               </div>
               <CardTitle className="text-3xl font-bold">{team.name}</CardTitle>
             </CardHeader>
