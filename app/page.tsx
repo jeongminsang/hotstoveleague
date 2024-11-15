@@ -1,16 +1,54 @@
-import Hero from "@/components/hero";
-import ConnectSupabaseSteps from "@/components/tutorial/connect-supabase-steps";
-import SignUpUserSteps from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createClient } from "@/utils/supabase/server";
+import TeamLogo from "./TeamLogo";
 
 export default async function Index() {
+  const supabase = await createClient();
+  const { data: teamList } = await supabase.from("lck").select();
+  const { data: teamRoster } = await supabase.from("players").select();
+
   return (
-    <>
-      <Hero />
-      <main className="flex-1 flex flex-col gap-6 px-4">
-        <h2 className="font-medium text-xl mb-4">Next steps</h2>
-        {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-      </main>
-    </>
+    <div className="bg-background text-foreground">
+      {teamList?.map((team) => (
+        <div
+          key={team.id}
+          className="min-h-screen flex items-center justify-center p-4"
+        >
+          <Card className="w-full max-w-5xl">
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-4">
+                <TeamLogo team={team} />
+              </div>
+              <CardTitle className="text-3xl font-bold">{team.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {teamRoster?.map((player) => {
+                  if (player.team_id !== team.id) return;
+                  return (
+                    <div
+                      key={player.id}
+                      className="flex items-center space-x-4 p-2 rounded-lg bg-secondary"
+                    >
+                      <Avatar>
+                        <AvatarImage src={player.image} alt={player.name} />
+                        <AvatarFallback>{player.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{player.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {player.position}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      ))}
+    </div>
   );
 }
