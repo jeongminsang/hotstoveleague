@@ -9,8 +9,10 @@ import {
 } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import TeamLogo from "./TeamLogo";
-import { Button } from "./ui/button";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { twMerge } from "tailwind-merge";
+import { Button } from "./ui/button";
 
 interface Team {
   id: number;
@@ -23,7 +25,8 @@ interface TeamRoster {
   team_id: number;
   name: string;
   position: string;
-  image: string;
+  image?: string;
+  transfer: number;
 }
 
 const positionOrder = ["TOP", "JGL", "MID", "BOT", "SPT"];
@@ -38,14 +41,20 @@ export default function TeamCard({
   expectedRoster: TeamRoster[] | undefined;
 }) {
   const [isPrevRoster, setPrevRoster] = useState(true);
+
   const sortRosterByPosition = (roster: TeamRoster[] | undefined) => {
     return roster?.sort(
       (a, b) =>
         positionOrder.indexOf(a.position) - positionOrder.indexOf(b.position)
     );
   };
+
   const sortedTeamRoster = sortRosterByPosition(teamRoster);
   const sortedExpectedRoster = sortRosterByPosition(expectedRoster);
+
+  if (team.id === 11) {
+    return null;
+  }
 
   return (
     <Card className="w-full max-w-5xl">
@@ -73,21 +82,43 @@ export default function TeamCard({
           {(isPrevRoster ? sortedTeamRoster : sortedExpectedRoster)?.map(
             (player) => {
               return (
-                <div
+                <motion.div
                   key={player.id}
-                  className="flex items-center space-x-4 p-2 rounded-lg bg-secondary"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className={twMerge(
+                    "flex items-center space-x-4 p-2 rounded-lg bg-secondary transition-all duration-1000 border-transparent border-2",
+                    !isPrevRoster &&
+                      player.transfer !== player.team_id &&
+                      "border-red-500"
+                  )}
                 >
                   <Avatar>
                     <AvatarImage src={player.image} alt={player.name} />
                     <AvatarFallback>{player.name[0]}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">{player.name}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <motion.p
+                      key={`name-${player.id}`}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: "easeInOut",
+                      }}
+                      className="font-medium"
+                    >
+                      {player.name}
+                    </motion.p>
+                    <p key={`position-${player.id}`} className="text-sm">
                       {player.position}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               );
             }
           )}
