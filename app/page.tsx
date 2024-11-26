@@ -1,12 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createClient } from "@/utils/supabase/server";
-import TeamLogo from "./TeamLogo";
+import TeamLogo from "../components/TeamLogo";
+import TeamCard from "@/components/TeamCard";
 
 export default async function Index() {
   const supabase = await createClient();
   const { data: teamList } = await supabase.from("lck").select();
-  const { data: teamRoster } = await supabase.from("players").select();
+  const { data: teamRosters } = await supabase.from("players").select();
+
+  const teamRoster = (teamId: number) => {
+    return teamRosters?.filter((player) => player.team_id === teamId);
+  };
+
+  const expectedRoster = (teamId: number) => {
+    return teamRosters?.filter((player) => player.transfer === teamId);
+  };
 
   return (
     <div className="bg-background text-foreground">
@@ -15,7 +24,7 @@ export default async function Index() {
           key={team.id}
           className="min-h-screen flex items-center justify-center p-4"
         >
-          <Card className="w-full max-w-5xl">
+          {/* <Card className="w-full max-w-5xl">
             <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
                 <TeamLogo team={team} />
@@ -46,7 +55,12 @@ export default async function Index() {
                 })}
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
+          <TeamCard
+            team={team}
+            teamRoster={teamRoster(team.id)}
+            expectedRoster={expectedRoster(team.id)}
+          />
         </div>
       ))}
     </div>
