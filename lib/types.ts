@@ -20,6 +20,7 @@ export interface Coach {
 
 export interface Player {
   id: number;
+  slug?: string;
   name: string;
   real_name: string | null;
   position: "TOP" | "JGL" | "MID" | "BOT" | "SPT";
@@ -29,6 +30,8 @@ export interface Player {
   confidence: number;
   image_url: string | null;
   status: "CONFIRMED" | "RUMORED" | "FA" | "STAY" | "SUB";
+  source_url?: string | null;
+  verified_at?: string | null;
   updated_at: string;
 }
 

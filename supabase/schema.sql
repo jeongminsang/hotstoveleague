@@ -23,15 +23,18 @@ CREATE TABLE teams (
 -- 3. 선수 (players) 테이블 생성 (주전/서브 지원)
 CREATE TABLE players (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,              -- 닉네임 e.g. 'Faker', 'Chovy'
+    slug VARCHAR(60) NOT NULL UNIQUE,       -- 선수 고유 식별자 (1선수 = 1고유값 보장)
+    name VARCHAR(50) NOT NULL,              -- 인게임 닉네임 e.g. 'Faker', 'Chovy'
     real_name VARCHAR(50),                  -- 실명 e.g. '이상혁', '정지훈'
     position VARCHAR(10) NOT NULL CHECK (position IN ('TOP', 'JGL', 'MID', 'BOT', 'SPT')),
-    current_team_id INT REFERENCES teams(id) ON DELETE SET NULL,   -- 기존 소속 팀
-    predicted_team_id INT REFERENCES teams(id) ON DELETE SET NULL, -- 이적 예상 팀
+    current_team_id INT REFERENCES teams(id) ON DELETE SET NULL,   -- 현재 소속 구단 FK (선수는 한 팀에만 소속)
+    predicted_team_id INT REFERENCES teams(id) ON DELETE SET NULL, -- 이적 예상 구단 FK
     is_starter BOOLEAN DEFAULT true,        -- 주전(true) / 서브(false) 여부
     confidence INT DEFAULT 0 CHECK (confidence >= 0 AND confidence <= 100), -- 0~100% 확신도
     image_url TEXT,                         -- 프로필 사진 URL
     status VARCHAR(20) DEFAULT 'STAY',      -- 'CONFIRMED', 'RUMORED', 'FA', 'STAY', 'SUB'
+    source_url TEXT,                        -- 로스터 근거 URL (나무위키 / Leaguepedia)
+    verified_at DATE DEFAULT CURRENT_DATE,  -- 검증 기준일
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -63,6 +66,9 @@ CREATE TABLE rumors (
 
 -- 6. 인덱스 생성
 CREATE INDEX idx_teams_league ON teams(league);
+CREATE UNIQUE INDEX idx_players_slug ON players(slug);
+-- 한 팀의 특정 라인에는 주전(is_starter=true)이 1명만 존재하도록 DB 차원에서 강제
+CREATE UNIQUE INDEX idx_team_pos_starter ON players(current_team_id, position) WHERE is_starter = true;
 CREATE INDEX idx_players_current_team ON players(current_team_id);
 CREATE INDEX idx_players_predicted_team ON players(predicted_team_id);
 CREATE INDEX idx_coaches_team ON coaches(team_id);
@@ -90,3 +96,33 @@ CREATE POLICY "Service role can modify rumors" ON rumors FOR ALL TO service_role
 -- 8. Supabase Realtime 활성화 (웹소켓 실시간 이벤트 전송)
 ALTER PUBLICATION supabase_realtime ADD TABLE players;
 ALTER PUBLICATION supabase_realtime ADD TABLE rumors;
+
+-- 9. 선수 이적 및 소속 변경 전용 함수 (1인 1팀 무결성 보장)
+CREATE OR REPLACE FUNCTION move_player(
+    p_slug VARCHAR(60),
+    p_target_team_id INT,
+    p_is_starter BOOLEAN DEFAULT true,
+    p_status VARCHAR(20) DEFAULT 'CONFIRMED'
+)
+RETURNS VOID AS $$
+BEGIN
+    -- 만약 이동할 팀의 해당 포지션에 이미 주전이 있다면 기존 주전을 서브(is_starter=false)로 강등하거나 조정
+    IF p_is_starter = true AND p_target_team_id IS NOT NULL THEN
+        UPDATE players
+        SET is_starter = false,
+            updated_at = NOW()
+        WHERE current_team_id = p_target_team_id
+          AND position = (SELECT position FROM players WHERE slug = p_slug)
+          AND is_starter = true;
+    END IF;
+
+    -- 대상 선수 소속 이전
+    UPDATE players
+    SET current_team_id = p_target_team_id,
+        predicted_team_id = p_target_team_id,
+        is_starter = p_is_starter,
+        status = p_status,
+        updated_at = NOW()
+    WHERE slug = p_slug;
+END;
+$$ LANGUAGE plpgsql;
