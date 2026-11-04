@@ -1,0 +1,38 @@
+export interface Team {
+  id: number;
+  name: string;
+  short_name: string;
+  light_logo_url: string | null;
+  dark_logo_url: string | null;
+  primary_color: string | null;
+}
+
+export interface Player {
+  id: number;
+  name: string;
+  real_name: string | null;
+  position: "TOP" | "JGL" | "MID" | "BOT" | "SPT";
+  current_team_id: number | null;
+  predicted_team_id: number | null;
+  is_starter?: boolean;
+  confidence: number;
+  image_url: string | null;
+  status: "CONFIRMED" | "RUMORED" | "FA" | "STAY" | "SUB";
+  updated_at: string;
+}
+
+export interface Rumor {
+  id: number;
+  post_id: string;
+  source: "TWITTER" | "WEIBO";
+  author: string;
+  raw_text: string;
+  summary: string | null;
+  player_id: number | null;
+  target_team_id: number | null;
+  confidence: number;
+  post_url: string | null;
+  published_at: string;
+  created_at: string;
+}
+
