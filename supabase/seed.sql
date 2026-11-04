@@ -73,8 +73,8 @@ INSERT INTO teams (id, name, short_name, league, light_logo_url, dark_logo_url, 
 
 -- LCS (북미 / Americas North) - 100T 탈퇴 -> Sentinels(SEN) 슬롯 인수 반영
 (31, 'FlyQuest', 'FLY', 'LCS', '/logos/fly.svg', '/logos/fly.svg', '#004938'),
-(32, 'Team Liquid', 'TL', 'LCS', '/logos/tl.svg', '/logos/tl.svg', '#0F1923'),
-(33, 'Cloud9', 'C9', 'LCS', '/logos/c9.png', '/logos/c9.png', '#0094D2'),
+(32, 'Team Liquid', 'TL', 'LCS', '/logos/tl.png', '/logos/tl.png', '#0F1923'),
+(33, 'Cloud9', 'C9', 'LCS', '/logos/c9.svg', '/logos/c9.svg', '#0094D2'),
 (34, 'Sentinels', 'SEN', 'LCS', '/logos/sen.svg', '/logos/sen.svg', '#CE0037'),
 (35, 'Shopify Rebellion', 'SR', 'LCS', '/logos/sr.svg', '/logos/sr.svg', '#182B49'),
 (36, 'Dignitas', 'DIG', 'LCS', '/logos/dig.svg', '/logos/dig.svg', '#FFCC00'),
