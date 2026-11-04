@@ -14,6 +14,7 @@ import { twMerge } from "tailwind-merge";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Player, Team, Coach } from "@/lib/types";
+import { useLanguage } from "./language-provider";
 
 const positions: Array<Player["position"]> = ["TOP", "JGL", "MID", "BOT", "SPT"];
 
@@ -28,6 +29,7 @@ export default function TeamCard({
   expectedRoster: Player[];
   coaches?: Coach[];
 }) {
+  const { t } = useLanguage();
   const [isPrevRoster, setPrevRoster] = useState(false); // 기본 'Expected(예측)'
 
   const activeRoster = isPrevRoster ? teamRoster : expectedRoster;
@@ -45,7 +47,7 @@ export default function TeamCard({
             {team.name}
           </CardTitle>
           <p className="text-xs text-muted-foreground mt-1">
-            {isPrevRoster ? "2026 오피셜 등록 로스터" : "2026 스토브리그 이적 예측 로스터"}
+            {isPrevRoster ? t("officialSubtitle") : t("predictedSubtitle")}
           </p>
         </CardHeader>
 
@@ -56,28 +58,23 @@ export default function TeamCard({
             className="font-bold text-xs"
             onClick={() => setPrevRoster(!isPrevRoster)}
           >
-            {isPrevRoster ? "🔄 예측 로스터 보기" : "📋 오피셜 로스터 보기"}
+            {isPrevRoster ? t("predictedRoster") : t("officialRoster")}
           </Button>
         </CardFooter>
       </div>
 
       <CardContent className="pt-2 pb-6">
-        {/* 감코진 (감독 및 코치진) 정보 바 */}
+        {/* 감코진 (감독 및 코치진) 정보 바 - 본명 제외 영문 활동명만 표시 */}
         {coaches && coaches.length > 0 && (
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-4 py-2 px-4 rounded-xl bg-secondary/35 border border-border/50 text-xs">
             {headCoaches.length > 0 && (
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-mono font-black text-[10px] px-1.5 py-0.5 rounded bg-primary text-primary-foreground tracking-wider">
-                  감독
+                  {t("headCoach")}
                 </span>
                 {headCoaches.map((hc, idx) => (
                   <span key={hc.id} className="font-bold text-foreground">
                     {hc.name}
-                    {hc.real_name && (
-                      <span className="text-muted-foreground text-[11px] ml-1 font-normal">
-                        ({hc.real_name})
-                      </span>
-                    )}
                     {idx < headCoaches.length - 1 && (
                       <span className="text-muted-foreground/50 ml-1">,</span>
                     )}
@@ -93,16 +90,11 @@ export default function TeamCard({
             {subCoaches.length > 0 && (
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-mono font-bold text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground tracking-wider">
-                  코치
+                  {t("coach")}
                 </span>
                 {subCoaches.map((c, idx) => (
                   <span key={c.id} className="text-foreground font-semibold">
                     {c.name}
-                    {c.real_name && (
-                      <span className="text-muted-foreground text-[11px] ml-0.5 font-normal">
-                        ({c.real_name})
-                      </span>
-                    )}
                     {idx < subCoaches.length - 1 && (
                       <span className="text-muted-foreground/40 ml-1.5">,</span>
                     )}
@@ -130,12 +122,13 @@ export default function TeamCard({
                   </span>
                   {lanePlayers.length > 1 && (
                     <span className="text-[10px] text-muted-foreground font-semibold px-1.5 py-0.2 rounded bg-background/60">
-                      {lanePlayers.length}명
+                      {lanePlayers.length}
+                      {t("playersCount")}
                     </span>
                   )}
                 </div>
 
-                {/* 해당 라인 소속 선수 목록 (주전/서브 구분 없이 한 곳에 표시) */}
+                {/* 해당 라인 소속 선수 목록 (본명 제외 영문 활동명만 표시) */}
                 <div className="flex flex-col gap-2 flex-1">
                   <AnimatePresence mode="popLayout">
                     {lanePlayers.length > 0 ? (
@@ -160,26 +153,21 @@ export default function TeamCard({
                             {/* 이적 예측 뱃지 */}
                             {isTransferred && (
                               <div className="absolute -top-2 right-2 px-1.5 py-0.2 rounded-full text-[9px] font-black uppercase tracking-wider bg-red-600 text-white shadow">
-                                {player.confidence >= 80 ? "🔥 유력" : "⚡ 루머"}{" "}
+                                {player.confidence >= 80 ? t("likely") : t("rumor")}{" "}
                                 {player.confidence}%
                               </div>
                             )}
 
-                            <div className="flex items-baseline justify-between gap-1">
+                            <div className="flex items-center justify-between gap-1 py-0.5">
                               <span className="font-bold text-sm tracking-tight text-foreground truncate">
                                 {player.name}
                               </span>
-                              {player.real_name && (
-                                <span className="text-[11px] text-muted-foreground truncate">
-                                  {player.real_name}
-                                </span>
-                              )}
                             </div>
 
-                            {/* 이적/잔류 상태 안내 */}
+                            {/* 이적 상태 안내 */}
                             {isTransferred && (
                               <div className="mt-1 text-[10px] font-semibold text-red-500">
-                                ➔ 이적 유력
+                                {t("transferredNotice")}
                               </div>
                             )}
                           </motion.div>
@@ -187,7 +175,7 @@ export default function TeamCard({
                       })
                     ) : (
                       <div className="flex items-center justify-center flex-1 text-xs text-muted-foreground/60 italic py-4">
-                        공석
+                        {t("vacant")}
                       </div>
                     )}
                   </AnimatePresence>

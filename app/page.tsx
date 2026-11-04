@@ -3,6 +3,7 @@ import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Team, Player, Rumor, Coach } from "@/lib/types";
 import RosterViewer from "@/components/RosterViewer";
 import RumorFeed from "@/components/RumorFeed";
+import HomeHero from "@/components/HomeHero";
 
 export default async function Index() {
   if (!hasEnvVars) {
@@ -64,14 +65,7 @@ export default async function Index() {
     <div className="w-full flex flex-col items-center gap-8 py-4">
       {/* 1. 상단 히어로 & 실시간 루머 타임라인 */}
       <div className="w-full max-w-5xl flex flex-col gap-4 items-center">
-        <div className="text-center space-y-1">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            LCK 스토브리그 이적 예측 뷰어
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            웨이보·트위터 썰쟁이 데이터를 AI로 실시간 정제하여 나무위키보다 빠르게 제공합니다.
-          </p>
-        </div>
+        <HomeHero />
 
         <RumorFeed initialRumors={rumors} />
       </div>
