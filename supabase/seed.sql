@@ -48,7 +48,7 @@ INSERT INTO teams (id, name, short_name, league, light_logo_url, dark_logo_url, 
 (10, 'DN SOOPers', 'DNS', 'LCK', '/logos/dns.svg', '/logos/dns.svg', '#00A3FF'),
 
 -- LPL (중국) - RNG 해체 반영, NIP 추가 등 10개 대표 구단
-(11, 'Bilibili Gaming', 'BLG', 'LPL', '/logos/blg.png', '/logos/blg.png', '#00A1D6'),
+(11, 'Bilibili Gaming', 'BLG', 'LPL', '/logos/blg.svg', '/logos/blg.svg', '#00A1D6'),
 (12, 'Top Esports', 'TES', 'LPL', '/logos/tes.png', '/logos/tes.png', '#FA3A2F'),
 (13, 'JD Gaming', 'JDG', 'LPL', '/logos/jdg.png', '/logos/jdg.png', '#BA0C2F'),
 (14, 'Weibo Gaming', 'WBG', 'LPL', '/logos/wbg.png', '/logos/wbg.png', '#FA3E3E'),
@@ -57,7 +57,7 @@ INSERT INTO teams (id, name, short_name, league, light_logo_url, dark_logo_url, 
 (17, 'EDward Gaming', 'EDG', 'LPL', '/logos/edg.png', '/logos/edg.png', '#282828'),
 (18, 'Ninjas in Pyjamas', 'NIP', 'LPL', '/logos/nip.svg', '/logos/nip.svg', '#00FF00'),
 (19, 'Team WE', 'WE', 'LPL', '/logos/we.png', '/logos/we.png', '#DA291C'),
-(20, 'Anyone''s Legend', 'AL', 'LPL', '/logos/al.svg', '/logos/al.svg', '#E50027'),
+(20, 'Anyone''s Legend', 'AL', 'LPL', '/logos/al.png', '/logos/al.png', '#E50027'),
 
 -- LEC (유럽) - BDS -> Shifters(SHF) 리브랜딩, NAVI 합류 반영
 (21, 'G2 Esports', 'G2', 'LEC', '/logos/g2.svg', '/logos/g2.svg', '#000000'),
