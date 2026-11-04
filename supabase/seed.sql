@@ -181,143 +181,148 @@ INSERT INTO players (name, real_name, position, current_team_id, predicted_team_
 ('Peter', '정윤수', 'SPT', 10, 10, false, 100, 'STAY'),
 
 -- ==============================================================================
--- LPL 대표 로스터
+-- LPL 2026 시즌 최신 공식 로스터 (나무위키 / Leaguepedia 최신 기준)
 -- ==============================================================================
--- 11. Bilibili Gaming (id: 11)
+-- 11. Bilibili Gaming (id: 11) - 바이퍼-나이트-빈 주축
 ('Bin', 'Chen Zebin', 'TOP', 11, 11, true, 100, 'STAY'),
 ('Xun', 'Peng Lixun', 'JGL', 11, 11, true, 100, 'STAY'),
 ('knight', 'Zhuo Ding', 'MID', 11, 11, true, 100, 'STAY'),
-('Elk', 'Zhao Jiahao', 'BOT', 11, 11, true, 100, 'STAY'),
+('Viper', 'Park Do-hyeon', 'BOT', 11, 11, true, 100, 'STAY'),
 ('ON', 'Luo Wenjun', 'SPT', 11, 11, true, 100, 'STAY'),
+('Flandre', 'Li Xuanjun', 'TOP', 11, 11, false, 100, 'STAY'),
 
--- 12. Top Esports (id: 12)
+-- 12. Top Esports (id: 12) - 369-크렘-재키러브
 ('369', 'Bai Jiahao', 'TOP', 12, 12, true, 100, 'STAY'),
-('Tian', 'Gao Tianliang', 'JGL', 12, 12, true, 100, 'STAY'),
+('naiyou', 'Yang Zijian', 'JGL', 12, 12, true, 100, 'STAY'),
 ('Creme', 'Lin Jian', 'MID', 12, 12, true, 100, 'STAY'),
 ('JackeyLove', 'Yu Wenbo', 'BOT', 12, 12, true, 100, 'STAY'),
-('Meiko', 'Tian Ye', 'SPT', 12, 12, true, 100, 'STAY'),
+('Zhuo', 'Wang Xuzhuo', 'SPT', 12, 12, true, 100, 'STAY'),
+('JiaQi', 'Zi Jiaqi', 'BOT', 12, 12, false, 100, 'STAY'),
 
--- 13. JD Gaming (id: 13)
-('Flandre', 'Li Xuanjun', 'TOP', 13, 13, true, 100, 'STAY'),
-('Kanavi', 'Seo Jin-hyeok', 'JGL', 13, 13, true, 100, 'STAY'),
-('Yagao', 'Zeng Qi', 'MID', 13, 13, true, 100, 'STAY'),
-('Ruler', 'Park Jae-hyuk', 'BOT', 13, 13, true, 100, 'STAY'),
-('MISSING', 'Lou Yunfeng', 'SPT', 13, 13, true, 100, 'STAY'),
+-- 13. JD Gaming (id: 13) - 갈라-샤오쉬-준지아 체제
+('Xiaoxu', 'Xu Xingzu', 'TOP', 13, 13, true, 100, 'STAY'),
+('JunJia', 'Yu Chun-chia', 'JGL', 13, 13, true, 100, 'STAY'),
+('HongQ', 'Chu Chun-lan', 'MID', 13, 13, true, 100, 'STAY'),
+('GALA', 'Chen Wei', 'BOT', 13, 13, true, 100, 'STAY'),
+('Vampire', 'Zhao Zhe', 'SPT', 13, 13, true, 100, 'STAY'),
+('xiaofang', 'Fang Zheyu', 'JGL', 13, 13, false, 100, 'STAY'),
 
--- 14. Weibo Gaming (id: 14)
-('Breathe', 'Chen Chen', 'TOP', 14, 14, true, 100, 'STAY'),
-('Tarzan', 'Lee Seung-yong', 'JGL', 14, 14, true, 100, 'STAY'),
+-- 14. Weibo Gaming (id: 14) - 지카-샤오후-엘크
+('Zika', 'Tang Huayu', 'TOP', 14, 14, true, 100, 'STAY'),
+('Jiejie', 'Zhao Lijie', 'JGL', 14, 14, true, 100, 'STAY'),
 ('Xiaohu', 'Li Yuanhao', 'MID', 14, 14, true, 100, 'STAY'),
-('Light', 'Wang Guangyu', 'BOT', 14, 14, true, 100, 'STAY'),
+('Elk', 'Zhao Jiahao', 'BOT', 14, 14, true, 100, 'STAY'),
 ('Crisp', 'Liu Qingsong', 'SPT', 14, 14, true, 100, 'STAY'),
+('Xiaohao', 'Peng Hao', 'JGL', 14, 14, false, 100, 'STAY'),
 
 -- 15. LNG Esports (id: 15)
-('Zika', 'Tang Huayu', 'TOP', 15, 15, true, 100, 'STAY'),
+('Breathe', 'Chen Chen', 'TOP', 15, 15, true, 100, 'STAY'),
 ('Weiwei', 'Wei Bohan', 'JGL', 15, 15, true, 100, 'STAY'),
 ('Scout', 'Lee Ye-chan', 'MID', 15, 15, true, 100, 'STAY'),
-('GALA', 'Chen Wei', 'BOT', 15, 15, true, 100, 'STAY'),
+('Light', 'Wang Guangyu', 'BOT', 15, 15, true, 100, 'STAY'),
 ('Hang', 'Fu Minghang', 'SPT', 15, 15, true, 100, 'STAY'),
 
--- 16. Invictus Gaming (id: 16)
-('YSKM', 'Chau Shu Tak', 'TOP', 16, 16, true, 100, 'STAY'),
-('gluer', 'Li Guorui', 'JGL', 16, 16, true, 100, 'STAY'),
+-- 16. Invictus Gaming (id: 16) - 더샤이-루키-웨이 드림팀
+('TheShy', 'Kang Seung-lok', 'TOP', 16, 16, true, 100, 'STAY'),
+('Wei', 'Yan Yangwei', 'JGL', 16, 16, true, 100, 'STAY'),
 ('Rookie', 'Song Eui-jin', 'MID', 16, 16, true, 100, 'STAY'),
-('Ahn', 'An Shanzhen', 'BOT', 16, 16, true, 100, 'STAY'),
-('Wink', 'Zhang Rui', 'SPT', 16, 16, true, 100, 'STAY'),
+('Photic', 'Ying Qishen', 'BOT', 16, 16, true, 100, 'STAY'),
+('Meiko', 'Tian Ye', 'SPT', 16, 16, true, 100, 'STAY'),
+('Soboro', 'Lim Sung-min', 'TOP', 16, 16, false, 100, 'STAY'),
 
 -- 17. EDward Gaming (id: 17)
-('Ale', 'Han Zhao', 'TOP', 17, 17, true, 100, 'STAY'),
-('Jiejie', 'Zhao Lijie', 'JGL', 17, 17, true, 100, 'STAY'),
+('Solokill', 'Mak Fu-hing', 'TOP', 17, 17, true, 100, 'STAY'),
+('Monki', 'Wang Mengqi', 'JGL', 17, 17, true, 100, 'STAY'),
 ('Fisher', 'Lee Jeong-tae', 'MID', 17, 17, true, 100, 'STAY'),
 ('Thesnake', 'Kang Guang', 'BOT', 17, 17, true, 100, 'STAY'),
-('Vampire', 'Zhao Zhe', 'SPT', 17, 17, true, 100, 'STAY'),
+('Wink', 'Zhang Rui', 'SPT', 17, 17, true, 100, 'STAY'),
 
 -- 18. Royal Never Give Up (id: 18)
-('Breathe', 'Chen Chen', 'TOP', 18, 18, true, 100, 'STAY'),
-('Wei', 'Yan Yangwei', 'JGL', 18, 18, true, 100, 'STAY'),
+('Zdz', 'Zhu De-zhang', 'TOP', 18, 18, true, 100, 'STAY'),
+('milkyway', 'Cai Zihan', 'JGL', 18, 18, true, 100, 'STAY'),
 ('Tangyuan', 'Lin Yuhong', 'MID', 18, 18, true, 100, 'STAY'),
-('Lwx', 'Lin Weixiang', 'BOT', 18, 18, true, 100, 'STAY'),
+('huanfeng', 'Tang Huan-feng', 'BOT', 18, 18, true, 100, 'STAY'),
 ('Ming', 'Shi Senming', 'SPT', 18, 18, true, 100, 'STAY'),
 
 -- 19. Team WE (id: 19)
 ('Wayward', 'Huang Renxing', 'TOP', 19, 19, true, 100, 'STAY'),
 ('Heng', 'Yang Cuiheng', 'JGL', 19, 19, true, 100, 'STAY'),
 ('FoFo', 'Chu Chun-lan', 'MID', 19, 19, true, 100, 'STAY'),
-('Prince', 'Lee Chae-hwan', 'BOT', 19, 19, true, 100, 'STAY'),
+('Able', 'Dai Zhi-chun', 'BOT', 19, 19, true, 100, 'STAY'),
 ('Iwandy', 'Liao Pengchuan', 'SPT', 19, 19, true, 100, 'STAY'),
 
--- 20. Anyone's Legend (id: 20)
-('Hery', 'Wang Hetian', 'TOP', 20, 20, true, 100, 'STAY'),
-('Croco', 'Kim Dong-beom', 'JGL', 20, 20, true, 100, 'STAY'),
+-- 20. Anyone's Legend (id: 20) - 타잔-샹크스-호프-카엘
+('Flandre', 'Li Xuanjun', 'TOP', 20, 20, true, 100, 'STAY'),
+('Tarzan', 'Lee Seung-yong', 'JGL', 20, 20, true, 100, 'STAY'),
 ('Shanks', 'Cui Xiaojun', 'MID', 20, 20, true, 100, 'STAY'),
 ('Hope', 'Wang Jie', 'BOT', 20, 20, true, 100, 'STAY'),
 ('Kael', 'Kim Jin-hong', 'SPT', 20, 20, true, 100, 'STAY'),
 
 -- ==============================================================================
--- LEC 대표 로스터
+-- LEC 2026 시즌 최신 공식 로스터 (나무위키 / Leaguepedia 최신 기준)
 -- ==============================================================================
--- 21. G2 Esports (id: 21)
+-- 21. G2 Esports (id: 21) - 캡스-한스사마-스큐몬드
 ('BrokenBlade', 'Sergen Celik', 'TOP', 21, 21, true, 100, 'STAY'),
-('Yike', 'Martin Sundelin', 'JGL', 21, 21, true, 100, 'STAY'),
+('SkewMond', 'Rudy Semaan', 'JGL', 21, 21, true, 100, 'STAY'),
 ('Caps', 'Rasmus Winther', 'MID', 21, 21, true, 100, 'STAY'),
 ('Hans Sama', 'Steven Liv', 'BOT', 21, 21, true, 100, 'STAY'),
-('Mikyx', 'Mihael Mehle', 'SPT', 21, 21, true, 100, 'STAY'),
+('Labrov', 'Labros Papoutsakis', 'SPT', 21, 21, true, 100, 'STAY'),
 
--- 22. Fnatic (id: 22)
+-- 22. Fnatic (id: 22) - 라족-블라디-업셋
 ('Oscarinin', 'Oscar Munoz', 'TOP', 22, 22, true, 100, 'STAY'),
 ('Razork', 'Ivan Martin', 'JGL', 22, 22, true, 100, 'STAY'),
-('Humanoid', 'Marek Brazda', 'MID', 22, 22, true, 100, 'STAY'),
-('Noah', 'Oh Hyeon-taek', 'BOT', 22, 22, true, 100, 'STAY'),
-('Jun', 'Yoon Se-jun', 'SPT', 22, 22, true, 100, 'STAY'),
+('Vladi', 'VladimiR Bilohorats', 'MID', 22, 22, true, 100, 'STAY'),
+('Upset', 'Elias Lipp', 'BOT', 22, 22, true, 100, 'STAY'),
+('Lospa', 'Park Joon-hyeong', 'SPT', 22, 22, true, 100, 'STAY'),
 
--- 23. MAD Lions KOI (id: 23)
+-- 23. Movistar KOI (MDK) (id: 23) - 엘요야-조조편-수파
 ('Myrwn', 'Alex Pastor', 'TOP', 23, 23, true, 100, 'STAY'),
 ('Elyoya', 'Javier Prades', 'JGL', 23, 23, true, 100, 'STAY'),
-('Fresskowy', 'Bartlomiej Proba', 'MID', 23, 23, true, 100, 'STAY'),
+('Jojopyun', 'Joseph Joon Pyun', 'MID', 23, 23, true, 100, 'STAY'),
 ('Supa', 'David Garcia', 'BOT', 23, 23, true, 100, 'STAY'),
 ('Alvaro', 'Alvaro Fernandez', 'SPT', 23, 23, true, 100, 'STAY'),
 
--- 24. Team BDS (id: 24)
+-- 24. Team BDS / Shifters (id: 24)
 ('Adam', 'Adam Maanane', 'TOP', 24, 24, true, 100, 'STAY'),
 ('Sheo', 'Theo Borile', 'JGL', 24, 24, true, 100, 'STAY'),
 ('Nuc', 'Ilias Bizriken', 'MID', 24, 24, true, 100, 'STAY'),
-('Ice', 'Yoon Sang-hoon', 'BOT', 24, 24, true, 100, 'STAY'),
-('Labrov', 'Labros Papoutsakis', 'SPT', 24, 24, true, 100, 'STAY'),
+('Paduck', 'Park Seok-hyeon', 'BOT', 24, 24, true, 100, 'STAY'),
+('Trymbi', 'Adrian Trybus', 'SPT', 24, 24, true, 100, 'STAY'),
 
--- 25. Karmine Corp (id: 25)
-('Cabochard', 'Lucas Simon-Meslet', 'TOP', 25, 25, true, 100, 'STAY'),
-('Closer', 'Can Celik', 'JGL', 25, 25, true, 100, 'STAY'),
-('VladimiR', 'Volodymyr Bilohorats', 'MID', 25, 25, true, 100, 'STAY'),
-('Upset', 'Elias Lipp', 'BOT', 25, 25, true, 100, 'STAY'),
-('Targamas', 'Raphael Crabbe', 'SPT', 25, 25, true, 100, 'STAY'),
+-- 25. Karmine Corp (id: 25) - 칸나-이크-칼리스테 슈퍼팀
+('Canna', 'Kim Chang-dong', 'TOP', 25, 25, true, 100, 'STAY'),
+('Yike', 'Martin Sundelin', 'JGL', 25, 25, true, 100, 'STAY'),
+('kyeahoo', 'Lee Kong-woo', 'MID', 25, 25, true, 100, 'STAY'),
+('Caliste', 'Caliste Henry-Hennebert', 'BOT', 25, 25, true, 100, 'STAY'),
+('Busio', 'Alan Cwalina', 'SPT', 25, 25, true, 100, 'STAY'),
 
--- 26. Team Vitality (id: 26)
+-- 26. Team Vitality (id: 26) - 카르지-베테오-린카스
 ('Photon', 'Kyeong Gyu-tae', 'TOP', 26, 26, true, 100, 'STAY'),
 ('Lyncas', 'Linas Nauncikas', 'JGL', 26, 26, true, 100, 'STAY'),
 ('Vetheo', 'Vincent Berrie', 'MID', 26, 26, true, 100, 'STAY'),
 ('Carzzy', 'Matyas Orsag', 'BOT', 26, 26, true, 100, 'STAY'),
 ('Hylissang', 'Zdravets Galabov', 'SPT', 26, 26, true, 100, 'STAY'),
 
--- 27. SK Gaming (id: 27)
-('Irrelevant', 'Joel Miro Scharoll', 'TOP', 27, 27, true, 100, 'STAY'),
-('ISMA', 'Ismail Boualem', 'JGL', 27, 27, true, 100, 'STAY'),
-('Nisqy', 'Yasin Dincer', 'MID', 27, 27, true, 100, 'STAY'),
-('Rahel', 'Cho Min-seong', 'BOT', 27, 27, true, 100, 'STAY'),
-('Luon', 'Han Hyeon-joon', 'SPT', 27, 27, true, 100, 'STAY'),
+-- 27. SK Gaming (id: 27) - 분더-리더-미키엑스
+('Wunder', 'Martin Hansen', 'TOP', 27, 27, true, 100, 'STAY'),
+('Skeanz', 'Duncan Marquet', 'JGL', 27, 27, true, 100, 'STAY'),
+('LIDER', 'Adam Ilyasov', 'MID', 27, 27, true, 100, 'STAY'),
+('Jopa', 'Josip Cancar', 'BOT', 27, 27, true, 100, 'STAY'),
+('Mikyx', 'Mihael Mehle', 'SPT', 27, 27, true, 100, 'STAY'),
 
 -- 28. Team Heretics (id: 28)
-('Wunder', 'Martin Hansen', 'TOP', 28, 28, true, 100, 'STAY'),
+('Tracyn', 'Sebastian Wojton', 'TOP', 28, 28, true, 100, 'STAY'),
 ('Jankos', 'Marcin Jankowski', 'JGL', 28, 28, true, 100, 'STAY'),
-('Zwyroo', 'Artur Trojan', 'MID', 28, 28, true, 100, 'STAY'),
+('Jackies', 'Jack Jesenek', 'MID', 28, 28, true, 100, 'STAY'),
 ('Flakked', 'Victor Lirola', 'BOT', 28, 28, true, 100, 'STAY'),
-('Trymbi', 'Adrian Trybus', 'SPT', 28, 28, true, 100, 'STAY'),
+('Jun', 'Yoon Se-jun', 'SPT', 28, 28, true, 100, 'STAY'),
 
 -- 29. GIANTX (id: 29)
-('Th3Antonio', 'Antonio Espinosa', 'TOP', 29, 29, true, 100, 'STAY'),
-('Juhan', 'Lee Ju-han', 'JGL', 29, 29, true, 100, 'STAY'),
-('Jackies', 'Jack Jesenek', 'MID', 29, 29, true, 100, 'STAY'),
-('Patrik', 'Patrik Jiru', 'BOT', 29, 29, true, 100, 'STAY'),
-('IgNar', 'Lee Dong-geun', 'SPT', 29, 29, true, 100, 'STAY'),
+('Lot', 'Eren Yildiz', 'TOP', 29, 29, true, 100, 'STAY'),
+('ISMA', 'Ismail Boualem', 'JGL', 29, 29, true, 100, 'STAY'),
+('Feisty', 'Jeong Seong-hoon', 'MID', 29, 29, true, 100, 'STAY'),
+('Noah', 'Oh Hyeon-taek', 'BOT', 29, 29, true, 100, 'STAY'),
+('Luon', 'Han Hyeon-joon', 'SPT', 29, 29, true, 100, 'STAY'),
 
 -- 30. Rogue (id: 30)
 ('Finn', 'Finn Wiestal', 'TOP', 30, 30, true, 100, 'STAY'),
@@ -327,117 +332,117 @@ INSERT INTO players (name, real_name, position, current_team_id, predicted_team_
 ('Zoelys', 'Paul Lelier', 'SPT', 30, 30, true, 100, 'STAY'),
 
 -- ==============================================================================
--- LCS (Americas North) 대표 로스터
+-- LCS (Americas North) 2026 시즌 최신 공식 로스터 (나무위키 / Leaguepedia 최신 기준)
 -- ==============================================================================
--- 31. FlyQuest (id: 31)
-('Bwipo', 'Gabriël Rau', 'TOP', 31, 31, true, 100, 'STAY'),
-('Inspired', 'Kacper Sloma', 'JGL', 31, 31, true, 100, 'STAY'),
+-- 31. FlyQuest (id: 31) - 쿼드-마쑤 주축 리빌딩
+('Gakgos', 'Gokhan Acikgoz', 'TOP', 31, 31, true, 100, 'STAY'),
+('Gryffinn', 'Gryffinn Lee', 'JGL', 31, 31, true, 100, 'STAY'),
 ('Quad', 'Song Su-hyeong', 'MID', 31, 31, true, 100, 'STAY'),
 ('Massu', 'Fahad Abdulmalek', 'BOT', 31, 31, true, 100, 'STAY'),
-('Busio', 'Alan Cwalina', 'SPT', 31, 31, true, 100, 'STAY'),
+('Cryogen', 'Christian Aho', 'SPT', 31, 31, true, 100, 'STAY'),
 
--- 32. Team Liquid (id: 32)
-('Impact', 'Jeong Eon-young', 'TOP', 32, 32, true, 100, 'STAY'),
-('UmTi', 'Eom Seong-hyeon', 'JGL', 32, 32, true, 100, 'STAY'),
-('APA', 'Eain Stearns', 'MID', 32, 32, true, 100, 'STAY'),
+-- 32. Team Liquid (id: 32) - 코어장전-연-모건
+('Morgan', 'Park Ru-han', 'TOP', 32, 32, true, 100, 'STAY'),
+('Josedeodo', 'Brandon Joel Villegas', 'JGL', 32, 32, true, 100, 'STAY'),
+('Roamer', 'Lee Sang-min', 'MID', 32, 32, true, 100, 'STAY'),
 ('Yeon', 'Sean Sung', 'BOT', 32, 32, true, 100, 'STAY'),
 ('CoreJJ', 'Jo Yong-in', 'SPT', 32, 32, true, 100, 'STAY'),
 
--- 33. Cloud9 (id: 33)
+-- 33. Cloud9 (id: 33) - 타나토스-블라버-APA-즈벤-벌칸
 ('Thanatos', 'Park Seung-gyu', 'TOP', 33, 33, true, 100, 'STAY'),
 ('Blaber', 'Robert Huang', 'JGL', 33, 33, true, 100, 'STAY'),
-('Jojopyun', 'Joseph Joon Pyun', 'MID', 33, 33, true, 100, 'STAY'),
-('Berserker', 'Kim Min-cheol', 'BOT', 33, 33, true, 100, 'STAY'),
+('APA', 'Eain Stearns', 'MID', 33, 33, true, 100, 'STAY'),
+('Zven', 'Jesper Svenningsen', 'BOT', 33, 33, true, 100, 'STAY'),
 ('VULCAN', 'Philippe Laflamme', 'SPT', 33, 33, true, 100, 'STAY'),
 
--- 34. 100 Thieves (id: 34)
-('Sniper', 'Rayane Kechiche', 'TOP', 34, 34, true, 100, 'STAY'),
-('River', 'Kim Dong-woo', 'JGL', 34, 34, true, 100, 'STAY'),
-('Quid', 'Lim Hyeon-seung', 'MID', 34, 34, true, 100, 'STAY'),
-('FBI', 'Ian Victor Huang', 'BOT', 34, 34, true, 100, 'STAY'),
-('Eyla', 'Bill Nguyen', 'SPT', 34, 34, true, 100, 'STAY'),
+-- 34. LYON Gaming (id: 34) - 인스파이어드-버서커 슈퍼팀
+('Zamudo', 'Moises David', 'TOP', 34, 34, true, 100, 'STAY'),
+('Inspired', 'Kacper Sloma', 'JGL', 34, 34, true, 100, 'STAY'),
+('Saint', 'David De Guia', 'MID', 34, 34, true, 100, 'STAY'),
+('Berserker', 'Kim Min-cheol', 'BOT', 34, 34, true, 100, 'STAY'),
+('Isles', 'Jonah Rosario', 'SPT', 34, 34, true, 100, 'STAY'),
 
--- 35. Shopify Rebellion (id: 35)
-('FakeGod', 'Aaron Lee', 'TOP', 35, 35, true, 100, 'STAY'),
-('Buggax', 'Mateo Aroztegui', 'JGL', 35, 35, true, 100, 'STAY'),
-('Insanity', 'David Challe', 'MID', 35, 35, true, 100, 'STAY'),
+-- 35. Shopify Rebellion (id: 35) - 퍼지-지니-비보이
+('Fudge', 'Ibrahim Allami', 'TOP', 35, 35, true, 100, 'STAY'),
+('Contractz', 'Juan Arturo Garcia', 'JGL', 35, 35, true, 100, 'STAY'),
+('Zinie', 'Yoo Baek-jin', 'MID', 35, 35, true, 100, 'STAY'),
 ('Bvoy', 'Joo Yeong-hoon', 'BOT', 35, 35, true, 100, 'STAY'),
 ('Zeyzal', 'Tristan Stidam', 'SPT', 35, 35, true, 100, 'STAY'),
 
--- 36. Dignitas (id: 36)
-('Licorice', 'Eric Ritchie', 'TOP', 36, 36, true, 100, 'STAY'),
-('Spica', 'Mingyi Lu', 'JGL', 36, 36, true, 100, 'STAY'),
-('Jensen', 'Nicolaj Jensen', 'MID', 36, 36, true, 100, 'STAY'),
-('Tomo', 'Frank Lam', 'BOT', 36, 36, true, 100, 'STAY'),
-('Isles', 'Jonah Rosario', 'SPT', 36, 36, true, 100, 'STAY'),
+-- 36. Dignitas (id: 36) - 포톤-팔라폭스-FBI
+('Photon', 'Kyeong Gyu-tae', 'TOP', 36, 36, true, 100, 'STAY'),
+('eXyu', 'Lawrence Xu', 'JGL', 36, 36, true, 100, 'STAY'),
+('Palafox', 'David Penn', 'MID', 36, 36, true, 100, 'STAY'),
+('FBI', 'Ian Victor Huang', 'BOT', 36, 36, true, 100, 'STAY'),
+('Denathor', 'Noah Erikson', 'SPT', 36, 36, true, 100, 'STAY'),
 
--- 37. Disguised (id: 37)
+-- 37. Disguised (id: 37) - 캐슬-영재
 ('Castle', 'Cho Hyeon-min', 'TOP', 37, 37, true, 100, 'STAY'),
 ('Young', 'Miracle Okoli', 'JGL', 37, 37, true, 100, 'STAY'),
 ('YoungJae', 'Ko Yeong-jae', 'MID', 37, 37, true, 100, 'STAY'),
 ('ScaryJerry', 'Jerry Meng', 'BOT', 37, 37, true, 100, 'STAY'),
 ('Poome', 'Philippe Lavoie-Giguere', 'SPT', 37, 37, true, 100, 'STAY'),
 
--- 38. Lyon Gaming (id: 38)
-('Bong', 'Cho Bo-woong', 'TOP', 38, 38, true, 100, 'STAY'),
-('Oddie', 'Sebastian Nino', 'JGL', 38, 38, true, 100, 'STAY'),
-('Keine', 'Kim Joon-cheol', 'MID', 38, 38, true, 100, 'STAY'),
-('Snaker', 'Brian Distefano', 'BOT', 38, 38, true, 100, 'STAY'),
-('Ackerman', 'Gabriel Aparicio', 'SPT', 38, 38, true, 100, 'STAY'),
+-- 38. 100 Thieves (id: 38)
+('Sniper', 'Rayane Kechiche', 'TOP', 38, 38, true, 100, 'STAY'),
+('River', 'Kim Dong-woo', 'JGL', 38, 38, true, 100, 'STAY'),
+('Quid', 'Lim Hyeon-seung', 'MID', 38, 38, true, 100, 'STAY'),
+('Tomo', 'Frank Lam', 'BOT', 38, 38, true, 100, 'STAY'),
+('Eyla', 'Bill Nguyen', 'SPT', 38, 38, true, 100, 'STAY'),
 
 -- ==============================================================================
--- LCP (아시아태평양) 대표 로스터
+-- LCP (아시아태평양) 2026 시즌 최신 공식 로스터 (나무위키 / Leaguepedia 최신 기준)
 -- ==============================================================================
 -- 39. PSG Talon (id: 39)
 ('Azhi', 'Huang Shang-chih', 'TOP', 39, 39, true, 100, 'STAY'),
-('Junjia', 'Yu Chun-chia', 'JGL', 39, 39, true, 100, 'STAY'),
-('Maple', 'Huang Yi-tang', 'MID', 39, 39, true, 100, 'STAY'),
+('Karsa', 'Hung Hao-hsuan', 'JGL', 39, 39, true, 100, 'STAY'),
+('Gori', 'Kim Tae-woo', 'MID', 39, 39, true, 100, 'STAY'),
 ('Betty', 'Lu Yu-hung', 'BOT', 39, 39, true, 100, 'STAY'),
 ('Woody', 'Lin Zhang-wei', 'SPT', 39, 39, true, 100, 'STAY'),
 
--- 40. GAM Esports (id: 40)
+-- 40. GAM Esports (id: 40) - 키아야-리바이
 ('Kiaya', 'Tran Duy Sang', 'TOP', 40, 40, true, 100, 'STAY'),
 ('Levi', 'Do Duy Khanh', 'JGL', 40, 40, true, 100, 'STAY'),
-('Emo', 'Nguyen Thai Vinh', 'MID', 40, 40, true, 100, 'STAY'),
+('Aress', 'Doan Van Hieu', 'MID', 40, 40, true, 100, 'STAY'),
 ('EasyLove', 'Hua Thanh An', 'BOT', 40, 40, true, 100, 'STAY'),
 ('Elio', 'Pham Thach Nhan Bang', 'SPT', 40, 40, true, 100, 'STAY'),
 
--- 41. Fukuoka SoftBank HAWKS gaming (id: 41)
+-- 41. Fukuoka SoftBank HAWKS gaming (id: 41) - 에비-포레스트-대셔-뷔스타
 ('Evi', 'Shunsuke Murase', 'TOP', 41, 41, true, 100, 'STAY'),
 ('Forest', 'Lee Hyeon-seo', 'JGL', 41, 41, true, 100, 'STAY'),
 ('DasheR', 'Kim Deok-beom', 'MID', 41, 41, true, 100, 'STAY'),
 ('Marble', 'Ryo Endo', 'BOT', 41, 41, true, 100, 'STAY'),
 ('Vsta', 'Oh Hyo-seok', 'SPT', 41, 41, true, 100, 'STAY'),
 
--- 42. CTBC Flying Oyster (id: 42)
+-- 42. CTBC Flying Oyster (id: 42) - 레스트-섀도우-풍연-도고-오르카
 ('Rest', 'Hsu Shih-chieh', 'TOP', 42, 42, true, 100, 'STAY'),
-('Karsa', 'Hung Hao-hsuan', 'JGL', 42, 42, true, 100, 'STAY'),
-('Gori', 'Kim Tae-woo', 'MID', 42, 42, true, 100, 'STAY'),
-('Shunn', 'Chao Sheng-lun', 'BOT', 42, 42, true, 100, 'STAY'),
-('Kaiwing', 'Ling Kai Wing', 'SPT', 42, 42, true, 100, 'STAY'),
+('Shad0w', 'Zhiqiang Zhao', 'JGL', 42, 42, true, 100, 'STAY'),
+('Pungyeon', 'Lee Jong-hyeok', 'MID', 42, 42, true, 100, 'STAY'),
+('Doggo', 'Chiu Tzu-Chuan', 'BOT', 42, 42, true, 100, 'STAY'),
+('Orca', 'Chen Wei-chieh', 'SPT', 42, 42, true, 100, 'STAY'),
 
--- 43. Vikings Esports (id: 43)
+-- 43. Vikings Esports (id: 43) - 카티-쇼군-비
 ('Nanaue', 'Nguyen Hoang Nam', 'TOP', 43, 43, true, 100, 'STAY'),
 ('Gury', 'Luong Hai Long', 'JGL', 43, 43, true, 100, 'STAY'),
 ('Kati', 'Dang Thanh Phe', 'MID', 43, 43, true, 100, 'STAY'),
 ('Shogun', 'Nguyen Van Huy', 'BOT', 43, 43, true, 100, 'STAY'),
 ('Bie', 'Tran Duc Hieu', 'SPT', 43, 43, true, 100, 'STAY'),
 
--- 44. Team Secret (id: 44)
+-- 44. Team Secret Whales (id: 44)
 ('Hiro02', 'Le Le Hai', 'TOP', 44, 44, true, 100, 'STAY'),
 ('Qiang', 'Quach Khanh Hoang', 'JGL', 44, 44, true, 100, 'STAY'),
-('Aress', 'Doan Van Hieu', 'MID', 44, 44, true, 100, 'STAY'),
+('Gloryy', 'Le Ngoc Vinh', 'MID', 44, 44, true, 100, 'STAY'),
 ('Eddie', 'Hoang Cong Nghia', 'BOT', 44, 44, true, 100, 'STAY'),
 ('Taki', 'Dinh Anh Tai', 'SPT', 44, 44, true, 100, 'STAY'),
 
--- 45. DetonatioN FocusMe (id: 45)
+-- 45. DetonatioN FocusMe (id: 45) - 스틸-아리아-하프
 ('RayFarky', 'Shinohara Ryuki', 'TOP', 45, 45, true, 100, 'STAY'),
 ('Steal', 'Moon Geon-yeong', 'JGL', 45, 45, true, 100, 'STAY'),
 ('Aria', 'Lee Ga-eul', 'MID', 45, 45, true, 100, 'STAY'),
 ('Milan', 'Arai Takumi', 'BOT', 45, 45, true, 100, 'STAY'),
 ('Harp', 'Lee Ji-yoong', 'SPT', 45, 45, true, 100, 'STAY'),
 
--- 46. Chiefs Esports Club (id: 46)
+-- 46. Chiefs Esports Club (id: 46) - 토푼-아서-라이스
 ('Topoon', 'Kim Ji-hoon', 'TOP', 46, 46, true, 100, 'STAY'),
 ('Arthur', 'Park Mi-reu', 'JGL', 46, 46, true, 100, 'STAY'),
 ('Kisee', 'James Dong', 'MID', 46, 46, true, 100, 'STAY'),
@@ -445,37 +450,37 @@ INSERT INTO players (name, real_name, position, current_team_id, predicted_team_
 ('Almini', 'Alen Rujnic', 'SPT', 46, 46, true, 100, 'STAY'),
 
 -- ==============================================================================
--- CBLOL (Americas South) 대표 로스터
+-- CBLOL / LTA South 2026 시즌 최신 공식 로스터 (나무위키 / Leaguepedia 최신 기준)
 -- ==============================================================================
--- 47. paiN Gaming (id: 47)
-('Wizer', 'Choi Ui-seok', 'TOP', 47, 47, true, 100, 'STAY'),
+-- 47. paiN Gaming (id: 47) - 보알-카리오크-트리거-쿠리
+('Boal', 'Felipe Boal', 'TOP', 47, 47, true, 100, 'STAY'),
 ('CarioK', 'Marcos Santos', 'JGL', 47, 47, true, 100, 'STAY'),
-('dyNquedo', 'Matheus Rossini', 'MID', 47, 47, true, 100, 'STAY'),
-('TitaN', 'Alexandre Lima', 'BOT', 47, 47, true, 100, 'STAY'),
+('Keine', 'Kim Joon-young', 'MID', 47, 47, true, 100, 'STAY'),
+('Trigger', 'Kim Eui-joo', 'BOT', 47, 47, true, 100, 'STAY'),
 ('Kuri', 'Choi Won-yeong', 'SPT', 47, 47, true, 100, 'STAY'),
 
--- 48. LOUD (id: 48)
-('Robo', 'Leonardo Souza', 'TOP', 48, 48, true, 100, 'STAY'),
-('Croc', 'Park Jong-hoon', 'JGL', 48, 48, true, 100, 'STAY'),
-('tinowns', 'Thiago Sartori', 'MID', 48, 48, true, 100, 'STAY'),
-('Route', 'Moon Geom-su', 'BOT', 48, 48, true, 100, 'STAY'),
-('RedBert', 'Ygor Freitas', 'SPT', 48, 48, true, 100, 'STAY'),
+-- 48. LOUD (id: 48) - 영재-엔비-불
+('xyno', 'Carlos Ferreira', 'TOP', 48, 48, true, 100, 'STAY'),
+('YoungJae', 'Ko Yeong-jae', 'JGL', 48, 48, true, 100, 'STAY'),
+('Envy', 'Lee Dong-ju', 'MID', 48, 48, true, 100, 'STAY'),
+('Bull', 'Song Seon-gyu', 'BOT', 48, 48, true, 100, 'STAY'),
+('uZent', 'Gabriel Dutra', 'SPT', 48, 48, true, 100, 'STAY'),
 
--- 49. Vivo Keyd Stars (id: 49)
-('Guigo', 'Guilherme Ruiz', 'TOP', 49, 49, true, 100, 'STAY'),
-('Disenchant', 'Lee Seung-min', 'JGL', 49, 49, true, 100, 'STAY'),
-('Leleko', 'Leonardo dos Santos', 'MID', 49, 49, true, 100, 'STAY'),
-('SMILEY', 'Ludvig Granquist', 'BOT', 49, 49, true, 100, 'STAY'),
-('ProDelta', 'Gabriel Rossi', 'SPT', 49, 49, true, 100, 'STAY'),
+-- 49. Vivo Keyd Stars (id: 49) - 디사미스-미르-예스클라
+('ZekaS', 'Cesar Berteli Franca', 'TOP', 49, 49, true, 100, 'STAY'),
+('Disamis', 'Pedro Gonsaubes', 'JGL', 49, 49, true, 100, 'STAY'),
+('Mireu', 'Jeong Jo-bin', 'MID', 49, 49, true, 100, 'STAY'),
+('Jeskla', 'Jesper Stromberg', 'BOT', 49, 49, true, 100, 'STAY'),
+('scamber', 'Pedro Lameiras', 'SPT', 49, 49, true, 100, 'STAY'),
 
--- 50. RED Canids (id: 50)
-('fNb', 'Francisco Braz', 'TOP', 50, 50, true, 100, 'STAY'),
-('Aegis', 'Gabriel Lemos', 'JGL', 50, 50, true, 100, 'STAY'),
-('Grevthar', 'Daniel Xavier', 'MID', 50, 50, true, 100, 'STAY'),
-('Brance', 'Diego Amaral', 'BOT', 50, 50, true, 100, 'STAY'),
-('Jojopyun_BR', 'Joao Vitor', 'SPT', 50, 50, true, 100, 'STAY'),
+-- 50. RED Canids (id: 50) - 스텝즈-푸우-모르테우스
+('zynts', 'Matheus Emanuel Silva', 'TOP', 50, 50, true, 100, 'STAY'),
+('STEPZ', 'Eloy Rodriguez', 'JGL', 50, 50, true, 100, 'STAY'),
+('Fuuu', 'Gabriel Furuuti', 'MID', 50, 50, true, 100, 'STAY'),
+('Morttheus', 'Matheus Motta', 'BOT', 50, 50, true, 100, 'STAY'),
+('frosty', 'Jose Eduardo', 'SPT', 50, 50, true, 100, 'STAY'),
 
--- 51. FURIA (id: 51)
+-- 51. FURIA (id: 51) - 위즈-투츠-아유
 ('Zzk', 'Lucas Silveira', 'TOP', 51, 51, true, 100, 'STAY'),
 ('Wiz', 'Lee Han-seul', 'JGL', 51, 51, true, 100, 'STAY'),
 ('Tutsz', 'Arthur Machado', 'MID', 51, 51, true, 100, 'STAY'),
@@ -497,7 +502,11 @@ INSERT INTO players (name, real_name, position, current_team_id, predicted_team_
 ('Woodboy', 'Guilherme Silva', 'SPT', 53, 53, true, 100, 'STAY'),
 
 -- 54. Los Grandes (id: 54)
-('Boal', 'Felipe Boal', 'TOP', 54, 54, true, 100, 'STAY'),
+('Boal_LG', 'Felipe Boal', 'TOP', 54, 54, true, 100, 'STAY'),
+('Seize', 'Kim Ji-hun', 'JGL', 54, 54, true, 100, 'STAY'),
+('tinowns', 'Thiago Sartori', 'MID', 54, 54, true, 100, 'STAY'),
+('Netuno', 'Lucas Flores', 'BOT', 54, 54, true, 100, 'STAY'),
+('Cavalo', 'Matheus Ferreira', 'SPT', 54, 54, true, 100, 'STAY');
 ('Seize', 'Kim Ji-hun', 'JGL', 54, 54, true, 100, 'STAY'),
 ('Envy', 'Lee Dong-ju', 'MID', 54, 54, true, 100, 'STAY'),
 ('Netuno', 'Lucas Flores', 'BOT', 54, 54, true, 100, 'STAY'),
