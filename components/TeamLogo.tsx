@@ -17,12 +17,15 @@ export default function TeamLogo({ team }: { team: Team }) {
 
   const shortLower = team.short_name.toLowerCase();
 
-  // 라이트 모드 고정: 로컬 SVG -> 로컬 PNG -> DB 로고 URL
-  const sources = [
-    `/logos/${shortLower}.svg`,
-    `/logos/${shortLower}.png`,
-    team.light_logo_url || team.dark_logo_url,
-  ].filter(Boolean) as string[];
+  // DB에 저장된 지정 로고 URL 우선 -> 확장자 fallback 순환
+  const dbUrl = team.light_logo_url || team.dark_logo_url;
+  const sources = Array.from(
+    new Set([
+      dbUrl,
+      `/logos/${shortLower}.svg`,
+      `/logos/${shortLower}.png`,
+    ].filter(Boolean))
+  ) as string[];
 
   const currentSrc = sources[attempt];
 
