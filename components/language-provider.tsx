@@ -4,13 +4,23 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 export type Language = "ko" | "en";
 
+export const LEAGUES = [
+  { key: "LCK", name: "LCK", region: "Korea" },
+  { key: "LPL", name: "LPL", region: "China" },
+  { key: "LEC", name: "LEC", region: "Europe" },
+  { key: "LCS", name: "LCS", region: "North America" },
+  { key: "LCP", name: "LCP", region: "Pacific" },
+  { key: "CBLOL", name: "CBLOL", region: "Brazil" },
+] as const;
+
 export const translations = {
   ko: {
-    title: "LCK 스토브리그 이적 예측 뷰어",
-    subtitle: "웨이보·트위터 썰쟁이 데이터를 AI로 실시간 정제하여 나무위키보다 빠르게 제공합니다.",
+    title: "글로벌 LoL 스토브리그 이적 예측 뷰어",
+    subtitle: "전 세계 리그의 루머 데이터를 AI로 실시간 정제하여 가장 빠르게 제공합니다.",
     liveRadar: "⚡ 실시간 썰쟁이 레이더",
     latestRumors: "최신 찌라시 타임라인",
     noRumors: "등록된 최신 찌라시가 없습니다.",
+    noTeamsInLeague: "해당 리그에 등록된 구단 정보가 없습니다.",
     source: "출처",
     confidence: "신뢰도",
     officialRoster: "📋 오피셜 로스터 보기",
@@ -30,11 +40,12 @@ export const translations = {
     dbInitDesc: "Supabase 대시보드 SQL Editor에서 schema.sql과 seed.sql을 실행해주세요.",
   },
   en: {
-    title: "LCK Stove League Transfer Predictions",
-    subtitle: "Real-time AI-extracted insider transfer rumors from Twitter and Weibo, faster than Namuwiki.",
+    title: "Global LoL Stove League Transfer Predictions",
+    subtitle: "Real-time AI-extracted insider transfer rumors across global leagues, faster than Namuwiki.",
     liveRadar: "⚡ Live Insider Radar",
     latestRumors: "Latest Rumors Timeline",
     noRumors: "No transfer rumors recorded yet.",
+    noTeamsInLeague: "No teams registered in this league yet.",
     source: "Source",
     confidence: "Confidence",
     officialRoster: "📋 Official Roster",

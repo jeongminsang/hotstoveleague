@@ -11,8 +11,9 @@ DROP TABLE IF EXISTS teams CASCADE;
 -- 2. 팀 (teams) 테이블 생성
 CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,       -- e.g. 'T1', 'Gen.G'
-    short_name VARCHAR(10) NOT NULL UNIQUE, -- e.g. 'T1', 'GEN'
+    name VARCHAR(50) NOT NULL UNIQUE,       -- e.g. 'T1', 'Gen.G', 'Bilibili Gaming'
+    short_name VARCHAR(10) NOT NULL UNIQUE, -- e.g. 'T1', 'GEN', 'BLG'
+    league VARCHAR(10) NOT NULL DEFAULT 'LCK', -- 'LCK', 'LPL', 'LEC', 'LCS', 'LCP', 'CBLOL'
     light_logo_url TEXT,                    -- 라이트 모드 로고 URL
     dark_logo_url TEXT,                     -- 다크 모드 로고 URL
     primary_color VARCHAR(10),              -- 팀 대표 색상 (Hex 코드, e.g. '#E4002B')
@@ -61,6 +62,7 @@ CREATE TABLE rumors (
 );
 
 -- 6. 인덱스 생성
+CREATE INDEX idx_teams_league ON teams(league);
 CREATE INDEX idx_players_current_team ON players(current_team_id);
 CREATE INDEX idx_players_predicted_team ON players(predicted_team_id);
 CREATE INDEX idx_coaches_team ON coaches(team_id);

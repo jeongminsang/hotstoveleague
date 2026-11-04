@@ -1,7 +1,10 @@
+export type League = "LCK" | "LPL" | "LEC" | "LCS" | "LCP" | "CBLOL";
+
 export interface Team {
   id: number;
   name: string;
   short_name: string;
+  league?: League | string;
   light_logo_url: string | null;
   dark_logo_url: string | null;
   primary_color: string | null;
