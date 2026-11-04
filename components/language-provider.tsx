@@ -55,16 +55,45 @@ export const translations = {
   },
 };
 
+export const teamNames: Record<Language, Record<string, string>> = {
+  ko: {
+    T1: "T1",
+    GEN: "Gen.G",
+    HLE: "한화생명e스포츠",
+    DK: "디플러스 기아",
+    KT: "kt 롤스터",
+    BFX: "BNK 피어엑스",
+    BRO: "한진 브리온",
+    KRX: "키움 DRX",
+    NS: "농심 레드포스",
+    DNS: "DN 수퍼스",
+  },
+  en: {
+    T1: "T1",
+    GEN: "Gen.G",
+    HLE: "Hanwha Life Esports",
+    DK: "Dplus KIA",
+    KT: "kt Rolster",
+    BFX: "BNK FEARX",
+    BRO: "Hanjin BRION",
+    KRX: "Kiwoom DRX",
+    NS: "Nongshim RedForce",
+    DNS: "DN SOOPers",
+  },
+};
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: keyof typeof translations.ko) => string;
+  getTeamName: (shortName: string, defaultName: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   language: "ko",
   setLanguage: () => {},
   t: (key) => translations.ko[key] || "",
+  getTeamName: (_, defaultName) => defaultName,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -86,8 +115,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     return translations[language][key] || translations.ko[key] || "";
   };
 
+  const getTeamName = (shortName: string, defaultName: string): string => {
+    return teamNames[language]?.[shortName] || defaultName;
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, getTeamName }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -96,4 +129,3 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 export function useLanguage() {
   return useContext(LanguageContext);
 }
-

@@ -32,8 +32,8 @@ INSERT INTO teams (id, name, short_name, light_logo_url, dark_logo_url, primary_
 (4, 'Dplus KIA', 'DK', '/logos/dk.svg', '/logos/dk.svg', '#00EAFF'),
 (5, 'kt Rolster', 'KT', '/logos/kt.svg', '/logos/kt.svg', '#ED1C24'),
 (6, 'BNK FEARX', 'BFX', '/logos/bfx.svg', '/logos/bfx.svg', '#FFCC00'),
-(7, '한진 브리온', 'BRO', '/logos/bro.svg', '/logos/bro.svg', '#004F3B'),
-(8, '키움 DRX', 'KRX', '/logos/krx.svg', '/logos/krx.svg', '#5A0019'),
+(7, 'Hanjin BRION', 'BRO', '/logos/bro.svg', '/logos/bro.svg', '#004F3B'),
+(8, 'Kiwoom DRX', 'KRX', '/logos/krx.svg', '/logos/krx.svg', '#5A0019'),
 (9, 'Nongshim RedForce', 'NS', '/logos/ns.svg', '/logos/ns.svg', '#DE1F26'),
 (10, 'DN SOOPers', 'DNS', '/logos/dns.svg', '/logos/dns.svg', '#00A3FF');
 

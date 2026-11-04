@@ -29,7 +29,7 @@ export default function TeamCard({
   expectedRoster: Player[];
   coaches?: Coach[];
 }) {
-  const { t } = useLanguage();
+  const { t, getTeamName } = useLanguage();
   const [isPrevRoster, setPrevRoster] = useState(false); // 기본 'Expected(예측)'
 
   const activeRoster = isPrevRoster ? teamRoster : expectedRoster;
@@ -44,7 +44,7 @@ export default function TeamCard({
             <TeamLogo team={team} />
           </div>
           <CardTitle className="text-3xl font-extrabold tracking-tight">
-            {team.name}
+            {getTeamName(team.short_name, team.name)}
           </CardTitle>
           <p className="text-xs text-muted-foreground mt-1">
             {isPrevRoster ? t("officialSubtitle") : t("predictedSubtitle")}
