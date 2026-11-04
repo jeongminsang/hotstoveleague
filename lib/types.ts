@@ -7,6 +7,14 @@ export interface Team {
   primary_color: string | null;
 }
 
+export interface Coach {
+  id: number;
+  team_id: number;
+  role: "HEAD_COACH" | "COACH";
+  name: string;
+  real_name: string | null;
+}
+
 export interface Player {
   id: number;
   name: string;

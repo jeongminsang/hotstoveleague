@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Player, Team } from "@/lib/types";
+import { Player, Team, Coach } from "@/lib/types";
 
 const positions: Array<Player["position"]> = ["TOP", "JGL", "MID", "BOT", "SPT"];
 
@@ -21,14 +21,18 @@ export default function TeamCard({
   team,
   teamRoster,
   expectedRoster,
+  coaches = [],
 }: {
   team: Team;
   teamRoster: Player[];
   expectedRoster: Player[];
+  coaches?: Coach[];
 }) {
   const [isPrevRoster, setPrevRoster] = useState(false); // 기본 'Expected(예측)'
 
   const activeRoster = isPrevRoster ? teamRoster : expectedRoster;
+  const headCoaches = coaches.filter((c) => c.role === "HEAD_COACH");
+  const subCoaches = coaches.filter((c) => c.role === "COACH");
 
   return (
     <Card className="w-full max-w-5xl shadow-lg border-2 hover:border-primary/40 transition-all duration-300">
@@ -58,6 +62,57 @@ export default function TeamCard({
       </div>
 
       <CardContent className="pt-2 pb-6">
+        {/* 감코진 (감독 및 코치진) 정보 바 */}
+        {coaches && coaches.length > 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-4 py-2 px-4 rounded-xl bg-secondary/35 border border-border/50 text-xs">
+            {headCoaches.length > 0 && (
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-mono font-black text-[10px] px-1.5 py-0.5 rounded bg-primary text-primary-foreground tracking-wider">
+                  감독
+                </span>
+                {headCoaches.map((hc, idx) => (
+                  <span key={hc.id} className="font-bold text-foreground">
+                    {hc.name}
+                    {hc.real_name && (
+                      <span className="text-muted-foreground text-[11px] ml-1 font-normal">
+                        ({hc.real_name})
+                      </span>
+                    )}
+                    {idx < headCoaches.length - 1 && (
+                      <span className="text-muted-foreground/50 ml-1">,</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {headCoaches.length > 0 && subCoaches.length > 0 && (
+              <span className="text-border hidden sm:inline">|</span>
+            )}
+
+            {subCoaches.length > 0 && (
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-mono font-bold text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground tracking-wider">
+                  코치
+                </span>
+                {subCoaches.map((c, idx) => (
+                  <span key={c.id} className="text-foreground font-semibold">
+                    {c.name}
+                    {c.real_name && (
+                      <span className="text-muted-foreground text-[11px] ml-0.5 font-normal">
+                        ({c.real_name})
+                      </span>
+                    )}
+                    {idx < subCoaches.length - 1 && (
+                      <span className="text-muted-foreground/40 ml-1.5">,</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* 5개 포지션(TOP, JGL, MID, BOT, SPT) 라인별 선수 그리드 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {positions.map((pos) => {

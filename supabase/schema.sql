@@ -5,6 +5,7 @@
 -- 1. 기존 테이블 및 함수 정리 (초기화 시)
 DROP TABLE IF EXISTS rumors CASCADE;
 DROP TABLE IF EXISTS players CASCADE;
+DROP TABLE IF EXISTS coaches CASCADE;
 DROP TABLE IF EXISTS teams CASCADE;
 
 -- 2. 팀 (teams) 테이블 생성
@@ -33,7 +34,17 @@ CREATE TABLE players (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 4. 루머/찌라시 (rumors) 타임라인 테이블 생성
+-- 4. 감코진 (coaches) 테이블 생성 (감독 및 코치진)
+CREATE TABLE coaches (
+    id SERIAL PRIMARY KEY,
+    team_id INT REFERENCES teams(id) ON DELETE CASCADE,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('HEAD_COACH', 'COACH')), -- 'HEAD_COACH' (감독) | 'COACH' (코치)
+    name VARCHAR(50) NOT NULL,                                         -- 닉네임 e.g. 'kkOma', 'Score'
+    real_name VARCHAR(50),                                             -- 실명 e.g. '김정균', '고동빈'
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 5. 루머/찌라시 (rumors) 타임라인 테이블 생성
 CREATE TABLE rumors (
     id SERIAL PRIMARY KEY,
     post_id VARCHAR(100) UNIQUE NOT NULL,   -- 원천 게시물 고유 ID (중복 수집 방지)
@@ -49,27 +60,31 @@ CREATE TABLE rumors (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 5. 인덱스 생성
+-- 6. 인덱스 생성
 CREATE INDEX idx_players_current_team ON players(current_team_id);
 CREATE INDEX idx_players_predicted_team ON players(predicted_team_id);
+CREATE INDEX idx_coaches_team ON coaches(team_id);
 CREATE INDEX idx_rumors_post_id ON rumors(post_id);
 CREATE INDEX idx_rumors_published_at ON rumors(published_at DESC);
 
--- 6. Row Level Security (RLS) 설정
+-- 7. Row Level Security (RLS) 설정
 ALTER TABLE teams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
+ALTER TABLE coaches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE rumors ENABLE ROW LEVEL SECURITY;
 
 -- 모든 사용자(익명/인증) 읽기 허용
 CREATE POLICY "Public teams are viewable by everyone" ON teams FOR SELECT USING (true);
 CREATE POLICY "Public players are viewable by everyone" ON players FOR SELECT USING (true);
+CREATE POLICY "Public coaches are viewable by everyone" ON coaches FOR SELECT USING (true);
 CREATE POLICY "Public rumors are viewable by everyone" ON rumors FOR SELECT USING (true);
 
 -- 쓰기는 Service Role (Cloudflare Worker 및 관리자)만 허용
 CREATE POLICY "Service role can modify teams" ON teams FOR ALL TO service_role USING (true);
 CREATE POLICY "Service role can modify players" ON players FOR ALL TO service_role USING (true);
+CREATE POLICY "Service role can modify coaches" ON coaches FOR ALL TO service_role USING (true);
 CREATE POLICY "Service role can modify rumors" ON rumors FOR ALL TO service_role USING (true);
 
--- 7. Supabase Realtime 활성화 (웹소켓 실시간 이벤트 전송)
+-- 8. Supabase Realtime 활성화 (웹소켓 실시간 이벤트 전송)
 ALTER PUBLICATION supabase_realtime ADD TABLE players;
 ALTER PUBLICATION supabase_realtime ADD TABLE rumors;

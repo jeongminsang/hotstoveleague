@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import { Team, Player, Rumor } from "@/lib/types";
+import { Team, Player, Rumor, Coach } from "@/lib/types";
 import RosterViewer from "@/components/RosterViewer";
 import RumorFeed from "@/components/RumorFeed";
 
@@ -44,6 +44,11 @@ export default async function Index() {
     .from("players")
     .select("*");
 
+  const { data: coachesData } = await supabase
+    .from("coaches")
+    .select("*")
+    .order("id", { ascending: true });
+
   const { data: rumorsData } = await supabase
     .from("rumors")
     .select("*")
@@ -52,6 +57,7 @@ export default async function Index() {
 
   const teams = (teamsData as Team[]) || [];
   const players = (playersData as Player[]) || [];
+  const coaches = (coachesData as Coach[]) || [];
   const rumors = (rumorsData as Rumor[]) || [];
 
   return (
@@ -80,7 +86,11 @@ export default async function Index() {
           </p>
         </div>
       ) : (
-        <RosterViewer initialTeams={teams} initialPlayers={players} />
+        <RosterViewer
+          initialTeams={teams}
+          initialPlayers={players}
+          initialCoaches={coaches}
+        />
       )}
     </div>
   );

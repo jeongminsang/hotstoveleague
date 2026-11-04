@@ -7,8 +7,22 @@ ALTER TABLE players ADD COLUMN IF NOT EXISTS is_starter BOOLEAN DEFAULT true;
 ALTER TABLE players DROP CONSTRAINT IF EXISTS players_status_check;
 ALTER TABLE players ADD CONSTRAINT players_status_check CHECK (status IN ('STAY', 'FA', 'RUMORED', 'CONFIRMED', 'SUB'));
 
+CREATE TABLE IF NOT EXISTS coaches (
+    id SERIAL PRIMARY KEY,
+    team_id INT REFERENCES teams(id) ON DELETE CASCADE,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('HEAD_COACH', 'COACH')),
+    name VARCHAR(50) NOT NULL,
+    real_name VARCHAR(50),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE coaches ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public coaches are viewable by everyone" ON coaches;
+CREATE POLICY "Public coaches are viewable by everyone" ON coaches FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Service role can modify coaches" ON coaches;
+CREATE POLICY "Service role can modify coaches" ON coaches FOR ALL TO service_role USING (true);
+
 -- 1. 기존 데이터 초기화 (외래키 및 UNIQUE 제약조건 충돌 방지)
-TRUNCATE TABLE rumors, players, teams RESTART IDENTITY CASCADE;
+TRUNCATE TABLE rumors, players, coaches, teams RESTART IDENTITY CASCADE;
 
 -- 2. 2026 LCK 10개 구단 공식 명칭, 트라이코드 및 로컬 SVG 로고
 INSERT INTO teams (id, name, short_name, light_logo_url, dark_logo_url, primary_color) VALUES
@@ -108,3 +122,55 @@ INSERT INTO players (name, real_name, position, current_team_id, predicted_team_
 ('Life', '김정민', 'SPT', 10, 10, true, 100, 'STAY'),
 ('Sharvel', '김단우', 'JGL', 10, 10, false, 100, 'STAY'),
 ('Peter', '정윤수', 'SPT', 10, 10, false, 100, 'STAY');
+
+-- 4. 2026 시즌 10개 구단 감코진 (감독 role='HEAD_COACH' / 코치 role='COACH')
+INSERT INTO coaches (team_id, role, name, real_name) VALUES
+-- 1. T1 (id: 1)
+(1, 'HEAD_COACH', 'kkOma', '김정균'),
+(1, 'COACH', 'Tom', '임재현'),
+(1, 'COACH', 'Mata', '조세형'),
+(1, 'COACH', 'Easyhoon', '이지훈'),
+
+-- 2. Gen.G (id: 2)
+(2, 'HEAD_COACH', 'Ryu', '유상욱'),
+(2, 'COACH', 'Lyn', '김다빈'),
+(2, 'COACH', 'Nova', '박찬호'),
+
+-- 3. Hanwha Life Esports (id: 3)
+(3, 'HEAD_COACH', 'Homme', '윤성영'),
+(3, 'COACH', 'Sin', '연형모'),
+(3, 'COACH', 'Mowgli', '이재하'),
+
+-- 4. Dplus KIA (id: 4)
+(4, 'HEAD_COACH', 'cvMax', '김대호'),
+(4, 'COACH', 'PoohManDu', '이정현'),
+(4, 'COACH', 'Hachani', '하승찬'),
+
+-- 5. kt Rolster (id: 5)
+(5, 'HEAD_COACH', 'Score', '고동빈'),
+(5, 'COACH', 'Museong', '김무성'),
+(5, 'COACH', 'Sonstar', '손승익'),
+
+-- 6. BNK FEARX (id: 6)
+(6, 'HEAD_COACH', 'Edo', '박준석'),
+(6, 'COACH', 'Rather', '신형섭'),
+(6, 'COACH', 'Lira', '남태유'),
+
+-- 7. 한진 브리온 (id: 7)
+(7, 'HEAD_COACH', 'SSOUNG', '김상수'),
+(7, 'COACH', 'Duke', '이호성'),
+
+-- 8. 키움 DRX (id: 8)
+(8, 'HEAD_COACH', 'Joker', '조재읍'),
+(8, 'COACH', 'Naehyun', '유내현'),
+(8, 'COACH', 'Saroo', '이종원'),
+
+-- 9. Nongshim RedForce (id: 9)
+(9, 'HEAD_COACH', 'DanDy', '최인규'),
+(9, 'COACH', 'Chelly', '박승진'),
+(9, 'COACH', 'Crazy', '김재희'),
+
+-- 10. DN SOOPers (id: 10)
+(10, 'HEAD_COACH', 'RapidStar', '정민성'),
+(10, 'COACH', 'Spirit', '이다윤'),
+(10, 'COACH', 'Alvingo', '최병철');
