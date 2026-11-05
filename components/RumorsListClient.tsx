@@ -46,11 +46,14 @@ export default function RumorsListClient({
     const teamById = new Map<number, Team>(teams.map((tm) => [tm.id, tm]));
     const playerById = new Map<number, Player>(players.map((pl) => [pl.id, pl]));
 
-    const verifiedDbRumors = dbRumors.filter((r) =>
-      (r.post_id || "").startsWith("rv-")
+    const verifiedDbRumors = dbRumors.filter(
+      (r) =>
+        (r.post_id || "").startsWith("rv-") &&
+        !(r.post_url || "").includes("inven.co.kr") &&
+        r.source !== "COMMUNITY"
     );
 
-    if (verifiedDbRumors.length > 0) {
+    if (verifiedDbRumors.length >= INITIAL_RUMORS.length) {
       return verifiedDbRumors.map((r) => {
         const seed = seedByPostId.get(r.post_id);
         const pl = r.player_id ? playerById.get(r.player_id) : undefined;
@@ -63,6 +66,10 @@ export default function RumorsListClient({
 
         return {
           ...r,
+          source: seed?.source || r.source,
+          author: seed?.author || r.author,
+          raw_text: seed?.raw_text || r.raw_text,
+          summary: seed?.summary || r.summary,
           post_url: seed?.post_url || r.post_url,
           player_name: pl?.name || seed?.player_name,
           current_team_short: curTeam?.short_name || seed?.current_team_short,
@@ -115,7 +122,7 @@ export default function RumorsListClient({
       });
   }, [allRumors, selectedLeague, selectedSource, sortDesc]);
 
-  const sources = ["ALL", "TWITTER", "WEIBO", "COMMUNITY"];
+  const sources = ["ALL", "TWITTER", "WEIBO"];
 
   return (
     <div className="w-full max-w-5xl flex flex-col gap-6 py-4">

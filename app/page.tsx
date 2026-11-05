@@ -88,6 +88,15 @@ export default async function Index() {
         source_url: override.source_url,
       };
     }
+    if ((p.source_url || "").includes("inven.co.kr")) {
+      return {
+        ...p,
+        predicted_team_id: p.current_team_id,
+        confidence: 100,
+        status: "STAY",
+        source_url: undefined,
+      };
+    }
     return p;
   });
 
@@ -168,12 +177,15 @@ export default async function Index() {
     ...extraPlayers.filter((ep) => !existingSlugs.has(ep.slug || "")),
   ];
 
-  const verifiedDbRumors = rawRumors.filter((r) =>
-    (r.post_id || "").startsWith("rv-")
+  const verifiedDbRumors = rawRumors.filter(
+    (r) =>
+      (r.post_id || "").startsWith("rv-") &&
+      !(r.post_url || "").includes("inven.co.kr") &&
+      r.source !== "COMMUNITY"
   );
 
   const rumors: Rumor[] =
-    verifiedDbRumors.length > 0
+    verifiedDbRumors.length >= INITIAL_RUMORS.length
       ? verifiedDbRumors
       : INITIAL_RUMORS.map((sr) => ({
           id: sr.id,
