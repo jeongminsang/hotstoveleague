@@ -139,7 +139,7 @@ export default function TeamCard({
                         const slugKey = (player.slug || player.name || "").toLowerCase();
                         const override = PREDICTED_PLAYER_OVERRIDES[slugKey];
                         const rumorUrl = !isPrevRoster
-                          ? player.source_url || override?.source_url || null
+                          ? override?.source_url || player.source_url || null
                           : null;
                         const isTransferred =
                           !isPrevRoster &&

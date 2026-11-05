@@ -28,11 +28,11 @@ export interface Player {
   predicted_team_id: number | null;
   is_starter?: boolean;
   confidence: number;
-  image_url: string | null;
+  image_url?: string | null;
   status: "CONFIRMED" | "RUMORED" | "FA" | "STAY" | "SUB";
   source_url?: string | null;
   verified_at?: string | null;
-  updated_at: string;
+  updated_at?: string;
 }
 
 export interface Rumor {

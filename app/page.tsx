@@ -62,11 +62,24 @@ export default async function Index() {
   const coaches = (coachesData as Coach[]) || [];
   const rawRumors = (rumorsData as Rumor[]) || [];
 
-  // DB에 아직 최신 seed.sql의 찌라시 반영 전일 경우 INITIAL_RUMORS 및 PREDICTED_PLAYER_OVERRIDES로 즉시 보강
-  const players: Player[] = rawPlayers.map((p) => {
+  // 1. 한화생명(HLE, id: 3) 정글러가 구버전 DB에서 Peanut으로 남아있을 경우 Kanavi(서진혁)로 즉시 보정
+  // 2. 최신 검증된 찌라시(PREDICTED_PLAYER_OVERRIDES) 및 원본 링크(HTTP 200 검증 완료)를 즉시 반영
+  const mappedPlayers: Player[] = rawPlayers.map((raw) => {
+    const p: Player =
+      raw.current_team_id === 3 &&
+      ((raw.slug || "").toLowerCase() === "peanut" ||
+        raw.name.toLowerCase() === "peanut")
+        ? {
+            ...raw,
+            slug: "kanavi",
+            name: "Kanavi",
+            real_name: "서진혁",
+          }
+        : raw;
+
     const slugKey = (p.slug || p.name || "").toLowerCase();
     const override = PREDICTED_PLAYER_OVERRIDES[slugKey];
-    if (override && !p.source_url) {
+    if (override) {
       return {
         ...p,
         predicted_team_id: override.predicted_team_id,
@@ -78,9 +91,90 @@ export default async function Index() {
     return p;
   });
 
+  // DB에 아직 추가 전인 신규/복귀 찌라시 선수(Deft, Roamer, Hype, 3XA, Piero) 자동 보강
+  const extraPlayers: Player[] = [
+    {
+      id: 9001,
+      slug: "deft",
+      name: "Deft",
+      real_name: "김혁규",
+      position: "BOT",
+      current_team_id: null,
+      predicted_team_id: 9,
+      is_starter: false,
+      confidence: 94,
+      status: "RUMORED",
+      source_url: PREDICTED_PLAYER_OVERRIDES.deft.source_url,
+    },
+    {
+      id: 9002,
+      slug: "roamer",
+      name: "Roamer",
+      real_name: "조우진",
+      position: "MID",
+      current_team_id: 7,
+      predicted_team_id: 7,
+      is_starter: true,
+      confidence: 99,
+      status: "CONFIRMED",
+      source_url: PREDICTED_PLAYER_OVERRIDES.roamer.source_url,
+    },
+    {
+      id: 9003,
+      slug: "hype",
+      name: "Hype",
+      real_name: "변정현",
+      position: "BOT",
+      current_team_id: 28,
+      predicted_team_id: 28,
+      is_starter: true,
+      confidence: 96,
+      status: "CONFIRMED",
+      source_url: PREDICTED_PLAYER_OVERRIDES.hype.source_url,
+    },
+    {
+      id: 9004,
+      slug: "3xa",
+      name: "3XA",
+      real_name: "Thomas Foucou",
+      position: "BOT",
+      current_team_id: null,
+      predicted_team_id: 27,
+      is_starter: false,
+      confidence: 95,
+      status: "RUMORED",
+      source_url: PREDICTED_PLAYER_OVERRIDES["3xa"].source_url,
+    },
+    {
+      id: 9005,
+      slug: "piero",
+      name: "Piero",
+      real_name: "김정훈",
+      position: "SPT",
+      current_team_id: null,
+      predicted_team_id: 29,
+      is_starter: false,
+      confidence: 95,
+      status: "RUMORED",
+      source_url: PREDICTED_PLAYER_OVERRIDES.piero.source_url,
+    },
+  ];
+
+  const existingSlugs = new Set(
+    mappedPlayers.map((p) => (p.slug || p.name || "").toLowerCase())
+  );
+  const players: Player[] = [
+    ...mappedPlayers,
+    ...extraPlayers.filter((ep) => !existingSlugs.has(ep.slug || "")),
+  ];
+
+  const verifiedDbRumors = rawRumors.filter((r) =>
+    (r.post_id || "").startsWith("rv-")
+  );
+
   const rumors: Rumor[] =
-    rawRumors.length > 0
-      ? rawRumors
+    verifiedDbRumors.length > 0
+      ? verifiedDbRumors
       : INITIAL_RUMORS.map((sr) => ({
           id: sr.id,
           post_id: sr.post_id,

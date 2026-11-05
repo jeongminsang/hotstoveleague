@@ -46,8 +46,12 @@ export default function RumorsListClient({
     const teamById = new Map<number, Team>(teams.map((tm) => [tm.id, tm]));
     const playerById = new Map<number, Player>(players.map((pl) => [pl.id, pl]));
 
-    if (dbRumors.length > 0) {
-      return dbRumors.map((r) => {
+    const verifiedDbRumors = dbRumors.filter((r) =>
+      (r.post_id || "").startsWith("rv-")
+    );
+
+    if (verifiedDbRumors.length > 0) {
+      return verifiedDbRumors.map((r) => {
         const seed = seedByPostId.get(r.post_id);
         const pl = r.player_id ? playerById.get(r.player_id) : undefined;
         const curTeam = pl?.current_team_id
@@ -59,6 +63,7 @@ export default function RumorsListClient({
 
         return {
           ...r,
+          post_url: seed?.post_url || r.post_url,
           player_name: pl?.name || seed?.player_name,
           current_team_short: curTeam?.short_name || seed?.current_team_short,
           target_team_short: tgtTeam?.short_name || seed?.target_team_short,
@@ -331,3 +336,4 @@ export default function RumorsListClient({
     </div>
   );
 }
+
