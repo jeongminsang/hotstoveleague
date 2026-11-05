@@ -52,10 +52,10 @@ CREATE TABLE coaches (
 CREATE TABLE rumors (
     id SERIAL PRIMARY KEY,
     post_id VARCHAR(100) UNIQUE NOT NULL,   -- 원천 게시물 고유 ID (중복 수집 방지)
-    source VARCHAR(20) NOT NULL,            -- 'WEIBO' | 'TWITTER'
+    source VARCHAR(20) NOT NULL,            -- 'WEIBO' | 'TWITTER' | 'COMMUNITY' | 'NEWS'
     author VARCHAR(50) NOT NULL,            -- e.g. '丶涵艺', 'LEC_Wooloo', '윤민섭'
     raw_text TEXT NOT NULL,                 -- 수집된 찌라시 원문
-    summary TEXT,                           -- Gemini AI가 추출한 한국어 1줄 요약
+    summary TEXT,                           -- 한국어/영문 1줄 요약
     player_id INT REFERENCES players(id) ON DELETE SET NULL, -- 연관 선수
     target_team_id INT REFERENCES teams(id) ON DELETE SET NULL, -- 언급된 행선지
     confidence INT DEFAULT 50,              -- 신뢰도 점수 (0~100)

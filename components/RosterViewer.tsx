@@ -126,6 +126,7 @@ export default function RosterViewer({
                 <div key={team.id} className="w-full flex justify-center">
                   <TeamCard
                     team={team}
+                    allTeams={initialTeams}
                     teamRoster={getTeamRoster(team.id)}
                     expectedRoster={getExpectedRoster(team.id)}
                     coaches={getTeamCoaches(team.id)}

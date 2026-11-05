@@ -38,7 +38,7 @@ export interface Player {
 export interface Rumor {
   id: number;
   post_id: string;
-  source: "TWITTER" | "WEIBO";
+  source: "TWITTER" | "WEIBO" | "COMMUNITY" | "NEWS" | string;
   author: string;
   raw_text: string;
   summary: string | null;
@@ -47,6 +47,6 @@ export interface Rumor {
   confidence: number;
   post_url: string | null;
   published_at: string;
-  created_at: string;
+  created_at?: string;
 }
 

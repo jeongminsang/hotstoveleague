@@ -12,24 +12,27 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import { Player, Team, Coach } from "@/lib/types";
 import { useLanguage } from "./language-provider";
+import { ExternalLink } from "lucide-react";
+import { PREDICTED_PLAYER_OVERRIDES } from "@/lib/rumors-data";
 
 const positions: Array<Player["position"]> = ["TOP", "JGL", "MID", "BOT", "SPT"];
 
 export default function TeamCard({
   team,
+  allTeams = [],
   teamRoster,
   expectedRoster,
   coaches = [],
 }: {
   team: Team;
+  allTeams?: Team[];
   teamRoster: Player[];
   expectedRoster: Player[];
   coaches?: Coach[];
 }) {
-  const { t, getTeamName } = useLanguage();
+  const { t, getTeamName, language } = useLanguage();
   const [isPrevRoster, setPrevRoster] = useState(false); // 기본 'Expected(예측)'
 
   const activeRoster = isPrevRoster ? teamRoster : expectedRoster;
@@ -133,9 +136,79 @@ export default function TeamCard({
                   <AnimatePresence mode="popLayout">
                     {lanePlayers.length > 0 ? (
                       lanePlayers.map((player) => {
+                        const slugKey = (player.slug || player.name || "").toLowerCase();
+                        const override = PREDICTED_PLAYER_OVERRIDES[slugKey];
+                        const rumorUrl = !isPrevRoster
+                          ? player.source_url || override?.source_url || null
+                          : null;
                         const isTransferred =
                           !isPrevRoster &&
                           player.predicted_team_id !== player.current_team_id;
+                        const hasRumorStay =
+                          !isPrevRoster && !isTransferred && Boolean(rumorUrl);
+                        const originTeam = isTransferred
+                          ? allTeams.find((tm) => tm.id === player.current_team_id)
+                          : undefined;
+
+                        const cardInner = (
+                          <>
+                            {/* 이적 예측 / 재계약 찌라시 뱃지 */}
+                            {isTransferred && (
+                              <div className="absolute -top-2 right-2 px-1.5 py-0.2 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-600 text-white shadow">
+                                {player.confidence >= 80 ? t("likely") : t("rumor")}{" "}
+                                {player.confidence}%
+                              </div>
+                            )}
+                            {hasRumorStay && (
+                              <div className="absolute -top-2 right-2 px-1.5 py-0.2 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-600 text-white shadow">
+                                {t("stay")} {player.confidence}%
+                              </div>
+                            )}
+
+                            <div className="flex items-center justify-between gap-1 py-0.5">
+                              <span
+                                className={twMerge(
+                                  "font-bold text-sm tracking-tight text-foreground truncate",
+                                  isTransferred && "text-amber-950 font-extrabold"
+                                )}
+                              >
+                                {player.name}
+                              </span>
+                              {rumorUrl && (
+                                <ExternalLink className="w-3.5 h-3.5 text-amber-700 shrink-0 opacity-80 group-hover:opacity-100" />
+                              )}
+                            </div>
+
+                            {/* 이적 상태 및 원본 링크 안내 */}
+                            {isTransferred && (
+                              <div className="mt-1 flex flex-col gap-0.5">
+                                <span className="text-[10px] font-extrabold text-amber-800">
+                                  {originTeam
+                                    ? `${originTeam.short_name} ➔ ${team.short_name}`
+                                    : t("transferredNotice")}
+                                </span>
+                                {rumorUrl && (
+                                  <span className="text-[9px] font-semibold text-amber-700/90 underline underline-offset-2">
+                                    {t("rumorSourceClick")}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+
+                            {hasRumorStay && (
+                              <div className="mt-1 flex flex-col gap-0.5">
+                                <span className="text-[10px] font-bold text-emerald-700">
+                                  {t("resignNotice")}
+                                </span>
+                                {rumorUrl && (
+                                  <span className="text-[9px] font-semibold text-emerald-700/80 underline underline-offset-2">
+                                    {t("rumorSourceClick")}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        );
 
                         return (
                           <motion.div
@@ -144,30 +217,37 @@ export default function TeamCard({
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            className={twMerge(
-                              "flex flex-col p-2.5 rounded-lg bg-background border transition-all duration-200 relative hover:border-primary/50 shadow-sm",
-                              isTransferred &&
-                                "border-red-500/90 bg-red-500/5 shadow-md shadow-red-500/10"
-                            )}
                           >
-                            {/* 이적 예측 뱃지 */}
-                            {isTransferred && (
-                              <div className="absolute -top-2 right-2 px-1.5 py-0.2 rounded-full text-[9px] font-black uppercase tracking-wider bg-red-600 text-white shadow">
-                                {player.confidence >= 80 ? t("likely") : t("rumor")}{" "}
-                                {player.confidence}%
-                              </div>
-                            )}
-
-                            <div className="flex items-center justify-between gap-1 py-0.5">
-                              <span className="font-bold text-sm tracking-tight text-foreground truncate">
-                                {player.name}
-                              </span>
-                            </div>
-
-                            {/* 이적 상태 안내 */}
-                            {isTransferred && (
-                              <div className="mt-1 text-[10px] font-semibold text-red-500">
-                                {t("transferredNotice")}
+                            {rumorUrl ? (
+                              <a
+                                href={rumorUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title={
+                                  override?.summary ||
+                                  (language === "ko"
+                                    ? "클릭하여 찌라시 원본 보기"
+                                    : "Click to view original rumor post")
+                                }
+                                className={twMerge(
+                                  "group flex flex-col p-2.5 rounded-lg bg-background border transition-all duration-200 relative shadow-sm cursor-pointer",
+                                  isTransferred &&
+                                    "bg-amber-100/90 border-2 border-amber-500 hover:bg-amber-200/90 shadow-md shadow-amber-500/15",
+                                  hasRumorStay &&
+                                    "bg-emerald-50/90 border border-emerald-500/80 hover:bg-emerald-100/90"
+                                )}
+                              >
+                                {cardInner}
+                              </a>
+                            ) : (
+                              <div
+                                className={twMerge(
+                                  "flex flex-col p-2.5 rounded-lg bg-background border transition-all duration-200 relative hover:border-primary/50 shadow-sm",
+                                  isTransferred &&
+                                    "bg-amber-100/90 border-2 border-amber-500 shadow-md shadow-amber-500/15"
+                                )}
+                              >
+                                {cardInner}
                               </div>
                             )}
                           </motion.div>

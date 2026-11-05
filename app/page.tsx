@@ -4,6 +4,7 @@ import { Team, Player, Rumor, Coach } from "@/lib/types";
 import RosterViewer from "@/components/RosterViewer";
 import RumorFeed from "@/components/RumorFeed";
 import HomeHero from "@/components/HomeHero";
+import { INITIAL_RUMORS, PREDICTED_PLAYER_OVERRIDES } from "@/lib/rumors-data";
 
 export default async function Index() {
   if (!hasEnvVars) {
@@ -54,12 +55,45 @@ export default async function Index() {
     .from("rumors")
     .select("*")
     .order("published_at", { ascending: false })
-    .limit(10);
+    .limit(20);
 
   const teams = (teamsData as Team[]) || [];
-  const players = (playersData as Player[]) || [];
+  const rawPlayers = (playersData as Player[]) || [];
   const coaches = (coachesData as Coach[]) || [];
-  const rumors = (rumorsData as Rumor[]) || [];
+  const rawRumors = (rumorsData as Rumor[]) || [];
+
+  // DB에 아직 최신 seed.sql의 찌라시 반영 전일 경우 INITIAL_RUMORS 및 PREDICTED_PLAYER_OVERRIDES로 즉시 보강
+  const players: Player[] = rawPlayers.map((p) => {
+    const slugKey = (p.slug || p.name || "").toLowerCase();
+    const override = PREDICTED_PLAYER_OVERRIDES[slugKey];
+    if (override && !p.source_url) {
+      return {
+        ...p,
+        predicted_team_id: override.predicted_team_id,
+        confidence: override.confidence,
+        status: override.status,
+        source_url: override.source_url,
+      };
+    }
+    return p;
+  });
+
+  const rumors: Rumor[] =
+    rawRumors.length > 0
+      ? rawRumors
+      : INITIAL_RUMORS.map((sr) => ({
+          id: sr.id,
+          post_id: sr.post_id,
+          source: sr.source,
+          author: sr.author,
+          raw_text: sr.raw_text,
+          summary: sr.summary,
+          player_id: null,
+          target_team_id: sr.target_team_id,
+          confidence: sr.confidence,
+          post_url: sr.post_url,
+          published_at: sr.published_at,
+        }));
 
   return (
     <div className="w-full flex flex-col items-center gap-8 py-4">

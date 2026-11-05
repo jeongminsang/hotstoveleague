@@ -28,10 +28,18 @@ export default function RootLayout({
             <div className="flex-1 w-full flex flex-col items-center">
               <nav className="w-full flex justify-center border-b border-border/40 h-16 bg-background/80 backdrop-blur sticky top-0 z-50">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-                  <div className="flex gap-5 items-center font-semibold">
+                  <div className="flex gap-3 items-center font-semibold">
                     <Button size="sm" variant={"outline"} asChild>
                       <Link href="/" className="font-extrabold tracking-tight">
                         🔥 HotStoveLeague
+                      </Link>
+                    </Button>
+                    <Button size="sm" variant={"ghost"} asChild>
+                      <Link
+                        href="/rumors"
+                        className="font-bold tracking-tight text-amber-700 hover:text-amber-800 hover:bg-amber-500/10"
+                      >
+                        ⚡ 찌라시 리스트 (Rumors)
                       </Link>
                     </Button>
                   </div>
