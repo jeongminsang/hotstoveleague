@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Rumor } from "@/lib/types";
-import { Badge } from "./ui/badge";
 import { ExternalLink, Radio, ArrowRight } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import Link from "next/link";
-import { Button } from "./ui/button";
 import { INITIAL_RUMORS } from "@/lib/rumors-data";
 
 export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor[] }) {
@@ -18,7 +16,6 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
   const seedByPostId = new Map(INITIAL_RUMORS.map((s) => [s.post_id, s]));
 
   useEffect(() => {
-    // Supabase Realtime 구독: rumors 테이블에 새 행이 INSERT되면 즉시 피드 맨 앞에 추가
     const channel = supabase
       .channel("realtime-rumors")
       .on(
@@ -30,7 +27,7 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
         },
         (payload) => {
           const newRumor = payload.new as Rumor;
-          setRumors((prev) => [newRumor, ...prev.slice(0, 19)]); // 최대 20개 유지
+          setRumors((prev) => [newRumor, ...prev.slice(0, 19)]);
         }
       )
       .subscribe();
@@ -42,10 +39,10 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
 
   if (rumors.length === 0) {
     return (
-      <div className="w-full max-w-5xl p-4 rounded-xl border bg-card text-card-foreground text-center text-xs text-muted-foreground">
+      <div className="w-full p-4 rounded-xl border border-[#2b3139] bg-[#1e2329] text-center text-xs text-[#707a8a]">
         <div className="flex items-center justify-center gap-2 mb-1">
-          <Radio className="w-4 h-4 text-emerald-500 animate-pulse" />
-          <span className="font-bold text-foreground">{t("liveRadar")}</span>
+          <Radio className="w-4 h-4 text-[#0ecb81] animate-pulse" />
+          <span className="font-bold text-white">{t("liveRadar")}</span>
         </div>
         {t("noRumors")}
       </div>
@@ -53,177 +50,152 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
   }
 
   return (
-    <div className="w-full max-w-5xl rounded-xl border bg-card text-card-foreground shadow-sm p-4">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-3 border-b pb-2.5">
-        <div className="flex items-center gap-2">
-          <Radio className="w-4 h-4 text-red-500 animate-pulse" />
-          <h2 className="font-bold text-sm tracking-tight">{t("latestRumors")}</h2>
-          <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-primary text-primary">
-            LIVE
-          </Badge>
-          <span className="text-[11px] text-muted-foreground ml-1">
-            ({rumors.length}
-            {t("rumorCountUnit")})
+    <div className="w-full rounded-xl border border-[#2b3139] bg-[#1e2329] overflow-hidden">
+      {/* Table Header Row (Binance Markets Table Header) */}
+      <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b border-[#2b3139] bg-[#1e2329]">
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0ecb81] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0ecb81]"></span>
+          </span>
+          <h2 className="font-bold text-xs sm:text-sm tracking-tight text-white uppercase flex items-center gap-1.5 truncate">
+            <span className="truncate">{t("latestRumors")}</span>
+            <span className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded bg-[#FCD535] text-[#181a20] font-mono font-bold shrink-0">
+              LIVE
+            </span>
+          </h2>
+          <span className="text-[11px] sm:text-xs text-[#707a8a] font-mono shrink-0">
+            ({rumors.length})
           </span>
         </div>
-        <Button variant="outline" size="sm" className="h-7 text-xs font-bold gap-1" asChild>
-          <Link href="/rumors">
-            {t("viewAllRumors")}
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </Button>
+
+        <Link
+          href="/rumors"
+          className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-md bg-[#2b3139] text-[#FCD535] hover:bg-[#FCD535] hover:text-[#181a20] transition-colors shrink-0"
+        >
+          <span className="hidden xs:inline">{t("viewAllRumors")}</span>
+          <span className="xs:hidden">All</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
 
-      <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
-        {rumors.slice(0, 12).map((rumor) => {
+      {/* Rows Container */}
+      <div className="divide-y divide-[#2b3139] max-h-80 overflow-y-auto">
+        {rumors.slice(0, 10).map((rumor) => {
           const isOfficial = rumor.confidence === 100;
           const seed = seedByPostId.get(rumor.post_id || "");
-          const author_en = rumor.author_en || seed?.author_en;
-          const author_zh = rumor.author_zh || seed?.author_zh;
-          const summary_en = rumor.summary_en || seed?.summary_en;
-          const summary_zh = rumor.summary_zh || seed?.summary_zh;
-          const league = rumor.league || seed?.league;
-          const playerName = rumor.player_name || seed?.player_name;
-          const currentTeam = rumor.current_team_short || seed?.current_team_short;
-          const targetTeam = rumor.target_team_short || seed?.target_team_short;
-          const isStay = currentTeam && currentTeam === targetTeam;
-
-          const badgeClass =
-            rumor.source === "WEIBO"
-              ? "bg-red-600 text-white hover:bg-red-700"
-              : rumor.source === "COMMUNITY"
-                ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                : "bg-sky-600 text-white hover:bg-sky-700";
 
           const displayAuthor =
-            language === "zh" && author_zh
-              ? author_zh
-              : language === "en" && author_en
-                ? author_en
-                : rumor.author || seed?.author || "";
+            language === "en"
+              ? rumor.author_en || seed?.author_en || rumor.author
+              : language === "zh"
+              ? rumor.author_zh || seed?.author_zh || rumor.author
+              : rumor.author;
 
           const displaySummary =
-            language === "zh" && summary_zh
-              ? summary_zh
-              : language === "en" && summary_en
-                ? summary_en
-                : rumor.summary || seed?.summary || rumor.raw_text || "";
+            language === "en"
+              ? rumor.summary_en || seed?.summary_en || rumor.summary
+              : language === "zh"
+              ? rumor.summary_zh || seed?.summary_zh || rumor.summary
+              : rumor.summary;
 
-          const content = (
-            <>
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                  <Badge
-                    className={`text-[9px] px-1.5 py-0 font-black border-0 ${
+          const league = rumor.league || seed?.league || "LCK";
+          const playerName = rumor.player_name || seed?.player_name;
+          const targetTeam = rumor.target_team_short || seed?.target_team_short;
+
+          return (
+            <div
+              key={rumor.id || rumor.post_id}
+              className="p-3 sm:px-4 hover:bg-[#2b3139]/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3"
+            >
+              {/* Row Upper / Left: Tags & Author */}
+              <div className="flex items-center justify-between sm:justify-start gap-2 min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 truncate">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-[#0b0e11] text-[#707a8a] border border-[#2b3139] shrink-0">
+                    {league}
+                  </span>
+
+                  <span
+                    className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${
                       isOfficial
-                        ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                        : "bg-amber-500 text-white hover:bg-amber-600"
+                        ? "bg-[#0ecb81]/15 text-[#0ecb81] border border-[#0ecb81]/30"
+                        : "bg-[#FCD535]/15 text-[#FCD535] border border-[#FCD535]/30"
                     }`}
                   >
-                    {isOfficial
-                      ? language === "zh"
-                        ? "官宣"
-                        : language === "ko"
-                          ? "오피셜"
-                          : "OFFICIAL"
-                      : language === "zh"
-                        ? "流言"
-                        : language === "ko"
-                          ? "루머"
-                          : "RUMOR"}
-                  </Badge>
-                  {league && (
-                    <Badge variant="outline" className="text-[9px] px-1 py-0 font-bold border-primary/40 text-primary">
-                      {league}
-                    </Badge>
-                  )}
-                  <Badge className={`text-[9px] px-1.5 py-0 font-bold border-0 ${badgeClass}`}>
-                    {rumor.source}
-                  </Badge>
-                  <span className="font-bold text-foreground text-xs truncate">
+                    {isOfficial ? "OFFICIAL" : "RUMOR"}
+                  </span>
+
+                  <span className="text-xs font-semibold text-white truncate max-w-[130px] sm:max-w-[160px]">
                     {displayAuthor}
                   </span>
-                  <span className="text-[10px] text-muted-foreground font-mono">
-                    {new Date(rumor.published_at).toLocaleDateString(
-                      language === "ko" ? "ko-KR" : language === "zh" ? "zh-CN" : "en-US",
-                      {
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      }
-                    )}
-                  </span>
-                  {rumor.confidence > 0 && (
-                    <span
-                      className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded ${
-                        isOfficial
-                          ? "text-emerald-700 bg-emerald-500/10"
-                          : "text-amber-600 bg-amber-500/10"
-                      }`}
-                    >
-                      {t("confidence")} {rumor.confidence}%
+
+                  {playerName && (
+                    <span className="text-[10px] sm:text-xs font-mono font-bold text-[#FCD535] sm:text-[#eaecef] bg-[#0b0e11] px-1.5 py-0.5 rounded border border-[#2b3139] shrink-0">
+                      {playerName}
+                      {targetTeam ? ` → ${targetTeam}` : ""}
                     </span>
                   )}
                 </div>
 
-                {playerName && (
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="px-2 py-0.2 rounded bg-amber-500/15 border border-amber-500/30 text-amber-950 font-black text-[11px]">
-                      {playerName}
-                    </span>
-                    {currentTeam && targetTeam && (
-                      <div className="flex items-center gap-1 text-[11px] font-extrabold">
-                        <span className="px-1.5 py-0.2 rounded bg-secondary text-foreground text-[10px]">
-                          {currentTeam}
-                        </span>
-                        <ArrowRight className="w-3 h-3 text-amber-600" />
-                        <span
-                          className={`px-1.5 py-0.2 rounded text-[10px] ${
-                            isStay
-                              ? "bg-emerald-500/15 text-emerald-800 border border-emerald-500/30 font-bold"
-                              : "bg-amber-500 text-white font-bold"
-                          }`}
-                        >
-                          {targetTeam} {isStay ? `(${t("stay")})` : ""}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <p className="text-foreground/90 font-medium leading-snug">
-                  {displaySummary}
-                </p>
+                {/* Mobile Right Confidence & Link */}
+                <div className="flex sm:hidden items-center gap-2 shrink-0">
+                  <span
+                    className={`font-mono text-xs font-bold ${
+                      isOfficial
+                        ? "text-[#0ecb81]"
+                        : (rumor.confidence || 0) >= 80
+                        ? "text-[#FCD535]"
+                        : "text-[#f6465d]"
+                    }`}
+                  >
+                    {isOfficial ? "100%" : `${rumor.confidence || 75}%`}
+                  </span>
+                  {rumor.post_url && (
+                    <a
+                      href={rumor.post_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#707a8a] hover:text-[#FCD535] transition-colors p-1"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
               </div>
 
-              {rumor.post_url && (
-                <span
-                  className="text-muted-foreground group-hover:text-primary shrink-0 p-1 transition-colors flex items-center gap-1 text-[10px] font-semibold"
-                  title={t("viewOriginalPost")}
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </span>
-              )}
-            </>
-          );
+              {/* Row Lower / Right: Summary & Desktop Confidence */}
+              <div className="flex items-center justify-between sm:justify-end gap-3 min-w-0">
+                <p className="text-xs text-[#929aa5] sm:truncate max-w-full sm:max-w-[340px] leading-relaxed line-clamp-2 sm:line-clamp-1">
+                  {displaySummary}
+                </p>
 
-          return rumor.post_url ? (
-            <a
-              key={rumor.id || rumor.post_id}
-              href={rumor.post_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-start justify-between gap-3 p-2.5 rounded-lg bg-secondary/40 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/40 transition-all text-xs cursor-pointer"
-            >
-              {content}
-            </a>
-          ) : (
-            <div
-              key={rumor.id || rumor.post_id}
-              className="flex items-start justify-between gap-3 p-2.5 rounded-lg bg-secondary/40 transition-colors text-xs"
-            >
-              {content}
+                {/* Desktop Confidence Ticker */}
+                <div className="hidden sm:flex items-center gap-3 shrink-0">
+                  <span
+                    className={`font-mono text-xs font-bold ${
+                      isOfficial
+                        ? "text-[#0ecb81]"
+                        : (rumor.confidence || 0) >= 80
+                        ? "text-[#FCD535]"
+                        : "text-[#f6465d]"
+                    }`}
+                  >
+                    {isOfficial ? "100%" : `${rumor.confidence || 75}%`}
+                  </span>
+
+                  {rumor.post_url && (
+                    <a
+                      href={rumor.post_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#707a8a] hover:text-[#FCD535] transition-colors p-1"
+                      title="Source link"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
           );
         })}
