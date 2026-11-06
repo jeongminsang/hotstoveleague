@@ -11,6 +11,7 @@ export interface RealNewsItem {
 const SEARCH_QUERIES = [
   { q: '"Sheep Esports" LoL (roster OR transfer OR verbal OR sources) when:14d', author: "Sheep Esports", source: "NEWS" },
   { q: '"LEC Wooloo" (sources OR verbal OR transfer) when:14d', author: "@LEC_Wooloo", source: "X" },
+  { q: '("Wooloo" OR "Sheep Esports") (LCK OR LPL OR LEC) (sources OR verbal OR transfer) when:14d', author: "Sheep Esports", source: "NEWS" },
   { q: 'LCK (이적 OR 계약 OR FA OR 영입 OR 재계약) when:7d', author: "LCK Press", source: "NEWS" },
   { q: 'LPL (转会 OR 官宣 OR 选手 OR 续约) when:7d', author: "LPL Press", source: "PRESS" },
 ];

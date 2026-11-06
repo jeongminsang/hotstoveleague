@@ -277,6 +277,114 @@ async function publishApproved(dryRun = false) {
   }
 }
 
+/**
+ * 4. Manually add a Weibo / Twitter / Community rumor with automatic Gemini translation
+ */
+async function addManualRumor(author: string, rawText: string, postUrl: string, source: string = "WEIBO") {
+  const geminiKey = process.env.GEMINI_API_KEY;
+  console.log(`🤖 Processing raw rumor with Gemini from [${source}] ${author}...`);
+
+  let summary = rawText;
+  let summaryEn = rawText;
+  let summaryZh = rawText;
+  let playerName = "";
+  let playerSlug = "";
+  let fromTeam = "";
+  let toTeam = "";
+  let league = "LCK";
+  let kind = "TRANSFER";
+  let confidence = 85;
+
+  if (geminiKey) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`;
+      const prompt = `Analyze this esports stove league rumor text:
+Author: "${author}"
+Text: "${rawText}"
+
+Extract structured transfer details and 1-sentence summaries in 3 languages.
+Return JSON only:
+{
+  "summary": "<Korean 1 sentence>",
+  "summary_en": "<English 1 sentence>",
+  "summary_zh": "<Chinese 1 sentence>",
+  "player_name": "<Player ID or null>",
+  "player_slug": "<lowercase ID or null>",
+  "from_team": "<Current team code or null>",
+  "to_team": "<Target team code or null>",
+  "league": "LCK" | "LPL" | "LEC" | "LCS",
+  "kind": "TRANSFER" | "RENEWAL" | "FA" | "STAY",
+  "confidence": 85
+}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { response_mime_type: "application/json" },
+        }),
+      });
+
+      if (res.ok) {
+        const json: any = await res.json();
+        const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          const parsed = JSON.parse(text);
+          summary = parsed.summary || summary;
+          summaryEn = parsed.summary_en || summaryEn;
+          summaryZh = parsed.summary_zh || summaryZh;
+          playerName = parsed.player_name || "";
+          playerSlug = parsed.player_slug || "";
+          fromTeam = parsed.from_team || "";
+          toTeam = parsed.to_team || "";
+          league = parsed.league || "LCK";
+          kind = parsed.kind || "TRANSFER";
+          confidence = parsed.confidence || 85;
+        }
+      }
+    } catch (e: any) {
+      console.warn("⚠️ Gemini parsing failed, using raw text:", e?.message || e);
+    }
+  }
+
+  const postId = `manual-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+  const { data, error } = await supabase.from("rumor_drafts").insert([
+    {
+      post_id: postId,
+      source: source.toUpperCase(),
+      author,
+      author_en: author,
+      author_zh: author,
+      raw_text: rawText,
+      summary,
+      summary_en: summaryEn,
+      summary_zh: summaryZh,
+      player_slug: playerSlug || null,
+      player_name: playerName || null,
+      from_team: fromTeam || null,
+      to_team: toTeam || null,
+      league,
+      kind,
+      confidence,
+      post_url: postUrl || "https://weibo.com",
+      published_at: new Date().toISOString(),
+      status: "pending",
+    },
+  ]);
+
+  if (error) {
+    console.error("❌ Failed to add manual draft:", error.message);
+  } else {
+    console.log(`✅ Successfully added draft!`);
+    console.log(`   Summary (KO): ${summary}`);
+    console.log(`   Summary (EN): ${summaryEn}`);
+    console.log(`   Summary (ZH): ${summaryZh}`);
+    console.log(`   Player: ${playerName || "N/A"}, Target: ${toTeam || "N/A"}`);
+    console.log(`💡 Run 'pnpm drafts:export' to inspect and review in drafts_review.json.`);
+  }
+}
+
 // Command dispatcher
 async function main() {
   const command = process.argv[2];
@@ -293,13 +401,26 @@ async function main() {
       const dryRun = flag !== "--apply";
       await publishApproved(dryRun);
       break;
+    case "add":
+      // pnpm drafts:add <author> <postUrl> <rawText> [source]
+      const author = process.argv[3];
+      const postUrl = process.argv[4];
+      const rawText = process.argv[5];
+      const source = process.argv[6] || "WEIBO";
+      if (!author || !rawText) {
+        console.log(`Usage: pnpm drafts:add <author> <postUrl> "<rawText>" [source]`);
+        process.exit(1);
+      }
+      await addManualRumor(author, rawText, postUrl, source);
+      break;
     default:
       console.log(`
 Usage:
-  pnpm drafts:export          Export pending drafts from DB to drafts_review.json
-  pnpm drafts:review          Sync review decisions (status/notes) back to DB
-  pnpm drafts:publish         Dry-run publish of approved drafts
-  pnpm drafts:publish --apply Commit approved drafts into rumors and update rosters
+  pnpm drafts:export                         Export pending drafts to drafts_review.json
+  pnpm drafts:review                         Sync review decisions back to DB
+  pnpm drafts:publish                        Dry-run publish of approved drafts
+  pnpm drafts:publish --apply                Commit approved drafts to rumors & rosters
+  pnpm drafts:add <author> <url> "<text>"    Add Weibo/Twitter rumor with auto AI translation
       `);
       break;
   }

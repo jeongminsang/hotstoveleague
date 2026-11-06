@@ -6,7 +6,8 @@
     "start": "next start",
     "drafts:export": "tsx scripts/drafts-cli.ts export",
     "drafts:review": "tsx scripts/drafts-cli.ts review",
-    "drafts:publish": "tsx scripts/drafts-cli.ts publish"
+    "drafts:publish": "tsx scripts/drafts-cli.ts publish",
+    "drafts:add": "tsx scripts/drafts-cli.ts add"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
