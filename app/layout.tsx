@@ -3,14 +3,8 @@ import Navbar from "@/components/Navbar";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL
-  ? process.env.NEXT_PUBLIC_SITE_URL
-  : process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "https://hotstoveleague.lol";
-
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
+  metadataBase: new URL("https://www.hotstoveleague.lol"),
   title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
   description: "Real-time AI transfer predictions, official rosters and insider rumors for LCK, LPL, LEC, LCS",
   applicationName: "HotStoveLeague",
@@ -42,15 +36,16 @@ export const metadata = {
     type: "website",
     locale: "en_US",
     alternateLocale: ["ko_KR", "zh_CN"],
-    url: "https://hotstoveleague.lol",
+    url: "https://www.hotstoveleague.lol",
     siteName: "HotStoveLeague",
     title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
     description: "Real-time AI transfer predictions, verified official rosters and insider rumors for LCK, LPL, LEC, LCS.",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://www.hotstoveleague.lol/og-image.png",
         width: 1200,
         height: 630,
+        type: "image/png",
         alt: "HotStoveLeague • LoL 2026/27 Transfer Terminal Preview",
       },
     ],
@@ -59,7 +54,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
     description: "Real-time AI transfer predictions, verified official rosters and insider rumors for LCK, LPL, LEC, LCS.",
-    images: ["/og-image.png"],
+    images: ["https://www.hotstoveleague.lol/og-image.png"],
     creator: "@HotStoveLeague",
   },
   icons: {
