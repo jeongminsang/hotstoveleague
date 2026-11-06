@@ -991,7 +991,9 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "RUMORED" | "CONFIRMED" | "STAY" | "FA";
     source_url: string;
     author: string;
+    author_en?: string;
     summary: string;
+    summary_en?: string;
   }
 > = {
   ...Object.fromEntries(
@@ -1008,7 +1010,9 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
               : ("RUMORED" as const),
         source_url: r.post_url || "",
         author: r.author,
+        author_en: r.author_en,
         summary: r.summary || r.raw_text,
+        summary_en: r.summary_en,
       },
     ])
   ),
@@ -1019,8 +1023,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/Brionesports/status/2113925129373978690",
     author: "한진 브리온 (@Brionesports)",
+    author_en: "Hanjin BRION (@Brionesports)",
     summary:
       "[오피셜] 한진 브리온, 탑 캐스팅(Casting) 포함 주전 5인 전원과 2027 시즌 재계약 공식 발표",
+    summary_en:
+      "[Official] Hanjin BRION announces re-signing of all 5 starters including top laner Casting for the 2027 season.",
   },
   gideon: {
     predicted_team_id: 7,
@@ -1028,8 +1035,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/Brionesports/status/2113925129373978690",
     author: "한진 브리온 (@Brionesports)",
+    author_en: "Hanjin BRION (@Brionesports)",
     summary:
       "[오피셜] 한진 브리온, 정글 기드온(GIDEON) 포함 주전 5인 전원과 2027 시즌 재계약 공식 발표",
+    summary_en:
+      "[Official] Hanjin BRION announces re-signing of all 5 starters including jungler GIDEON for the 2027 season.",
   },
   roamer: {
     predicted_team_id: 7,
@@ -1037,8 +1047,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/Brionesports/status/2113925129373978690",
     author: "한진 브리온 (@Brionesports)",
+    author_en: "Hanjin BRION (@Brionesports)",
     summary:
       "[오피셜] 한진 브리온, 미드 로머(Roamer) 포함 주전 5인 전원과 2027 시즌 재계약 공식 발표",
+    summary_en:
+      "[Official] Hanjin BRION announces re-signing of all 5 starters including mid laner Roamer for the 2027 season.",
   },
   namgung: {
     predicted_team_id: 7,
@@ -1046,8 +1059,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/Brionesports/status/2113925129373978690",
     author: "한진 브리온 (@Brionesports)",
+    author_en: "Hanjin BRION (@Brionesports)",
     summary:
       "[오피셜] 한진 브리온, 서포터 남궁(Namgung) 포함 주전 5인 전원과 2027 시즌 재계약 공식 발표",
+    summary_en:
+      "[Official] Hanjin BRION announces re-signing of all 5 starters including support Namgung for the 2027 season.",
   },
   // LCK: KT 롤스터 2027 로스터 개편 (@KTRolsterLoL & @Sheep_Esports)
   perfect: {
@@ -1056,8 +1072,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/KTRolsterLoL/status/2108130819479073079",
     author: "KT Rolster (@KTRolsterLoL)",
+    author_en: "KT Rolster (@KTRolsterLoL)",
     summary:
       "[오피셜] kt 롤스터, 탑 퍼펙트(PerfecT) 및 미드 비디디(Bdd)와 2028년까지 2년 다년 재계약 공식 발표",
+    summary_en:
+      "[Official] KT Rolster announces 2-year multi-year extensions through 2028 with top laner PerfecT and mid laner Bdd.",
   },
   kellin: {
     predicted_team_id: 5,
@@ -1065,8 +1084,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "RUMORED",
     source_url: "https://x.com/Sheep_Esports/status/2111841342414336494",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] 서포터 켈린(Kellin)·정글 랩터(Raptor)·원딜 태윤(Taeyoon), 2027 시즌 KT 롤스터 동반 합류 유력",
+    summary_en:
+      "[Wooloo/Sheep Esports] Support Kellin, jungler Raptor, and ADC Taeyoon likely to join KT Rolster for the 2027 season.",
   },
   taeyoon: {
     predicted_team_id: 5,
@@ -1074,8 +1096,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "RUMORED",
     source_url: "https://x.com/Sheep_Esports/status/2111841342414336494",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] 원딜 태윤(Taeyoon)·정글 랩터(Raptor)·서포터 켈린(Kellin), 2027 시즌 KT 롤스터 동반 합류 유력",
+    summary_en:
+      "[Wooloo/Sheep Esports] ADC Taeyoon, jungler Raptor, and support Kellin likely to join KT Rolster for the 2027 season.",
   },
   cuzz: {
     predicted_team_id: null,
@@ -1083,8 +1108,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2111841342414336494",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] KT 롤스터가 2027 시즌 신임 정글러로 랩터(Raptor) 영입을 추진함에 따라 기존 정글러 커즈(Cuzz) FA 전환",
+    summary_en:
+      "[Wooloo/Sheep Esports] With KT Rolster pursuing jungler Raptor for 2027, incumbent jungler Cuzz enters free agency (FA).",
   },
   jiwoo: {
     predicted_team_id: null,
@@ -1092,8 +1120,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2111841342414336494",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] KT 롤스터가 2027 시즌 원딜 태윤(Taeyoon) 영입을 추진함에 따라 기존 원딜 지우(Jiwoo) FA 전환",
+    summary_en:
+      "[Wooloo/Sheep Esports] With KT Rolster pursuing ADC Taeyoon for 2027, incumbent ADC Jiwoo enters free agency (FA).",
   },
   effort: {
     predicted_team_id: null,
@@ -1101,8 +1132,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2111841342414336494",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] KT 롤스터가 2027 시즌 서포터 켈린(Kellin) 영입을 추진함에 따라 기존 서포터 에포트(Effort) FA 전환",
+    summary_en:
+      "[Wooloo/Sheep Esports] With KT Rolster pursuing support Kellin for 2027, incumbent support Effort enters free agency (FA).",
   },
   // LCK: BNK FEARX 코어 잔류 (@BNKFEARXLoL)
   clear: {
@@ -1111,8 +1145,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/BNKFEARXLoL/status/2113580536044429595",
     author: "BNK FEARX LoL (@BNKFEARXLoL)",
+    author_en: "BNK FEARX LoL (@BNKFEARXLoL)",
     summary:
       "[오피셜] BNK 피어엑스, 2027 스토브리그 선수단 운영 안내를 통해 탑 클리어(Clear)·미드 빅라(VicLa)·원딜 디아블(Diable) 코어 체제 확인",
+    summary_en:
+      "[Official] BNK FEARX confirms 2027 core roster around top Clear, mid VicLa, and ADC Diable.",
   },
   vicla: {
     predicted_team_id: 6,
@@ -1120,8 +1157,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/BNKFEARXLoL/status/2113580536044429595",
     author: "BNK FEARX LoL (@BNKFEARXLoL)",
+    author_en: "BNK FEARX LoL (@BNKFEARXLoL)",
     summary:
       "[오피셜] BNK 피어엑스, 2027 스토브리그 선수단 운영 안내를 통해 미드 빅라(VicLa)·탑 클리어(Clear)·원딜 디아블(Diable) 코어 체제 확인",
+    summary_en:
+      "[Official] BNK FEARX confirms 2027 core roster around mid VicLa, top Clear, and ADC Diable.",
   },
   // LCK: 한화생명(HLE) 2년 계약 잔류 코어 (@恋恋红茶_244)
   zeka: {
@@ -1130,8 +1170,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2266865584/Rpvgka3gG",
     author: "恋恋红茶_244 (@恋恋红茶_244)",
+    author_en: "Lianlian Hongcha (@恋恋红茶_244)",
     summary:
       "[웨이보/롄롄홍차] 한화생명 제카(Zeka)·구마유시(Gumayusi)·딜라이트(Delight), 2년 다년 계약으로 2027 시즌 잔류 확정",
+    summary_en:
+      "[Weibo/Red Tea] HLE Zeka, Gumayusi, and Delight confirmed staying for 2027 season on 2-year multi-year contracts.",
   },
   delight: {
     predicted_team_id: 3,
@@ -1139,8 +1182,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2266865584/Rpvgka3gG",
     author: "恋恋红茶_244 (@恋恋红茶_244)",
+    author_en: "Lianlian Hongcha (@恋恋红茶_244)",
     summary:
       "[웨이보/롄롄홍차] 한화생명 딜라이트(Delight)·제카(Zeka)·구마유시(Gumayusi), 2년 다년 계약으로 2027 시즌 잔류 확정",
+    summary_en:
+      "[Weibo/Red Tea] HLE Delight, Zeka, and Gumayusi confirmed staying for 2027 season on 2-year multi-year contracts.",
   },
   // LPL: WBG, AL, EDG, iG 로스터 변동 (@召唤师Park, @恋恋红茶_244)
   xiaohu: {
@@ -1149,8 +1195,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2522098777/Rq1lrwHjr",
     author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
     summary:
       "[웨이보/소환사 Park] Weibo Gaming(WBG), 미드라이너 샤오후(Xiaohu) 주전 잔류 및 탑 아러(Ale) 영입 추진",
+    summary_en:
+      "[Weibo/Summoner Park] Weibo Gaming (WBG) keeps mid laner Xiaohu as starter and pursues top laner Ale.",
   },
   breathe: {
     predicted_team_id: null,
@@ -1158,8 +1207,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://weibo.com/2522098777/Rq1lrwHjr",
     author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
     summary:
       "[웨이보/소환사 Park] Weibo Gaming(WBG)이 신임 탑라이너 아러(Ale)를 영입함에 따라 기존 탑라이너 브리드(Breathe) 결별 및 FA 전환",
+    summary_en:
+      "[Weibo/Summoner Park] With WBG signing top laner Ale, Breathe departs and enters free agency (FA).",
   },
   kael: {
     predicted_team_id: 20,
@@ -1167,8 +1219,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2522098777/Rpymw6nAT",
     author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
     summary:
       "[웨이보/소환사 Park] AL 서포터 카엘(Kael) 및 원딜 호프(Hope) 이적 루머 일축, 소속팀 잔류 확인",
+    summary_en:
+      "[Weibo/Summoner Park] AL dismisses transfer rumors for support Kael and ADC Hope, confirming they stay.",
   },
   monki: {
     predicted_team_id: 17,
@@ -1176,8 +1231,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2522098777/Rpymw6nAT",
     author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
     summary:
       "[웨이보/소환사 Park] EDG 정글러 몽키(Monki) 이탈설 일축, 잔류 확인",
+    summary_en:
+      "[Weibo/Summoner Park] EDG dismisses departure rumors for jungler Monki, confirming he stays.",
   },
   rookie: {
     predicted_team_id: 16,
@@ -1185,8 +1243,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2266865584/RpWLblXCm",
     author: "恋恋红茶_244 (@恋恋红茶_244)",
+    author_en: "Lianlian Hongcha (@恋恋红茶_244)",
     summary:
       "[웨이보/롄롄홍차] iG 더샤이(TheShy)·루키(Rookie)·메이코(Meiko) 베테랑 코어 체제 유지 확인",
+    summary_en:
+      "[Weibo/Red Tea] iG confirms veteran core structure with TheShy, Rookie, and Meiko.",
   },
   // LEC: Team Heretics, SK Gaming, NAVI, Dignitas, Disguised
   jackies: {
@@ -1195,8 +1256,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "RUMORED",
     source_url: "https://x.com/Sheep_Esports/status/2102435339810075042",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] GIANTX 미드라이너 재키스(Jackies), 서포터 준(Jun)과 함께 2027 시즌 Team Heretics 동반 이적 합의",
+    summary_en:
+      "[Wooloo/Sheep Esports] GIANTX mid laner Jackies reaches verbal agreement to join Team Heretics alongside Jun for 2027.",
   },
   daglas: {
     predicted_team_id: null,
@@ -1204,8 +1268,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2116175898311643603",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] Team Heretics가 2027 시즌 주전 정글러로 라조크(Razork)를 영입함에 따라 기존 정글러 다글라스(Daglas) 결별",
+    summary_en:
+      "[Wooloo/Sheep Esports] With Team Heretics signing Razork as starting jungler for 2027, Daglas departs.",
   },
   stend: {
     predicted_team_id: null,
@@ -1213,8 +1280,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Stend_lol/status/2104595334106104250",
     author: "Stend (@Stend_lol)",
+    author_en: "Stend (@Stend_lol)",
     summary:
       "[오피셜] Team Heretics 서포터 스텐드(Stend), 선수 생활 은퇴 및 코칭스태프 전향 발표",
+    summary_en:
+      "[Official] Team Heretics support Stend announces retirement as player and transition to coaching staff.",
   },
   skeanz: {
     predicted_team_id: null,
@@ -1222,8 +1292,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2118397190921933216",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] SK Gaming이 2027 시즌 신임 정글러 직시(Zicssi) 영입에 합의함에 따라 기존 정글러 스킨즈(Skeanz) 결별",
+    summary_en:
+      "[Wooloo/Sheep Esports] With SK Gaming agreeing to sign Zicssi for 2027, incumbent jungler Skeanz departs.",
   },
   lider: {
     predicted_team_id: null,
@@ -1231,8 +1304,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2113631034570854408",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] SK Gaming이 2027 시즌 주전 미드로 슬로우큐(SlowQ)를 확정함에 따라 기존 미드 리더(LIDER) 결별",
+    summary_en:
+      "[Wooloo/Sheep Esports] With SK Gaming confirming SlowQ as starting mid laner for 2027, LIDER departs.",
   },
   jopa: {
     predicted_team_id: null,
@@ -1240,8 +1316,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2113639031003283468",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] SK Gaming이 2027 시즌 주전 원딜로 3XA를 영입함에 따라 기존 원딜 조파(Jopa) 결별",
+    summary_en:
+      "[Wooloo/Sheep Esports] With SK Gaming signing 3XA as starting ADC for 2027, Jopa departs.",
   },
   mikyx: {
     predicted_team_id: null,
@@ -1249,8 +1328,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2116940157848879493",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] SK Gaming이 2027 시즌 주전 서포터로 로스파(Lospa)를 영입함에 따라 기존 서포터 미키엑스(Mikyx) 결별",
+    summary_en:
+      "[Wooloo/Sheep Esports] With SK Gaming signing Lospa as starting support for 2027, Mikyx departs.",
   },
   maynter: {
     predicted_team_id: null,
@@ -1258,8 +1340,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2115516946418397550",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] NAVI가 릴레흐 중심 리빌딩에 나서며 탑라이너 메인터(Maynter)에게 2027 시즌 타 팀 접촉(FA) 허용",
+    summary_en:
+      "[Wooloo/Sheep Esports] NAVI permits top laner Maynter to explore other opportunities (FA) for 2027.",
   },
   poby: {
     predicted_team_id: null,
@@ -1267,8 +1352,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2115516946418397550",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] NAVI가 릴레흐 중심 리빌딩에 나서며 미드라이너 포비(Poby)에게 2027 시즌 타 팀 접촉(FA) 허용",
+    summary_en:
+      "[Wooloo/Sheep Esports] NAVI permits mid laner Poby to explore other opportunities (FA) for 2027.",
   },
   hans_samd: {
     predicted_team_id: null,
@@ -1276,8 +1364,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2115516946418397550",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] NAVI가 릴레흐 중심 리빌딩에 나서며 원딜 한스삼디(Hans SamD)에게 2027 시즌 타 팀 접촉(FA) 허용",
+    summary_en:
+      "[Wooloo/Sheep Esports] NAVI permits ADC Hans SamD to explore other opportunities (FA) for 2027.",
   },
   parus: {
     predicted_team_id: null,
@@ -1285,8 +1376,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/Sheep_Esports/status/2115516946418397550",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en: "Sheep Esports (@Sheep_Esports)",
     summary:
       "[울루/Sheep Esports] NAVI가 릴레흐 중심 리빌딩에 나서며 서포터 파루스(Parus)에게 2027 시즌 타 팀 접촉(FA) 허용",
+    summary_en:
+      "[Wooloo/Sheep Esports] NAVI permits support Parus to explore other opportunities (FA) for 2027.",
   },
   palafox: {
     predicted_team_id: null,
@@ -1294,8 +1388,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/dignitaslol/status/2101025966399115687",
     author: "Dignitas (@dignitaslol)",
+    author_en: "Dignitas (@dignitaslol)",
     summary:
       "[오피셜] Dignitas, 미드라이너 팔라폭스(Palafox)와 계약 종료 및 FA 발표",
+    summary_en:
+      "[Official] Dignitas announces contract expiration and free agency for mid laner Palafox.",
   },
   ignar: {
     predicted_team_id: null,
@@ -1303,8 +1400,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "FA",
     source_url: "https://x.com/dignitaslol/status/2101023454673952905",
     author: "Dignitas (@dignitaslol)",
+    author_en: "Dignitas (@dignitaslol)",
     summary:
       "[오피셜] Dignitas, 베테랑 서포터 이그나(IgNar)와 계약 종료 및 FA 발표",
+    summary_en:
+      "[Official] Dignitas announces contract expiration and free agency for veteran support IgNar.",
   },
   kryra: {
     predicted_team_id: 37,
@@ -1312,8 +1412,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/LCSOfficial/status/2109819014323273817",
     author: "LCS Official (@LCSOfficial)",
+    author_en: "LCS Official (@LCSOfficial)",
     summary:
       "[오피셜] Disguised(DSG), 승강전 우승으로 2027 LCS 잔류 확정 (Castle·KryRa·Callme·sajed·Lyonz)",
+    summary_en:
+      "[Official] Disguised (DSG) secures 2027 LCS spot after winning promotion tournament.",
   },
   callme: {
     predicted_team_id: 37,
@@ -1321,8 +1424,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/LCSOfficial/status/2109819014323273817",
     author: "LCS Official (@LCSOfficial)",
+    author_en: "LCS Official (@LCSOfficial)",
     summary:
       "[오피셜] Disguised(DSG), 승강전 우승으로 2027 LCS 잔류 확정 (Castle·KryRa·Callme·sajed·Lyonz)",
+    summary_en:
+      "[Official] Disguised (DSG) secures 2027 LCS spot after winning promotion tournament.",
   },
   sajed: {
     predicted_team_id: 37,
@@ -1330,8 +1436,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/LCSOfficial/status/2109819014323273817",
     author: "LCS Official (@LCSOfficial)",
+    author_en: "LCS Official (@LCSOfficial)",
     summary:
       "[오피셜] Disguised(DSG), 승강전 우승으로 2027 LCS 잔류 확정 (Castle·KryRa·Callme·sajed·Lyonz)",
+    summary_en:
+      "[Official] Disguised (DSG) secures 2027 LCS spot after winning promotion tournament.",
   },
   lyonz: {
     predicted_team_id: 37,
@@ -1339,8 +1448,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://x.com/LCSOfficial/status/2109819014323273817",
     author: "LCS Official (@LCSOfficial)",
+    author_en: "LCS Official (@LCSOfficial)",
     summary:
       "[오피셜] Disguised(DSG), 승강전 우승으로 2027 LCS 잔류 확정 (Castle·KryRa·Callme·sajed·Lyonz)",
+    summary_en:
+      "[Official] Disguised (DSG) secures 2027 LCS spot after winning promotion tournament.",
   },
   beichuan: {
     predicted_team_id: 57,
@@ -1348,8 +1460,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     status: "CONFIRMED",
     source_url: "https://weibo.com/2522098777/Rq1lrwHjr",
     author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
     summary:
       "[웨이보/소환사 Park] WBG가 TT 정글러 베이촨(Beichuan) 영입을 타진했으나 선수가 이적을 고사하며 TT 잔류",
+    summary_en:
+      "[Weibo/Summoner Park] WBG inquired about TT jungler Beichuan, but he declined transfer and stays with TT.",
   },
 };
 

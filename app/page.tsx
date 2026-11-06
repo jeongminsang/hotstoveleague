@@ -207,7 +207,7 @@ export default async function Index() {
   ];
 
   const seedByPostId = new Map(INITIAL_RUMORS.map((sr) => [sr.post_id, sr]));
-  const verifiedDbRumors = rawRumors
+  const verifiedDbRumors: Rumor[] = rawRumors
     .filter((r) => seedByPostId.has(r.post_id || ""))
     .map((r) => {
       const sr = seedByPostId.get(r.post_id || "")!;
@@ -215,12 +215,18 @@ export default async function Index() {
         ...r,
         source: sr.source,
         author: sr.author,
+        author_en: sr.author_en,
         raw_text: sr.raw_text,
         summary: sr.summary,
+        summary_en: sr.summary_en,
         target_team_id: sr.target_team_id,
         confidence: sr.confidence,
         post_url: sr.post_url,
         published_at: sr.published_at,
+        league: sr.league,
+        player_name: sr.player_name,
+        current_team_short: sr.current_team_short,
+        target_team_short: sr.target_team_short,
       };
     });
 
@@ -232,13 +238,19 @@ export default async function Index() {
           post_id: sr.post_id,
           source: sr.source,
           author: sr.author,
+          author_en: sr.author_en,
           raw_text: sr.raw_text,
           summary: sr.summary,
+          summary_en: sr.summary_en,
           player_id: null,
           target_team_id: sr.target_team_id,
           confidence: sr.confidence,
           post_url: sr.post_url,
           published_at: sr.published_at,
+          league: sr.league,
+          player_name: sr.player_name,
+          current_team_short: sr.current_team_short,
+          target_team_short: sr.target_team_short,
         }));
 
   return (

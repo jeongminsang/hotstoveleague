@@ -224,10 +224,9 @@ export default function TeamCard({
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title={
+                                  (language === "en" && override?.summary_en) ||
                                   override?.summary ||
-                                  (language === "ko"
-                                    ? "클릭하여 찌라시 원본 보기"
-                                    : "Click to view original rumor post")
+                                  t("rumorSourceClick")
                                 }
                                 className={twMerge(
                                   "group flex flex-col p-2.5 rounded-lg bg-background border transition-all duration-200 relative shadow-sm cursor-pointer",
