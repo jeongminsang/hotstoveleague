@@ -10,20 +10,33 @@ export async function runDraftHarvestPipeline(env: Env): Promise<{
   discoveredCount: number;
   newDraftCount: number;
   savedCount: number;
+  debug?: Record<string, unknown>;
 }> {
   console.log("[Draft Crawler] Starting draft collection cycle...");
 
+  const debugInfo: Record<string, unknown> = {
+    hasGeminiKey: Boolean(env.GEMINI_API_KEY),
+    geminiKeyLen: env.GEMINI_API_KEY ? env.GEMINI_API_KEY.length : 0,
+    hasSupabaseUrl: Boolean(env.SUPABASE_URL),
+    hasSupabaseKey: Boolean(env.SUPABASE_KEY),
+  };
+
   if (!env.GEMINI_API_KEY) {
     console.warn("[Draft Crawler] Missing GEMINI_API_KEY. Skipping harvest.");
-    return { discoveredCount: 0, newDraftCount: 0, savedCount: 0 };
+    return { discoveredCount: 0, newDraftCount: 0, savedCount: 0, debug: debugInfo };
   }
 
-  // 1. Discover candidates via Gemini Grounded Search
-  const candidateDrafts = await discoverDraftsWithGemini(env.GEMINI_API_KEY);
-  console.log(`[Draft Crawler] Discovered ${candidateDrafts.length} candidate drafts.`);
+  // 1. Discover candidates via Gemini
+  let candidateDrafts: any[] = [];
+  try {
+    candidateDrafts = await discoverDraftsWithGemini(env.GEMINI_API_KEY);
+    debugInfo.candidateCount = candidateDrafts.length;
+  } catch (e: any) {
+    debugInfo.geminiError = e?.message || String(e);
+  }
 
   if (candidateDrafts.length === 0) {
-    return { discoveredCount: 0, newDraftCount: 0, savedCount: 0 };
+    return { discoveredCount: 0, newDraftCount: 0, savedCount: 0, debug: debugInfo };
   }
 
   if (!env.SUPABASE_URL || !env.SUPABASE_KEY) {
@@ -32,6 +45,7 @@ export async function runDraftHarvestPipeline(env: Env): Promise<{
       discoveredCount: candidateDrafts.length,
       newDraftCount: candidateDrafts.length,
       savedCount: 0,
+      debug: debugInfo,
     };
   }
 
@@ -80,10 +94,17 @@ export default {
     }
 
     if (url.pathname === "/crawl" || url.pathname === "/harvest") {
-      const result = await runDraftHarvestPipeline(env);
-      return new Response(JSON.stringify(result, null, 2), {
-        headers: { "Content-Type": "application/json" },
-      });
+      try {
+        const result = await runDraftHarvestPipeline(env);
+        return new Response(JSON.stringify(result, null, 2), {
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (err: any) {
+        return new Response(
+          JSON.stringify({ error: err?.message || String(err), stack: err?.stack }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
     }
 
     return new Response(

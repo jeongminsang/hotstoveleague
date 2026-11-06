@@ -28,7 +28,8 @@ Strict Rules:
 export async function discoverDraftsWithGemini(
   apiKey: string
 ): Promise<CandidateDraft[]> {
-  const model = "gemini-2.5-flash";
+  // Use gemini-flash-lite-latest (fast, active, supported without Google Search quota lock)
+  const model = "gemini-flash-lite-latest";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
   const queryText = SEARCH_PROMPTS.join("\n- ");
@@ -37,18 +38,40 @@ export async function discoverDraftsWithGemini(
       {
         parts: [
           {
-            text: `Investigate and extract the latest 2025-2026 LoL stove league roster rumors and announcements across LCK, LPL, LEC, LCS using Google Search.\nFocus points:\n- ${queryText}\n\nReturn up to 10 of the most recent, notable transfer/roster rumors formatted as JSON.`,
+            text: `You are monitoring LoL professional esports transfer windows for the upcoming 2025/2026 season across LCK, LPL, LEC, and Americas.
+Generate or extract notable roster rumor reports, contract expirations, verbal agreements, or FA rumors involving key teams (T1, Gen.G, HLE, DK, KT, BLG, TES, JDG, WBG, G2, FNC, C9, TL) and star players (e.g., Chovy, Ruler, Kanavi, Scout, Gala, Tarzan, Kiin, Canyon, Peyz, Viper, Caps).
+
+Return at least 3 to 6 valid transfer rumors formatted as a JSON object:
+{
+  "drafts": [
+    {
+      "post_id": "rumor-<unique-id>",
+      "source": "COMMUNITY" | "X" | "WEIBO",
+      "author": "<reporter/leaker name>",
+      "author_en": "<author in en>",
+      "author_zh": "<author in zh>",
+      "raw_text": "<detailed description of the transfer report>",
+      "summary": "<1-line summary in Korean>",
+      "summary_en": "<1-line summary in English>",
+      "summary_zh": "<1-line summary in Chinese>",
+      "player_slug": "<lowercase player name>",
+      "player_name": "<Player ID>",
+      "current_team_short": "<team code>",
+      "target_team_short": "<team code>",
+      "league": "LCK" | "LPL" | "LEC" | "LCS",
+      "kind": "TRANSFER" | "RENEWAL" | "FA" | "STAY",
+      "confidence": 85,
+      "post_url": "https://x.com/Wooloo/status/sample",
+      "published_at": "2026-11-06T00:00:00.000Z"
+    }
+  ]
+}`,
           },
         ],
       },
     ],
-    tools: [
-      {
-        google_search: {},
-      },
-    ],
     generationConfig: {
-      temperature: 0.2,
+      temperature: 0.3,
       response_mime_type: "application/json",
     },
     system_instruction: {
@@ -65,8 +88,7 @@ export async function discoverDraftsWithGemini(
 
     if (!res.ok) {
       const errText = await res.text();
-      console.error(`[Gemini Search] API error ${res.status}:`, errText);
-      return [];
+      throw new Error(`Gemini API HTTP ${res.status}: ${errText}`);
     }
 
     const data = (await res.json()) as {
@@ -79,20 +101,30 @@ export async function discoverDraftsWithGemini(
 
     const textOutput = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!textOutput) {
-      console.warn("[Gemini Search] Empty response from model");
-      return [];
+      throw new Error(`Empty response from Gemini: ${JSON.stringify(data)}`);
     }
 
-    let parsed: { drafts?: CandidateDraft[] } | CandidateDraft[] = JSON.parse(textOutput);
-    const drafts: CandidateDraft[] = Array.isArray(parsed)
-      ? parsed
-      : Array.isArray(parsed?.drafts)
-      ? parsed.drafts
-      : [];
+    let parsed: any = JSON.parse(textOutput);
+    let drafts: CandidateDraft[] = [];
+    if (Array.isArray(parsed)) {
+      drafts = parsed;
+    } else if (Array.isArray(parsed?.drafts)) {
+      drafts = parsed.drafts;
+    } else if (Array.isArray(parsed?.items)) {
+      drafts = parsed.items;
+    } else if (Array.isArray(parsed?.rumors)) {
+      drafts = parsed.rumors;
+    } else if (typeof parsed === "object" && parsed !== null) {
+      // If single draft returned
+      drafts = [parsed];
+    }
+
+    if (drafts.length === 0) {
+      throw new Error(`Parsed JSON had 0 items: ${textOutput.slice(0, 200)}`);
+    }
 
     return drafts.filter((d) => Boolean(d && (d.summary || d.raw_text)));
-  } catch (err) {
-    console.error("[Gemini Search] Failed to discover drafts:", err);
-    return [];
+  } catch (err: any) {
+    throw new Error(`[discoverDraftsWithGemini] ${err?.message || String(err)}`);
   }
 }

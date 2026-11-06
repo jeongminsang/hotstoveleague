@@ -54,7 +54,7 @@ export async function insertRumorDrafts(
 ): Promise<number> {
   if (drafts.length === 0) return 0;
 
-  const rows: RumorDraftRow[] = drafts.map((d) => ({
+  const rows: any[] = drafts.map((d) => ({
     post_id: d.post_id || `draft-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     source: d.source || "COMMUNITY",
     author: d.author || "Insider",
@@ -66,8 +66,8 @@ export async function insertRumorDrafts(
     summary_zh: d.summary_zh || null,
     player_slug: d.player_slug?.toLowerCase() || (d.player_name ? d.player_name.toLowerCase() : null),
     player_name: d.player_name || null,
-    current_team_short: d.current_team_short?.toUpperCase() || null,
-    target_team_short: d.target_team_short?.toUpperCase() || null,
+    from_team: (d.current_team_short || (d as any).from_team || "")?.toUpperCase() || null,
+    to_team: (d.target_team_short || (d as any).to_team || "")?.toUpperCase() || null,
     league: d.league || "LCK",
     kind: d.kind || "UNKNOWN",
     confidence: typeof d.confidence === "number" ? d.confidence : 70,
@@ -77,14 +77,14 @@ export async function insertRumorDrafts(
     raw_payload: d as unknown as Record<string, unknown>,
   }));
 
-  const { error, count } = await supabase
+  const { data, error } = await supabase
     .from("rumor_drafts")
-    .insert(rows, { count: "exact" });
+    .insert(rows)
+    .select("id");
 
   if (error) {
-    console.error("[Supabase] Failed to insert rumor drafts:", error);
-    return 0;
+    throw new Error(`[Supabase insert error] ${error.message} (${error.code || "UNKNOWN"})`);
   }
 
-  return count || rows.length;
+  return (data || []).length || rows.length;
 }

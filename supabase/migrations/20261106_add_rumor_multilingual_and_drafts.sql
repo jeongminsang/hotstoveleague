@@ -29,8 +29,10 @@ CREATE TABLE IF NOT EXISTS rumor_drafts (
     summary_zh TEXT,                           -- 중문 요약
     player_slug VARCHAR(60),                   -- 연관 선수 식별자 (선택)
     player_name VARCHAR(60),                   -- 연관 선수 인게임 태그
-    from_team VARCHAR(20),                     -- 원 소속팀 short_name
-    to_team VARCHAR(20),                       -- 예상 행선지 short_name
+    current_team_short VARCHAR(20),            -- 원 소속팀 short_name
+    target_team_short VARCHAR(20),             -- 예상 행선지 short_name
+    from_team VARCHAR(20),                     -- 원 소속팀 short_name (alias)
+    to_team VARCHAR(20),                       -- 예상 행선지 short_name (alias)
     league VARCHAR(20),                        -- 리그 (LCK, LPL, LEC, LCS 등)
     kind VARCHAR(20) DEFAULT 'RUMOR',          -- 'OFFICIAL' | 'RUMOR'
     confidence INT DEFAULT 50,                 -- AI 추정 신뢰도 (0~100)
@@ -43,6 +45,14 @@ CREATE TABLE IF NOT EXISTS rumor_drafts (
     collected_at TIMESTAMPTZ DEFAULT NOW(),    -- 수집 일시
     raw_payload JSONB                          -- AI 추출 원본 JSON 및 메타데이터
 );
+
+-- 2-1. 기존 rumor_drafts 테이블이 있을 경우 누락 컬럼 자동 추가
+ALTER TABLE rumor_drafts ADD COLUMN IF NOT EXISTS current_team_short VARCHAR(20);
+ALTER TABLE rumor_drafts ADD COLUMN IF NOT EXISTS target_team_short VARCHAR(20);
+ALTER TABLE rumor_drafts ADD COLUMN IF NOT EXISTS author_en VARCHAR(100);
+ALTER TABLE rumor_drafts ADD COLUMN IF NOT EXISTS author_zh VARCHAR(100);
+ALTER TABLE rumor_drafts ADD COLUMN IF NOT EXISTS summary_en TEXT;
+ALTER TABLE rumor_drafts ADD COLUMN IF NOT EXISTS summary_zh TEXT;
 
 -- 3. 인덱스
 CREATE INDEX IF NOT EXISTS idx_rumor_drafts_status ON rumor_drafts(status);
