@@ -54,10 +54,6 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
       {/* Table Header Row (Binance Markets Table Header) */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b border-[#2b3139] bg-[#1e2329]">
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-          <span className="relative flex h-2 w-2 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0ecb81] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0ecb81]"></span>
-          </span>
           <h2 className="font-bold text-xs sm:text-sm tracking-tight text-white uppercase flex items-center gap-1.5 truncate">
             <span className="truncate">{t("latestRumors")}</span>
             <span className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded bg-[#FCD535] text-[#181a20] font-mono font-bold shrink-0">

@@ -7,6 +7,7 @@ import { Player, Team, Coach } from "@/lib/types";
 import { useLanguage } from "./language-provider";
 import { ExternalLink } from "lucide-react";
 import { PREDICTED_PLAYER_OVERRIDES } from "@/lib/rumors-data";
+import { getDisplayRealName } from "@/lib/korean-romanization";
 
 const positions: Array<Player["position"]> = ["TOP", "JGL", "MID", "BOT", "SPT"];
 
@@ -36,7 +37,7 @@ export default function TeamCard({
       <div className="p-3.5 sm:p-5 border-b border-[#2b3139] flex items-center justify-between gap-2.5">
         {/* Left: Logo & Team Name */}
         <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg bg-[#0b0e11] border border-[#2b3139] flex items-center justify-center p-1 sm:p-1.5 shrink-0">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-white border border-[#2b3139] flex items-center justify-center p-1 sm:p-1.5 shrink-0 shadow-sm">
             <TeamLogo team={team} />
           </div>
           <div className="min-w-0 truncate">
@@ -97,10 +98,10 @@ export default function TeamCard({
               ? PREDICTED_PLAYER_OVERRIDES[player.slug.toLowerCase()]
               : undefined;
 
-            const isStay = player?.status === "STAY" || (!isPrevRoster && player?.current_team_id === team.id && !override);
+            const hasActiveRumorOrConfirm = Boolean(override || (player && player.status && player.status !== "STAY"));
             const isConfirmed = player?.status === "CONFIRMED";
             const isRumored = player?.status === "RUMORED" || (override && override.predicted_team_id === team.id);
-            const confidence = override ? override.confidence : player?.confidence || 100;
+            const confidence = override ? override.confidence : player?.confidence;
             const sourceUrl = override ? override.source_url : player?.source_url;
 
             // From previous team short name
@@ -130,7 +131,7 @@ export default function TeamCard({
                       </span>
                       {player.real_name && (
                         <span className="text-[11px] sm:text-xs text-[#707a8a] hidden md:inline truncate">
-                          ({player.real_name})
+                          ({getDisplayRealName(player.real_name)})
                         </span>
                       )}
 
@@ -149,19 +150,19 @@ export default function TeamCard({
 
                 {/* Status Indicator & Confidence (Binance trading style) */}
                 <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                  {player && !isPrevRoster && (
+                  {player && !isPrevRoster && hasActiveRumorOrConfirm && (
                     <>
                       {/* Status Tag */}
                       <span
                         className={`text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded font-mono ${
-                          isConfirmed || confidence === 100
+                          isConfirmed
                             ? "bg-[#0ecb81]/15 text-[#0ecb81] border border-[#0ecb81]/30"
                             : isRumored
                             ? "bg-[#FCD535]/15 text-[#FCD535] border border-[#FCD535]/30"
                             : "bg-[#2b3139] text-[#929aa5]"
                         }`}
                       >
-                        {isConfirmed || confidence === 100
+                        {isConfirmed
                           ? "CONFIRMED"
                           : isRumored
                           ? "RUMOR"
@@ -169,17 +170,19 @@ export default function TeamCard({
                       </span>
 
                       {/* Confidence Number */}
-                      <span
-                        className={`font-mono text-[11px] sm:text-xs font-bold ${
-                          confidence === 100
-                            ? "text-[#0ecb81]"
-                            : confidence >= 80
-                            ? "text-[#FCD535]"
-                            : "text-[#f6465d]"
-                        }`}
-                      >
-                        {confidence}%
-                      </span>
+                      {typeof confidence === "number" && (
+                        <span
+                          className={`font-mono text-[11px] sm:text-xs font-bold ${
+                            confidence === 100
+                              ? "text-[#0ecb81]"
+                              : confidence >= 80
+                              ? "text-[#FCD535]"
+                              : "text-[#f6465d]"
+                          }`}
+                        >
+                          {confidence}%
+                        </span>
+                      )}
 
                       {sourceUrl && (
                         <a

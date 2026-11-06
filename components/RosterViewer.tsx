@@ -101,10 +101,10 @@ export default function RosterViewer({
 
         {/* Right Info Ticker (Desktop only) */}
         <div className="hidden lg:flex items-center gap-2 text-xs text-[#707a8a] font-mono">
-          <span>ROSTER STATUS:</span>
-          <span className="text-[#0ecb81] font-bold">100% CONFIRMED</span>
+          <span>{t("rosterStatus")}:</span>
+          <span className="text-[#0ecb81] font-bold">100% {t("statConfirmed")}</span>
           <span className="text-[#707a8a]">•</span>
-          <span className="text-[#FCD535] font-bold">RUMORED</span>
+          <span className="text-[#FCD535] font-bold">{t("rumor")}</span>
         </div>
       </div>
 

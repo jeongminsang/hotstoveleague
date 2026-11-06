@@ -40,17 +40,6 @@ export default function Navbar() {
           {/* Desktop Nav Items */}
           <nav className="hidden md:flex items-center gap-1 font-medium text-sm">
             <Link
-              href="/"
-              className={`px-3 py-1.5 rounded-md transition-colors ${
-                !isRumors
-                  ? "text-[#FCD535] bg-[#1e2329] font-semibold"
-                  : "text-[#eaecef] hover:text-[#FCD535] hover:bg-[#1e2329]/60"
-              }`}
-            >
-              {t("navHome")}
-            </Link>
-
-            <Link
               href="/rumors"
               className={`px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 ${
                 isRumors
@@ -129,7 +118,7 @@ export default function Navbar() {
             {/* Mobile Sheet Footer CTA */}
             <div className="pt-3 border-t border-[#2b3139] flex flex-col gap-2">
               <div className="flex items-center justify-between text-xs text-[#707a8a] font-mono px-1">
-                <span>TERMINAL STATUS</span>
+                <span>{t("terminalStatus")}</span>
                 <span className="text-[#0ecb81] font-bold">ONLINE (2026/27)</span>
               </div>
               <Link

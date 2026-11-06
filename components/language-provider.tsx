@@ -54,6 +54,21 @@ export const translations = {
     envRequiredDesc: "프로젝트 루트에 .env.local 파일을 생성하고 Supabase 키를 등록해주세요.",
     dbInitRequired: "데이터베이스 초기화가 필요합니다",
     dbInitDesc: "Supabase 대시보드 SQL Editor에서 schema.sql과 seed.sql을 실행해주세요.",
+    // Hero Stats
+    statTrackedTeams: "추적 구단",
+    statTrackedTeamsSub: "4대 메이저 리그",
+    statConfirmed: "확정 완료",
+    statConfirmedSub: "공식 오피셜 검증",
+    statLeaks: "내부 찌라시",
+    statLeaksSub: "1티어 소식통",
+    statIntegrity: "로스터 무결성",
+    statIntegritySub: "1인 1구단 엄격 원칙",
+    terminalLive: "실시간 터미널",
+    terminalStatus: "터미널 상태",
+    marketActive: "스토브리그 활성화",
+    intelSubtitle: "LCK • LPL • LEC • LCS 로스터 소식통",
+    rosterStatus: "로스터 상태",
+    accuracyRate: "적중률",
   },
   en: {
     title: "Global LoL Stove League Transfer Predictions",
@@ -95,6 +110,21 @@ export const translations = {
     envRequiredDesc: "Please create a .env.local file in the project root and add your Supabase keys.",
     dbInitRequired: "Database Initialization Required",
     dbInitDesc: "Please run schema.sql and seed.sql in the Supabase SQL Editor.",
+    // Hero Stats
+    statTrackedTeams: "TRACKED TEAMS",
+    statTrackedTeamsSub: "4 MAJOR LEAGUES",
+    statConfirmed: "CONFIRMED",
+    statConfirmedSub: "VERIFIED OFFICIAL",
+    statLeaks: "INSIDER LEAKS",
+    statLeaksSub: "TIER-1 INTEL",
+    statIntegrity: "INTEGRITY",
+    statIntegritySub: "ZERO MULTI-SPLIT",
+    terminalLive: "TERMINAL LIVE",
+    terminalStatus: "TERMINAL STATUS",
+    marketActive: "MARKET: ACTIVE",
+    intelSubtitle: "LCK • LPL • LEC • LCS ROSTER INTEL",
+    rosterStatus: "ROSTER STATUS",
+    accuracyRate: "ACCURACY RATE",
   },
   zh: {
     title: "全球英雄联盟转会期预测看板",
@@ -136,6 +166,21 @@ export const translations = {
     envRequiredDesc: "请在项目根目录下创建 .env.local 文件并填入 Supabase 密钥。",
     dbInitRequired: "需要初始化数据库",
     dbInitDesc: "请在 Supabase 控制台的 SQL Editor 中运行 schema.sql 与 seed.sql。",
+    // Hero Stats
+    statTrackedTeams: "追踪战队",
+    statTrackedTeamsSub: "四大主要联赛",
+    statConfirmed: "官方官宣",
+    statConfirmedSub: "俱乐部权威验证",
+    statLeaks: "一手爆料",
+    statLeaksSub: "T1级权威知情人",
+    statIntegrity: "名单严谨性",
+    statIntegritySub: "严禁一人多队原则",
+    terminalLive: "实时终端",
+    terminalStatus: "终端状态",
+    marketActive: "转会期活跃",
+    intelSubtitle: "LCK • LPL • LEC • LCS 阵容情报",
+    rosterStatus: "阵容状态",
+    accuracyRate: "准确率",
   },
 };
 
@@ -167,14 +212,14 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType>({
-  language: "ko",
+  language: "en",
   setLanguage: () => {},
-  t: (key) => translations.ko[key] || "",
+  t: (key) => translations.en[key] || translations.ko[key] || "",
   getTeamName: (_, defaultName) => defaultName,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("ko");
+  const [language, setLanguageState] = useState<Language>("en");
 
   useEffect(() => {
     const saved = localStorage.getItem("stove_league_lang") as Language;

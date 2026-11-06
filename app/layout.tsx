@@ -11,6 +11,13 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
   description: "Real-time AI transfer predictions, official rosters and insider rumors for LCK, LPL, LEC, LCS",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -30,25 +37,36 @@ export default function RootLayout({
             {children}
           </main>
 
-          {/* Light-gray Footer Inversion on Dark Canvas (Exact Binance design.md spec) */}
+          {/* Footer: Binance design.md spec (Surface Soft Light #fafafa, Hairline Light #eaecef, Vertical padding 64px, Muted #707a8a) */}
           <footer className="w-full bg-[#fafafa] text-[#181a20] border-t border-[#eaecef] mt-auto">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-[#707a8a]">
-              <div className="flex flex-col gap-1 text-center sm:text-left">
-                <span className="font-extrabold tracking-tight text-sm text-[#181a20]">
-                  HOTSTOVE<span className="text-[#f0b90b]">.LEAGUE</span>
-                </span>
-                <p className="text-[11px] text-[#707a8a]">
-                  Professional League of Legends Off-season Roster & Intelligence Terminal
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-8 text-[13px] text-[#707a8a]">
+              {/* Brand & Mission Statement */}
+              <div className="flex flex-col gap-1.5 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <span className="font-extrabold tracking-tight text-base text-[#181a20]">
+                    HOTSTOVE<span className="text-[#f0b90b]">.LEAGUE</span>
+                  </span>
+                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#f5f5f5] text-[#707a8a] border border-[#eaecef]">
+                    TERMINAL
+                  </span>
+                </div>
+                <p className="text-xs text-[#707a8a] max-w-md leading-relaxed">
+                  Professional League of Legends Off-season Roster & Intelligence Terminal. Real-time verified rumors & official rosters across global leagues.
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-6 font-medium text-[#181a20]">
-                <span>LCK</span>
-                <span>LPL</span>
-                <span>LEC</span>
-                <span>LCS</span>
-                <span className="text-[#707a8a]">|</span>
-                <span className="text-[#707a8a]">HotStoveLeague © 2026</span>
+              {/* Leagues & Copyright */}
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-xs font-medium">
+                <div className="flex items-center gap-4 text-[#181a20]">
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCK</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LPL</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LEC</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCS</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCP</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">CBLOL</span>
+                </div>
+                <span className="hidden sm:inline text-[#cdd1d6]">|</span>
+                <span className="text-[#707a8a]">HotStoveLeague © 2026. All rights reserved.</span>
               </div>
             </div>
           </footer>

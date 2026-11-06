@@ -114,84 +114,84 @@ INSERT INTO players (slug, name, real_name, position, current_team_id, predicted
 -- LCK (한국) - 도오페페케 등 기존 로스터 보존
 -- ==============================================================================
 -- 1. T1 (id: 1)
-('doran', 'Doran', '최현준', 'TOP', 1, 1, true, 100, 'STAY'),
-('oner', 'Oner', '문현준', 'JGL', 1, 1, true, 100, 'STAY'),
-('faker', 'Faker', '이상혁', 'MID', 1, 1, true, 100, 'STAY'),
-('peyz', 'Peyz', '김수환', 'BOT', 1, 1, true, 100, 'STAY'),
-('keria', 'Keria', '류민석', 'SPT', 1, 1, true, 100, 'STAY'),
+('doran', 'Doran', 'Choi Hyeon-joon', 'TOP', 1, 1, true, 100, 'STAY'),
+('oner', 'Oner', 'Mun Hyeon-jun', 'JGL', 1, 1, true, 100, 'STAY'),
+('faker', 'Faker', 'Lee Sang-hyeok', 'MID', 1, 1, true, 100, 'STAY'),
+('peyz', 'Peyz', 'Kim Su-hwan', 'BOT', 1, 1, true, 100, 'STAY'),
+('keria', 'Keria', 'Ryu Min-seok', 'SPT', 1, 1, true, 100, 'STAY'),
 
 -- 2. Gen.G (id: 2)
-('kiin', 'Kiin', '김기인', 'TOP', 2, 2, true, 100, 'STAY'),
-('canyon', 'Canyon', '김건부', 'JGL', 2, 2, true, 100, 'STAY'),
-('chovy', 'Chovy', '정지훈', 'MID', 2, 2, true, 100, 'STAY'),
-('ruler', 'Ruler', '박재혁', 'BOT', 2, 2, true, 100, 'STAY'),
-('duro', 'Duro', '주민규', 'SPT', 2, 2, true, 100, 'STAY'),
+('kiin', 'Kiin', 'Kim Gi-in', 'TOP', 2, 2, true, 100, 'STAY'),
+('canyon', 'Canyon', 'Kim Geon-bu', 'JGL', 2, 2, true, 100, 'STAY'),
+('chovy', 'Chovy', 'Jeong Ji-hoon', 'MID', 2, 2, true, 100, 'STAY'),
+('ruler', 'Ruler', 'Park Jae-hyuk', 'BOT', 2, 2, true, 100, 'STAY'),
+('duro', 'Duro', 'Joo Min-kyu', 'SPT', 2, 2, true, 100, 'STAY'),
 
 -- 3. Hanwha Life Esports (id: 3)
-('zeus', 'Zeus', '최우제', 'TOP', 3, 3, true, 100, 'STAY'),
-('kanavi', 'Kanavi', '서진혁', 'JGL', 3, 3, true, 100, 'STAY'),
-('zeka', 'Zeka', '김건우', 'MID', 3, 3, true, 100, 'STAY'),
-('gumayusi', 'Gumayusi', '이민형', 'BOT', 3, 3, true, 100, 'STAY'),
-('delight', 'Delight', '유환중', 'SPT', 3, 3, true, 100, 'STAY'),
+('zeus', 'Zeus', 'Choi Woo-je', 'TOP', 3, 3, true, 100, 'STAY'),
+('kanavi', 'Kanavi', 'Seo Jin-hyeok', 'JGL', 3, 3, true, 100, 'STAY'),
+('zeka', 'Zeka', 'Kim Geon-woo', 'MID', 3, 3, true, 100, 'STAY'),
+('gumayusi', 'Gumayusi', 'Lee Min-hyeong', 'BOT', 3, 3, true, 100, 'STAY'),
+('delight', 'Delight', 'Yoo Hwan-joong', 'SPT', 3, 3, true, 100, 'STAY'),
 
 -- 4. Dplus KIA (id: 4)
-('siwoo', 'Siwoo', '전시우', 'TOP', 4, 4, true, 100, 'STAY'),
-('lucid', 'Lucid', '최용혁', 'JGL', 4, 4, true, 100, 'STAY'),
-('showmaker', 'ShowMaker', '허수', 'MID', 4, 4, true, 100, 'STAY'),
-('smash', 'Smash', '신금재', 'BOT', 4, 4, true, 100, 'STAY'),
-('career', 'Career', '오형석', 'SPT', 4, 4, true, 100, 'STAY'),
+('siwoo', 'Siwoo', 'Jeon Si-woo', 'TOP', 4, 4, true, 100, 'STAY'),
+('lucid', 'Lucid', 'Choi Yong-hyeok', 'JGL', 4, 4, true, 100, 'STAY'),
+('showmaker', 'ShowMaker', 'Heo Su', 'MID', 4, 4, true, 100, 'STAY'),
+('smash', 'Smash', 'Sin Geum-jae', 'BOT', 4, 4, true, 100, 'STAY'),
+('career', 'Career', 'Oh Hyeong-seok', 'SPT', 4, 4, true, 100, 'STAY'),
 
 -- 5. kt Rolster (id: 5)
-('perfect', 'PerfecT', '이승민', 'TOP', 5, 5, true, 100, 'STAY'),
-('cuzz', 'Cuzz', '문우찬', 'JGL', 5, 5, true, 100, 'STAY'),
-('bdd', 'Bdd', '곽보성', 'MID', 5, 5, true, 100, 'STAY'),
-('jiwoo', 'Jiwoo', '정지우', 'BOT', 5, 5, true, 100, 'STAY'),
-('effort', 'Effort', '이상호', 'SPT', 5, 5, true, 100, 'STAY'),
+('perfect', 'PerfecT', 'Lee Seung-min', 'TOP', 5, 5, true, 100, 'STAY'),
+('cuzz', 'Cuzz', 'Moon Woo-chan', 'JGL', 5, 5, true, 100, 'STAY'),
+('bdd', 'Bdd', 'Gwak Bo-seong', 'MID', 5, 5, true, 100, 'STAY'),
+('jiwoo', 'Jiwoo', 'Jeong Ji-woo', 'BOT', 5, 5, true, 100, 'STAY'),
+('effort', 'Effort', 'Lee Sang-ho', 'SPT', 5, 5, true, 100, 'STAY'),
 
 -- 6. BNK FEARX (id: 6)
-('clear', 'Clear', '송현민', 'TOP', 6, 6, true, 100, 'STAY'),
-('raptor', 'Raptor', '전어진', 'JGL', 6, 6, true, 100, 'STAY'),
-('vicla', 'VicLa', '이대광', 'MID', 6, 6, true, 100, 'STAY'),
-('diable', 'Diable', '남대근', 'BOT', 6, 6, true, 100, 'STAY'),
-('kellin', 'Kellin', '김형규', 'SPT', 6, 6, true, 100, 'STAY'),
-('daystar', 'Daystar', '유지혁', 'MID', 6, 6, false, 100, 'STAY'),
+('clear', 'Clear', 'Song Hyeon-min', 'TOP', 6, 6, true, 100, 'STAY'),
+('raptor', 'Raptor', 'Jeon Eo-jin', 'JGL', 6, 6, true, 100, 'STAY'),
+('vicla', 'VicLa', 'Lee Dae-gwang', 'MID', 6, 6, true, 100, 'STAY'),
+('diable', 'Diable', 'Nam Dae-geun', 'BOT', 6, 6, true, 100, 'STAY'),
+('kellin', 'Kellin', 'Kim Hyeong-gyu', 'SPT', 6, 6, true, 100, 'STAY'),
+('daystar', 'Daystar', 'Yoo Ji-hyeok', 'MID', 6, 6, false, 100, 'STAY'),
 
 -- 7. 한진 브리온 (id: 7)
-('casting', 'Casting', '신민제', 'TOP', 7, 7, true, 100, 'STAY'),
-('gideon', 'GIDEON', '김민성', 'JGL', 7, 7, true, 100, 'STAY'),
-('roamer', 'Roamer', '조우진', 'MID', 7, 7, true, 100, 'STAY'),
-('teddy', 'Teddy', '박진성', 'BOT', 7, 7, true, 100, 'STAY'),
-('namgung', 'Namgung', '남궁성훈', 'SPT', 7, 7, true, 100, 'STAY'),
-('fisher', 'Fisher', '이정태', 'MID', 7, 7, false, 100, 'STAY'),
-('kangin', 'Kangin', '안강인', 'TOP', 7, 7, false, 100, 'STAY'),
-('enosh', 'Enosh', '임유백', 'SPT', 7, 7, false, 100, 'STAY'),
+('casting', 'Casting', 'Shin Min-je', 'TOP', 7, 7, true, 100, 'STAY'),
+('gideon', 'GIDEON', 'Kim Min-seong', 'JGL', 7, 7, true, 100, 'STAY'),
+('roamer', 'Roamer', 'Cho Woo-jin', 'MID', 7, 7, true, 100, 'STAY'),
+('teddy', 'Teddy', 'Park Jin-seong', 'BOT', 7, 7, true, 100, 'STAY'),
+('namgung', 'Namgung', 'Namgung Seong-hoon', 'SPT', 7, 7, true, 100, 'STAY'),
+('fisher', 'Fisher', 'Lee Jeong-tae', 'MID', 7, 7, false, 100, 'STAY'),
+('kangin', 'Kangin', 'An Kang-in', 'TOP', 7, 7, false, 100, 'STAY'),
+('enosh', 'Enosh', 'Lim Yoo-baek', 'SPT', 7, 7, false, 100, 'STAY'),
 
 -- 8. 키움 DRX (id: 8)
-('rich', 'Rich', '이재원', 'TOP', 8, 8, true, 100, 'STAY'),
-('vincenzo', 'Vincenzo', '하승민', 'JGL', 8, 8, true, 100, 'STAY'),
-('ucal', 'Ucal', '손우현', 'MID', 8, 8, true, 100, 'STAY'),
-('aiming', 'Aiming', '김하람', 'BOT', 8, 8, true, 100, 'STAY'),
-('andil', 'Andil', '문관빈', 'SPT', 8, 8, true, 100, 'STAY'),
-('willer', 'Willer', '김정현', 'JGL', 8, 8, false, 100, 'STAY'),
-('frog', 'Frog', '민경민', 'TOP', 8, 8, false, 100, 'STAY'),
-('pleata', 'Pleata', '손민우', 'SPT', 8, 8, false, 100, 'STAY'),
+('rich', 'Rich', 'Lee Jae-won', 'TOP', 8, 8, true, 100, 'STAY'),
+('vincenzo', 'Vincenzo', 'Ha Seung-min', 'JGL', 8, 8, true, 100, 'STAY'),
+('ucal', 'Ucal', 'Sohn Woo-hyeon', 'MID', 8, 8, true, 100, 'STAY'),
+('aiming', 'Aiming', 'Kim Ha-ram', 'BOT', 8, 8, true, 100, 'STAY'),
+('andil', 'Andil', 'Mun Gwan-bin', 'SPT', 8, 8, true, 100, 'STAY'),
+('willer', 'Willer', 'Kim Jeong-hyeon', 'JGL', 8, 8, false, 100, 'STAY'),
+('frog', 'Frog', 'Min Gyeong-min', 'TOP', 8, 8, false, 100, 'STAY'),
+('pleata', 'Pleata', 'Son Min-woo', 'SPT', 8, 8, false, 100, 'STAY'),
 
 -- 9. Nongshim RedForce (id: 9)
-('kingen', 'Kingen', '황성훈', 'TOP', 9, 9, true, 100, 'STAY'),
-('sponge', 'Sponge', '배영준', 'JGL', 9, 9, true, 100, 'STAY'),
-('scout', 'Scout', '이예찬', 'MID', 9, 9, true, 100, 'STAY'),
-('taeyoon', 'Taeyoon', '김태윤', 'BOT', 9, 9, true, 100, 'STAY'),
-('lehends', 'Lehends', '손시우', 'SPT', 9, 9, true, 100, 'STAY'),
-('calix', 'Calix', '선현욱', 'MID', 9, 9, false, 100, 'STAY'),
+('kingen', 'Kingen', 'Hwang Seong-hoon', 'TOP', 9, 9, true, 100, 'STAY'),
+('sponge', 'Sponge', 'Bae Yeong-jun', 'JGL', 9, 9, true, 100, 'STAY'),
+('scout', 'Scout', 'Lee Ye-chan', 'MID', 9, 9, true, 100, 'STAY'),
+('taeyoon', 'Taeyoon', 'Kim Tae-yoon', 'BOT', 9, 9, true, 100, 'STAY'),
+('lehends', 'Lehends', 'Son Si-woo', 'SPT', 9, 9, true, 100, 'STAY'),
+('calix', 'Calix', 'Seon Hyeon-uk', 'MID', 9, 9, false, 100, 'STAY'),
 
 -- 10. DN SOOPers (id: 10)
-('dudu', 'DuDu', '이동주', 'TOP', 10, 10, true, 100, 'STAY'),
-('pyosik', 'Pyosik', '홍창현', 'JGL', 10, 10, true, 100, 'STAY'),
-('clozer', 'Clozer', '이주현', 'MID', 10, 10, true, 100, 'STAY'),
-('deokdam', 'deokdam', '서대길', 'BOT', 10, 10, true, 100, 'STAY'),
-('life', 'Life', '김정민', 'SPT', 10, 10, true, 100, 'STAY'),
-('sharvel', 'Sharvel', '김단우', 'JGL', 10, 10, false, 100, 'STAY'),
-('peter', 'Peter', '정윤수', 'SPT', 10, 10, false, 100, 'STAY'),
+('dudu', 'DuDu', 'Lee Dong-ju', 'TOP', 10, 10, true, 100, 'STAY'),
+('pyosik', 'Pyosik', 'Hong Chang-hyeon', 'JGL', 10, 10, true, 100, 'STAY'),
+('clozer', 'Clozer', 'Lee Ju-hyeon', 'MID', 10, 10, true, 100, 'STAY'),
+('deokdam', 'deokdam', 'Seo Dae-gil', 'BOT', 10, 10, true, 100, 'STAY'),
+('life', 'Life', 'Kim Jeong-min', 'SPT', 10, 10, true, 100, 'STAY'),
+('sharvel', 'Sharvel', 'Kim Dan-woo', 'JGL', 10, 10, false, 100, 'STAY'),
+('peter', 'Peter', 'Jeong Yoon-su', 'SPT', 10, 10, false, 100, 'STAY'),
 
 -- ==============================================================================
 -- LPL 2026년 11월 기준 최신 공식 로스터 (RNG 해체 반영, NIP 추가)
@@ -363,7 +363,7 @@ INSERT INTO players (slug, name, real_name, position, current_team_id, predicted
 ('tracyn', 'Tracyn', 'Sebastian Wojton', 'TOP', 28, 28, true, 100, 'STAY'),
 ('daglas', 'Daglas', 'Kacper Dagiel', 'JGL', 28, 28, true, 100, 'STAY'),
 ('serin', 'Serin', 'Tolga Olmez', 'MID', 28, 28, true, 100, 'STAY'),
-('hype', 'Hype', '변정현', 'BOT', 28, 28, true, 100, 'STAY'),
+('hype', 'Hype', 'Byun Jeong-hyeon', 'BOT', 28, 28, true, 100, 'STAY'),
 ('stend', 'Stend', 'Paul Lardin', 'SPT', 28, 28, true, 100, 'STAY'),
 ('ice', 'Ice', 'Yoon Sang-hoon', 'BOT', 28, 28, false, 100, 'STAY'),
 
@@ -560,65 +560,65 @@ INSERT INTO players (slug, name, real_name, position, current_team_id, predicted
 ('ackerman', 'Ackerman', 'Gabriel Aparicio', 'SPT', 54, 54, true, 100, 'STAY'),
 
 -- 2027 스토브리그 FA / 복귀 / 콜업 영입 대상 선수
-('deft', 'Deft', '김혁규', 'BOT', NULL, 9, false, 94, 'RUMORED'),
+('deft', 'Deft', 'Kim Hyeok-gyu', 'BOT', NULL, 9, false, 94, 'RUMORED'),
 ('3xa', '3XA', 'Thomas Foucou', 'BOT', NULL, 27, false, 95, 'RUMORED'),
 ('zicssi', 'Zicssi', 'Léo-Paulurez', 'JGL', NULL, 27, false, 95, 'RUMORED'),
 ('slowq', 'SlowQ', 'Yasin Koca', 'MID', 27, 27, false, 95, 'CONFIRMED'),
 ('aetinoth', 'Aetinoth', 'Berat', 'BOT', NULL, 29, false, 82, 'RUMORED'),
 ('fleshy', 'Fleshy', 'Kaan', 'SPT', 26, NULL, false, 100, 'FA'),
-('noah', 'Noah', '오현택', 'BOT', 29, NULL, false, 100, 'FA');
+('noah', 'Noah', 'Oh Hyeon-taek', 'BOT', 29, NULL, false, 100, 'FA');
 
 -- 4. 2026 시즌 LCK 감코진 (감독 role='HEAD_COACH' / 코치 role='COACH')
 INSERT INTO coaches (team_id, role, name, real_name) VALUES
 -- 1. T1 (id: 1)
-(1, 'HEAD_COACH', 'kkOma', '김정균'),
-(1, 'COACH', 'Tom', '임재현'),
-(1, 'COACH', 'Mata', '조세형'),
-(1, 'COACH', 'Easyhoon', '이지훈'),
+(1, 'HEAD_COACH', 'kkOma', 'Kim Jeong-gyun'),
+(1, 'COACH', 'Tom', 'Im Jae-hyeon'),
+(1, 'COACH', 'Mata', 'Cho Se-hyeong'),
+(1, 'COACH', 'Easyhoon', 'Lee Ji-hoon'),
 
 -- 2. Gen.G (id: 2)
-(2, 'HEAD_COACH', 'Ryu', '유상욱'),
-(2, 'COACH', 'Lyn', '김다빈'),
-(2, 'COACH', 'Nova', '박찬호'),
+(2, 'HEAD_COACH', 'Ryu', 'Yoo Sang-wook'),
+(2, 'COACH', 'Lyn', 'Kim Da-bin'),
+(2, 'COACH', 'Nova', 'Park Chan-ho'),
 
 -- 3. Hanwha Life Esports (id: 3)
-(3, 'HEAD_COACH', 'Homme', '윤성영'),
-(3, 'COACH', 'Sin', '연형모'),
-(3, 'COACH', 'Mowgli', '이재하'),
+(3, 'HEAD_COACH', 'Homme', 'Yoon Sung-young'),
+(3, 'COACH', 'Sin', 'Yeon Hyeong-mo'),
+(3, 'COACH', 'Mowgli', 'Lee Jae-ha'),
 
 -- 4. Dplus KIA (id: 4)
-(4, 'HEAD_COACH', 'cvMax', '김대호'),
-(4, 'COACH', 'PoohManDu', '이정현'),
-(4, 'COACH', 'Hachani', '하승찬'),
+(4, 'HEAD_COACH', 'cvMax', 'Kim Dae-ho'),
+(4, 'COACH', 'PoohManDu', 'Lee Jeong-hyeon'),
+(4, 'COACH', 'Hachani', 'Ha Seung-chan'),
 
 -- 5. kt Rolster (id: 5)
-(5, 'HEAD_COACH', 'Score', '고동빈'),
-(5, 'COACH', 'Museong', '김무성'),
-(5, 'COACH', 'Sonstar', '손승익'),
+(5, 'HEAD_COACH', 'Score', 'Go Dong-bin'),
+(5, 'COACH', 'Museong', 'Kim Moo-seong'),
+(5, 'COACH', 'Sonstar', 'Sohn Seung-ik'),
 
 -- 6. BNK FEARX (id: 6)
-(6, 'HEAD_COACH', 'Edo', '박준석'),
-(6, 'COACH', 'Rather', '신형섭'),
-(6, 'COACH', 'Lira', '남태유'),
+(6, 'HEAD_COACH', 'Edo', 'Park Jun-seok'),
+(6, 'COACH', 'Rather', 'Shin Hyeong-seop'),
+(6, 'COACH', 'Lira', 'Nam Tae-yoo'),
 
 -- 7. 한진 브리온 (id: 7)
-(7, 'HEAD_COACH', 'SSOUNG', '김상수'),
-(7, 'COACH', 'Duke', '이호성'),
+(7, 'HEAD_COACH', 'SSOUNG', 'Kim Sang-soo'),
+(7, 'COACH', 'Duke', 'Lee Ho-seong'),
 
 -- 8. 키움 DRX (id: 8)
-(8, 'HEAD_COACH', 'Joker', '조재읍'),
-(8, 'COACH', 'Naehyun', '유내현'),
-(8, 'COACH', 'Saroo', '이종원'),
+(8, 'HEAD_COACH', 'Joker', 'Cho Jae-eup'),
+(8, 'COACH', 'Naehyun', 'Yoo Nae-hyun'),
+(8, 'COACH', 'Saroo', 'Lee Jong-won'),
 
 -- 9. Nongshim RedForce (id: 9)
-(9, 'HEAD_COACH', 'DanDy', '최인규'),
-(9, 'COACH', 'Chelly', '박승진'),
-(9, 'COACH', 'Crazy', '김재희'),
+(9, 'HEAD_COACH', 'DanDy', 'Choi In-kyu'),
+(9, 'COACH', 'Chelly', 'Park Seung-jin'),
+(9, 'COACH', 'Crazy', 'Kim Jae-hee'),
 
 -- 10. DN SOOPers (id: 10)
-(10, 'HEAD_COACH', 'RapidStar', '정민성'),
-(10, 'COACH', 'Spirit', '이다윤'),
-(10, 'COACH', 'Alvingo', '최병철');
+(10, 'HEAD_COACH', 'RapidStar', 'Jung Min-sung'),
+(10, 'COACH', 'Spirit', 'Lee Da-yoon'),
+(10, 'COACH', 'Alvingo', 'Choi Byung-cheol');
 
 -- 5. 선수 이적 및 소속 변경 전용 프로시저 (1인 1팀 무결성 보장)
 CREATE OR REPLACE FUNCTION move_player(

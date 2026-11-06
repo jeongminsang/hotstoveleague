@@ -139,18 +139,18 @@ export default function RumorsListClient({
               {t("navOfficialAndRumors")}
             </h1>
             <span className="px-2 py-0.5 rounded bg-[#FCD535] text-[#181a20] font-mono text-[11px] sm:text-xs font-bold">
-              {filteredRumors.length} ITEMS
+              {filteredRumors.length} {t("rumorCountUnit").trim().toUpperCase()}
             </span>
           </div>
           <p className="text-[11px] sm:text-xs md:text-sm text-[#929aa5] mt-1">
-            Global LCK, LPL, LEC, LCS roster changes, verbal agreements & confirmed signings.
+            {t("rumorsPageSubtitle")}
           </p>
         </div>
 
         {/* Stats Ticker Mini-Card (Tablet & Desktop) */}
         <div className="hidden sm:flex items-center gap-3 shrink-0">
           <div className="p-2.5 sm:p-3 rounded-lg bg-[#1e2329] border border-[#2b3139] text-right">
-            <div className="text-[10px] text-[#707a8a] font-mono uppercase">ACCURACY RATE</div>
+            <div className="text-[10px] text-[#707a8a] font-mono uppercase">{t("accuracyRate")}</div>
             <div className="text-base sm:text-lg font-bold text-[#0ecb81] binance-num">94.8%</div>
           </div>
         </div>

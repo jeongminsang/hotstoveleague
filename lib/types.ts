@@ -27,9 +27,9 @@ export interface Player {
   current_team_id: number | null;
   predicted_team_id: number | null;
   is_starter?: boolean;
-  confidence: number;
+  confidence?: number;
   image_url?: string | null;
-  status: "CONFIRMED" | "RUMORED" | "FA" | "STAY" | "SUB";
+  status?: "CONFIRMED" | "RUMORED" | "FA" | "STAY" | "SUB";
   source_url?: string | null;
   verified_at?: string | null;
   updated_at?: string;

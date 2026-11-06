@@ -89,7 +89,7 @@ export default async function Index() {
               ...raw,
               slug: "kanavi",
               name: "Kanavi",
-              real_name: "서진혁",
+              real_name: "Seo Jin-hyeok",
             }
           : raw;
 
@@ -107,8 +107,8 @@ export default async function Index() {
       return {
         ...p,
         predicted_team_id: p.current_team_id,
-        confidence: 100,
-        status: "STAY",
+        confidence: undefined,
+        status: undefined,
         source_url: undefined,
       };
     });
@@ -119,7 +119,7 @@ export default async function Index() {
       id: 9001,
       slug: "deft",
       name: "Deft",
-      real_name: "김혁규",
+      real_name: "Kim Hyeok-gyu",
       position: "BOT",
       current_team_id: null,
       predicted_team_id: 9,
@@ -132,7 +132,7 @@ export default async function Index() {
       id: 9003,
       slug: "hype",
       name: "Hype",
-      real_name: "변정현",
+      real_name: "Byun Jeong-hyeon",
       position: "BOT",
       current_team_id: 28,
       predicted_team_id: 28,
