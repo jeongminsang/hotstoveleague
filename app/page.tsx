@@ -99,7 +99,7 @@ export default async function Index() {
       };
     });
 
-  // DB에 아직 추가 전인 신규/복귀 찌라시 선수(Deft, Hype, 3XA, Zicssi, SlowQ) 자동 보강
+  // DB에 아직 추가 전인 신규/복귀 찌라시 선수(Deft, Hype, 3XA, Zicssi, SlowQ, Aetinoth, Fleshy, Noah) 자동 보강
   const extraPlayers: Player[] = [
     {
       id: 9001,
@@ -123,7 +123,7 @@ export default async function Index() {
       current_team_id: 28,
       predicted_team_id: 28,
       is_starter: true,
-      confidence: 96,
+      confidence: 98,
       status: "CONFIRMED",
       source_url: PREDICTED_PLAYER_OVERRIDES.hype.source_url,
     },
@@ -165,6 +165,19 @@ export default async function Index() {
       confidence: 95,
       status: "CONFIRMED",
       source_url: PREDICTED_PLAYER_OVERRIDES.slowq.source_url,
+    },
+    {
+      id: 9007,
+      slug: "aetinoth",
+      name: "Aetinoth",
+      real_name: "berat",
+      position: "BOT",
+      current_team_id: null,
+      predicted_team_id: 29,
+      is_starter: false,
+      confidence: 82,
+      status: "RUMORED",
+      source_url: PREDICTED_PLAYER_OVERRIDES.aetinoth.source_url,
     },
   ];
 
