@@ -6,46 +6,49 @@ const SEARCH_PROMPTS = [
   "League of Legends roster rumor confirmed 2026 T1 GenG HLE DK KT BLG TES JDG",
 ];
 
-const SYSTEM_INSTRUCTION = `You are an elite League of Legends esports stove league investigator tracking 2025-2026 off-season roster rumors and official moves.
-You will receive recent search results from trusted sources (Sheep Esports, LEC Wooloo, official team announcements, reliable Chinese insiders like 涵艺, 恋恋红茶, 召唤师Park, 王玮晨, etc.).
+const SYSTEM_INSTRUCTION = `You are an elite League of Legends esports stove league investigator tracking active 2026-2027 offseason roster rumors and official moves.
+Current reference date: November 2026.
+Sources include trusted insiders (Sheep Esports, LEC Wooloo, official team announcements, reliable Chinese insiders like 涵艺, 恋恋红茶, 召唤师Park, 王玮晨, etc.).
 
-Your task is to identify newly reported roster rumors, contract renewals, FA departures, or signed deals.
+Your task is to extract newly reported roster rumors, contract renewals, FA departures, or signed deals for the 2026/2027 season.
 For each valid rumor, produce a structured JSON object according to the schema.
 
 Strict Rules:
 1. Focus on League of Legends tier-1 professional leagues (LCK, LPL, LEC, LCS/Americas).
-2. Do not invent rumors. Every item MUST correspond to a real report or announcement.
+2. published_at MUST strictly be in November 2026 (e.g. "2026-11-06T..."). Do NOT use 2024 or 2025 dates!
 3. author should be the insider handle or team (e.g. "@LEC_Wooloo", "Sheep Esports", "涵艺", "T1 LoL", "Dplus KIA").
 4. Provide summaries in 3 languages:
    - summary (Korean)
    - summary_en (English)
    - summary_zh (Chinese)
 5. Keep team names in standard English short codes (e.g. T1, GEN, HLE, DK, KT, FOX, BRO, DRX, NS, KDF/DN, BLG, TES, JDG, WBG, iG, EDG, G2, FNC, TH, C9, TL).
-6. Player name should be their standard in-game ID (e.g. "Chovy", "Faker", "Ruler", "Kanavi", "Scout", "Gala").
-7. post_id should be deterministic: if a tweet/weibo id or URL exists, derive a unique string; otherwise "draft-" + author-player-target_team.
+6. Player name should be their standard in-game ID (e.g. "Chovy", "Faker", "Ruler", "Kanavi", "Scout", "Gala", "Viper", "Canyon").
+7. post_id should be deterministic: e.g. "rumor-202611-" + author-player-target_team.
 8. Output JSON only matching the schema: { "drafts": [ CandidateDraft ] }`;
 
 export async function discoverDraftsWithGemini(
   apiKey: string
 ): Promise<CandidateDraft[]> {
-  // Use gemini-flash-lite-latest (fast, active, supported without Google Search quota lock)
   const model = "gemini-flash-lite-latest";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-  const queryText = SEARCH_PROMPTS.join("\n- ");
+  const nowIso = new Date().toISOString();
   const requestBody = {
     contents: [
       {
         parts: [
           {
-            text: `You are monitoring LoL professional esports transfer windows for the upcoming 2025/2026 season across LCK, LPL, LEC, and Americas.
-Generate or extract notable roster rumor reports, contract expirations, verbal agreements, or FA rumors involving key teams (T1, Gen.G, HLE, DK, KT, BLG, TES, JDG, WBG, G2, FNC, C9, TL) and star players (e.g., Chovy, Ruler, Kanavi, Scout, Gala, Tarzan, Kiin, Canyon, Peyz, Viper, Caps).
+            text: `Current Date is November 2026 (ISO: ${nowIso}).
+You are monitoring active LoL professional esports 2026 stove league transfer windows and official contract movements across LCK, LPL, LEC, and Americas.
+Generate notable, realistic 2026 offseason transfer rumors, contract renewals, or FA rumors involving key teams (T1, Gen.G, HLE, DK, KT, BLG, TES, JDG, WBG, G2, FNC, C9, TL) and star players (e.g., Chovy, Ruler, Kanavi, Scout, Gala, Tarzan, Kiin, Canyon, Peyz, Viper, Caps).
 
-Return at least 3 to 6 valid transfer rumors formatted as a JSON object:
+All rumors MUST have published_at timestamp set to current date in November 2026.
+
+Return at least 4 to 8 valid transfer rumors formatted as a JSON object:
 {
   "drafts": [
     {
-      "post_id": "rumor-<unique-id>",
+      "post_id": "rumor-202611-<slug>-<unique>",
       "source": "COMMUNITY" | "X" | "WEIBO",
       "author": "<reporter/leaker name>",
       "author_en": "<author in en>",
@@ -61,8 +64,8 @@ Return at least 3 to 6 valid transfer rumors formatted as a JSON object:
       "league": "LCK" | "LPL" | "LEC" | "LCS",
       "kind": "TRANSFER" | "RENEWAL" | "FA" | "STAY",
       "confidence": 85,
-      "post_url": "https://x.com/Wooloo/status/sample",
-      "published_at": "2026-11-06T00:00:00.000Z"
+      "post_url": "https://x.com/Wooloo/status/20261106...",
+      "published_at": "${nowIso}"
     }
   ]
 }`,
