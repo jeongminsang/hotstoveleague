@@ -28,13 +28,6 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[130px] p-1 shadow-md">
         <DropdownMenuItem
-          onClick={() => setLanguage("ko")}
-          className="flex items-center justify-between text-xs font-medium cursor-pointer py-1.5 px-2.5 rounded-sm"
-        >
-          <span>🇰🇷 한국어</span>
-          {language === "ko" && <Check className="w-3.5 h-3.5 text-primary ml-2" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem
           onClick={() => setLanguage("en")}
           className="flex items-center justify-between text-xs font-medium cursor-pointer py-1.5 px-2.5 rounded-sm"
         >
@@ -42,10 +35,17 @@ export function LanguageSwitcher() {
           {language === "en" && <Check className="w-3.5 h-3.5 text-primary ml-2" />}
         </DropdownMenuItem>
         <DropdownMenuItem
+          onClick={() => setLanguage("ko")}
+          className="flex items-center justify-between text-xs font-medium cursor-pointer py-1.5 px-2.5 rounded-sm"
+        >
+          <span>🇰🇷 한국어</span>
+          {language === "ko" && <Check className="w-3.5 h-3.5 text-primary ml-2" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem
           onClick={() => setLanguage("zh")}
           className="flex items-center justify-between text-xs font-medium cursor-pointer py-1.5 px-2.5 rounded-sm"
         >
-          <span>🇨🇳 简体中文</span>
+          <span>🇨🇳 中文</span>
           {language === "zh" && <Check className="w-3.5 h-3.5 text-primary ml-2" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
