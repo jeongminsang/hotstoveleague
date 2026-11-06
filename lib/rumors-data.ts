@@ -9,6 +9,8 @@ export interface SeedRumor
   target_team_short: string;
   target_team_id: number | null;
   league: string;
+  author_en?: string;
+  summary_en?: string;
 }
 
 export const INITIAL_RUMORS: SeedRumor[] = [
@@ -17,10 +19,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261105-zicssi-sk",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] Jungler Zicssi 🇫🇷 has reached a verbal agreement with SK Gaming for the 2027 #LEC season. Report by @LEC_Wooloo",
     summary:
       "[울루/Sheep Esports] SK Gaming, 2027 시즌 신임 정글러로 프랑스 유망주 직시(Zicssi)와 구두 합의… 기존 스킨즈(Skeanz) 결별 (Zicssi reaches verbal agreement with SK Gaming for 2027 LEC)",
+    summary_en:
+      "[Wooloo/Sheep Esports] SK Gaming reaches verbal agreement with French jungler Zicssi for the 2027 LEC season, replacing Skeanz.",
     player_slug: "zicssi",
     player_name: "Zicssi",
     current_team_short: "FA",
@@ -36,10 +42,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261105-g2-staff-rebuild",
     source: "TWITTER",
     author: "G2 Esports (@G2esports)",
+    author_en:
+      "G2 Esports (@G2esports)",
     raw_text:
       "Thank you @Perkz for your time as Head Coach in 2026. As we prepare for the 2027 #LEC season, we are restructuring our coaching staff and jungle position.",
     summary:
       "[오피셜] G2 Esports, 2027 시즌 대비 퍽즈(Perkz) 감독 결별 및 로스터·코칭스태프 개편 공식 발표 (G2 Esports announces 2027 coaching and roster restructuring)",
+    summary_en:
+      "[Official] G2 Esports announces departure of Head Coach Perkz and restructuring of coaching staff and jungle for 2027.",
     player_slug: "caps",
     player_name: "Caps",
     current_team_short: "G2",
@@ -55,10 +65,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261105-ale-wbg",
     source: "WEIBO",
     author: "召唤师Park (@召唤师Park)",
+    author_en:
+      "Summoner Park (@召唤师Park)",
     raw_text:
       "Ale经纪人挺强的，给他运作到WBG了，WBG打野想要Beichuan，但他不太想去，就临时签了H4cker，中单依旧是小虎，下路知秋意+Ke #曝Ale加入WBG#",
     summary:
       "[웨이보/소환사 Park] AL 탑라이너 아러(Ale), Weibo Gaming(WBG) 이적 유력… 미드 샤오후(Xiaohu)는 WBG 주전 잔류 (Summoner Park: Ale moving to WBG while Xiaohu stays as WBG starting mid laner)",
+    summary_en:
+      "[Summoner Park] AL top laner Ale is set to join Weibo Gaming (WBG), while mid laner Xiaohu remains as starter.",
     player_slug: "ale",
     player_name: "Ale",
     current_team_short: "AL",
@@ -74,10 +88,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261105-lyncas-g2",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "With Lyncas 🇱🇹 set to join G2 Esports for the 2027 #LEC season, he becomes the sixth jungler to wear the jersey since the org entered the league in 2016.",
     summary:
       "[울루/Sheep Esports] G2 Esports, 바이탈리티 정글러 린카스(Lyncas) 2027 시즌 영입 합의 (Lyncas set to join G2 Esports for the 2027 LEC season)",
+    summary_en:
+      "[Wooloo/Sheep Esports] G2 Esports agrees to sign Team Vitality jungler Lyncas for the 2027 LEC season.",
     player_slug: "lyncas",
     player_name: "Lyncas",
     current_team_short: "VIT",
@@ -93,10 +111,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261105-skewmond-g2",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] SkewMond 🇫🇷 will not be part of G2 Esports' starting roster for the 2027 #LEC season. Report by @anonimotum @i_Eros_ @LEC_Wooloo",
     summary:
       "[울루/Sheep Esports] 스큐몬드(SkewMond), 2027 시즌 G2 주전 로스터 제외 및 타 팀 이적 허용 (SkewMond will not be part of G2 starting roster in 2027)",
+    summary_en:
+      "[Wooloo/Sheep Esports] SkewMond will not be part of G2 Esports active roster for 2027 and is allowed to seek transfers.",
     player_slug: "skewmond",
     player_name: "SkewMond",
     current_team_short: "G2",
@@ -112,10 +134,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261105-theshy-ig",
     source: "WEIBO",
     author: "恋恋红茶_244 (@恋恋红茶_244)",
+    author_en:
+      "Red Tea (@恋恋红茶_244)",
     raw_text:
       "TheShy谈休息与比赛压力：这是我的职业，我就得打好。看看我们队的阵容，有Meiko、Rookie，还有我。我们都打了很多年，是现在赛场上的老将。",
     summary:
       "[웨이보/롄롄홍차] iG 더샤이(TheShy), 휴식기 복귀 후 '메이코·루키와 함께하는 프로 무대 계속 잘 해내고 싶다'며 2027 시즌 현역 지속 의지 피력 (Red Tea: TheShy affirms commitment alongside Rookie and Meiko at iG)",
+    summary_en:
+      "[Red Tea] iG top laner TheShy confirms commitment to continue competing alongside Rookie and Meiko in 2027.",
     player_slug: "theshy",
     player_name: "TheShy",
     current_team_short: "IG",
@@ -131,10 +157,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261104-meiko-ig",
     source: "WEIBO",
     author: "恋恋红茶_244 (@恋恋红茶_244)",
+    author_en:
+      "Red Tea (@恋恋红茶_244)",
     raw_text:
       "Meiko：明年还来吗？ 369：看你啊田野，明年看你来不来啊。 Meiko（握住369的手）：我肯定得来的啊，一起来。 #369说最后一舞##Meiko约369明年再来#",
     summary:
       "[웨이보/롄롄홍차] iG 서포터 메이코(Meiko), 2027 시즌 현역 연장 및 잔류 의사 확인 (Red Tea: Meiko confirms he will continue competing in 2027)",
+    summary_en:
+      "[Red Tea] iG support Meiko confirms he will continue competing in the 2027 season.",
     player_slug: "meiko",
     player_name: "Meiko",
     current_team_short: "IG",
@@ -150,10 +180,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261104-369-tes",
     source: "WEIBO",
     author: "丶涵艺 (Hanyi @丶涵艺)",
+    author_en:
+      "Hanyi (@丶涵艺)",
     raw_text:
       "369的采访也来了，在后台说最后一舞，这次是没有任何包袱的享受比赛的快乐，也确实打得非常好，9哥没毛病，游戏天赋和职业素养都可以！！ 真心希望明年世界赛还能看到9哥啊 #369说最后一舞##Meiko约369明年再来#",
     summary:
       "[웨이보/한이(涵艺)] TES 탑라이너 369, '마지막 춤' 언급하며 11월 계약 만료 후 FA 거취 주목 (Hanyi highlights TES 369's expiring contract after 'Last Dance' interview)",
+    summary_en:
+      "[Hanyi] TES top laner 369 mentions Last Dance as contract expires in November, heading to free agency.",
     player_slug: "369",
     player_name: "369",
     current_team_short: "TES",
@@ -169,10 +203,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261102-al-edg-stay",
     source: "WEIBO",
     author: "召唤师Park (@召唤师Park)",
+    author_en:
+      "Summoner Park (@召唤师Park)",
     raw_text:
       "最近一堆人来问，是不是Monki走了，是不是Hope和Kael走了，是不是谁谁走了，其实都是假的，大部分队伍都在休假，转会还没开窗 #曝LPL队伍邀请Zeus加入#",
     summary:
       "[웨이보/소환사 Park] AL 바텀 듀오 호프(Hope)·카엘(Kael) 및 EDG 정글러 몽키(Monki) 이탈 루머 일축, 소속팀 잔류 확인 (Summoner Park refutes exit rumors for AL Hope/Kael and EDG Monki)",
+    summary_en:
+      "[Summoner Park] Refutes exit rumors for AL bot duo Hope & Kael and EDG jungler Monki, confirming they remain with their teams.",
     player_slug: "hope",
     player_name: "Hope",
     current_team_short: "AL",
@@ -188,10 +226,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261102-zeus-jdg-hle",
     source: "WEIBO",
     author: "王玮晨 (Titan Sports @王玮晨)",
+    author_en:
+      "Wang Weichen (Titan Sports @王玮晨)",
     raw_text:
       "韩媒曝Zeus在S16前，拒绝了队伍提出的续约提议。这个属于正常操作吧，即便想续约，也肯定要试水下自由市场。有能力签他的队伍就那么几支。可能JDG帮着抬下价，最后还是留HLE。",
     summary:
       "[웨이보/체단주보 왕웨이천 기자] 제우스(Zeus), S16 직전 HLE 사전 연장 제안 거절 후 FA 시장 테스트… JDG 등 빅클럽 영입전 및 HLE 재계약 협상 병행 (Titan Sports reporter Wang Weichen on Zeus testing FA market with JDG and HLE competing)",
+    summary_en:
+      "[Titan Sports / Wang Weichen] Zeus tests FA market after declining HLE pre-Worlds extension, with JDG and HLE in contention.",
     player_slug: "zeus",
     player_name: "Zeus",
     current_team_short: "HLE",
@@ -207,10 +249,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261102-zeus-fa",
     source: "WEIBO",
     author: "召唤师Park (@召唤师Park)",
+    author_en:
+      "Summoner Park (@召唤师Park)",
     raw_text:
       "韩媒爆料：Zeus拒绝了世界赛前HLE提供的续约合同，选择进入自由人市场。目前已经收到了多支LPL队伍的报价，同时也还在和HLE保持沟通。 #曝Zeus拒绝HLE续约##曝LPL队伍邀请Zeus加入#",
     summary:
       "[웨이보/소환사 Park] 제우스(Zeus), 월즈 직전 한화생명(HLE)의 사전 재계약 제안 거절 후 FA 시장 진출 선택… 다수 LPL 구단 오퍼 및 HLE와도 소통 중 (Summoner Park: Zeus declined HLE's pre-Worlds extension to enter FA market)",
+    summary_en:
+      "[Summoner Park] Zeus declined HLE pre-Worlds extension offer to explore FA, receiving multiple LPL offers while in talks with HLE.",
     player_slug: "zeus",
     player_name: "Zeus",
     current_team_short: "HLE",
@@ -226,10 +272,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261102-hle-core-stay",
     source: "WEIBO",
     author: "恋恋红茶_244 (@恋恋红茶_244)",
+    author_en:
+      "Red Tea (@恋恋红茶_244)",
     raw_text:
       "补充：去年HLE中下辅三人都是两年，上野一年 #曝Zeus拒绝HLE续约##曝LPL队伍邀请Zeus加入#",
     summary:
       "[웨이보/롄롄홍차] 한화생명(HLE) 미드 제카(Zeka)·원딜 구마유시(Gumayusi)·서포터 딜라이트(Delight) 3인, 2년 다년 계약으로 2027 시즌 잔류 확정 (Red Tea confirms HLE Zeka, Gumayusi, and Delight are signed on 2-year deals through 2027)",
+    summary_en:
+      "[Red Tea] Hanwha Life Esports (HLE) core trio Zeka, Gumayusi, and Delight are locked in 2-year deals through 2027.",
     player_slug: "gumayusi",
     player_name: "Gumayusi",
     current_team_short: "HLE",
@@ -245,10 +295,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261101-lospa-sk",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] Fnatic support Lospa 🇰🇷 will be transferred to SK Gaming for 2027 as both teams reach an agreement.",
     summary:
       "[울루/Sheep Esports] 프나틱 서포터 로스파(Lospa), 2027 시즌 SK Gaming 이적 합의… 기존 미키엑스(Mikyx) 결별 (Fnatic support Lospa will be transferred to SK Gaming for 2027)",
+    summary_en:
+      "[Wooloo/Sheep Esports] Fnatic support Lospa reaches agreement to transfer to SK Gaming for the 2027 LEC season.",
     player_slug: "lospa",
     player_name: "Lospa",
     current_team_short: "FNC",
@@ -264,10 +318,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261101-kanavi-fa",
     source: "WEIBO",
     author: "丶涵艺 (Hanyi @丶涵艺)",
+    author_en:
+      "Hanyi (@丶涵艺)",
     raw_text:
       "我就一句话 hommie和kanavi明年哪里发财 恭喜BLG！",
     summary:
       "[웨이보/한이(涵艺)] 한화생명 정글러 카나비(Kanavi) 및 옴므 감독, 1년 계약 만료로 스토브리그 FA 시장 진출 및 차기 행선지 주목 (Hanyi spotlights HLE jungler Kanavi and coach Homme entering 2027 free agency)",
+    summary_en:
+      "[Hanyi] HLE jungler Kanavi and coach Homme enter 2027 free agency as 1-year contracts expire.",
     player_slug: "kanavi",
     player_name: "Kanavi",
     current_team_short: "HLE",
@@ -283,10 +341,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261030-tracyn-th-official",
     source: "TWITTER",
     author: "Team Heretics (@HereticsLEC)",
+    author_en:
+      "Team Heretics (@HereticsLEC)",
     raw_text:
       "HERE TO STAY. We are delighted to announce that Tracyn has extended his contract with the team until 2028 📝🔒 #VamosHeretics",
     summary:
       "[오피셜] Team Heretics, 탑라이너 트레이신(Tracyn)과 2028년까지 다년 재계약 체결 공식 발표 (Team Heretics officially extends top laner Tracyn until 2028)",
+    summary_en:
+      "[Official] Team Heretics officially announces multi-year contract extension with top laner Tracyn until 2028.",
     player_slug: "tracyn",
     player_name: "Tracyn",
     current_team_short: "TH",
@@ -302,10 +364,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261030-th-5man-locked",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] THE FIRST ROSTER FOR THE #LEC 2027 IS LOCKED: Following Tracyn's 🇵🇱 contract renewal, Team Heretics' roster for the 2027 season is set (Tracyn, Razork, Jackies, Hype, Jun).",
     summary:
       "[울루/Sheep Esports] Team Heretics, 원딜 하이프(Hype) 잔류 및 트레이신·라조크·재키스·준 2027 시즌 5인 주전 라인업 전원 확정 (Team Heretics locks first full 2027 LEC roster)",
+    summary_en:
+      "[Wooloo/Sheep Esports] Team Heretics locks first full 2027 LEC roster (Tracyn, Razork, Jackies, Hype, Jun) after Hype renewal.",
     player_slug: "hype",
     player_name: "Hype",
     current_team_short: "TH",
@@ -321,10 +387,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261028-rhilech-navi",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] NAVI to rebuild around Rookie of the Year Rhilech 🇹🇷 for #LEC 2027 — NAVI are set to part ways with TheRock and reuse, while allowing Maynter, Poby, SamD and Parus to explore options. More details by @LEC_Wooloo",
     summary:
       "[울루/Sheep Esports] NAVI, 2027 시즌 신인왕 정글러 릴레흐(Rhilech) 중심 리빌딩 확정… 메인터·포비·한스삼디·파루스 타 팀 접촉 허용 (NAVI to rebuild around Rhilech while allowing Maynter, Poby, Hans SamD, and Parus to explore options)",
+    summary_en:
+      "[Wooloo/Sheep Esports] NAVI rebuilds around Rookie of the Year Rhilech for 2027, allowing Maynter, Poby, Hans SamD, and Parus to explore options.",
     player_slug: "rhilech",
     player_name: "Rhilech",
     current_team_short: "NAVI",
@@ -340,10 +410,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261026-fleshy-vit",
     source: "TWITTER",
     author: "Fleshy (@fleshyylol)",
+    author_en:
+      "Fleshy (@fleshyylol)",
     raw_text:
       "Hello everyone! I’m still under contract with Vitality but they have allowed me to explore options! After 2 years in Vitality and first year in LEC I feel more confident and ready than ever.",
     summary:
       "[오피셜] Team Vitality 서포터 플레시(Fleshy), 구단 허가 하에 2027 시즌 타 팀 접촉(LFT) 공식 발표 (Vitality support Fleshy allowed to explore options for 2027)",
+    summary_en:
+      "[Official] Team Vitality support Fleshy announces LFT after being allowed to explore options for the 2027 season.",
     player_slug: "fleshy",
     player_name: "Fleshy",
     current_team_short: "VIT",
@@ -359,10 +433,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261026-serin-th",
     source: "TWITTER",
     author: "Team Heretics (@HereticsLEC)",
+    author_en:
+      "Team Heretics (@HereticsLEC)",
     raw_text:
       "Today we part ways with Serin. Thank you for everything and best of luck in your next chapter!",
     summary:
       "[오피셜] 미드라이너 세린(Serin), Team Heretics와 계약 종료 및 결별 공식 발표 (Team Heretics officially parts ways with mid laner Serin)",
+    summary_en:
+      "[Official] Team Heretics officially parts ways with mid laner Serin.",
     player_slug: "serin",
     player_name: "Serin",
     current_team_short: "TH",
@@ -378,10 +456,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261024-brion-all-resigned",
     source: "TWITTER",
     author: "한진 브리온 (@Brionesports)",
+    author_en:
+      "Hanjin BRION (@Brionesports)",
     raw_text:
       "[2027 HANJIN BRION | ALL RE-SIGNED] 한진 브리온은 '캐스팅', '기드온', '로머', '테디', '남궁' 선수 전원과 재계약을 체결하며, 다 함께 2027시즌을 향한 여정을 이어갑니다.",
     summary:
       "[오피셜] 한진 브리온(BRO), 캐스팅(Casting)·기드온(GIDEON)·로머(Roamer)·테디(Teddy)·남궁(Namgung) 주전 5인 전원 2027 시즌 재계약 공식 발표 (Hanjin BRION officially re-signs all 5 starters for 2027 LCK)",
+    summary_en:
+      "[Official] Hanjin BRION officially announces re-signing all 5 starting players (Casting, GIDEON, Roamer, Teddy, Namgung) for 2027.",
     player_slug: "teddy",
     player_name: "Teddy",
     current_team_short: "BRO",
@@ -397,10 +479,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261023-3xa-sk",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] AD Carry 3XA 🇫🇷 is set to return to the #LEC in 2027 with SK Gaming.",
     summary:
       "[울루/Sheep Esports] 원딜 3XA(구 Exakick), 2027 시즌 SK Gaming 전격 복귀 합의… 기존 조파(Jopa) 결별 (AD Carry 3XA set to return to the LEC in 2027 with SK Gaming)",
+    summary_en:
+      "[Wooloo/Sheep Esports] AD Carry 3XA (formerly Exakick) set to rejoin SK Gaming for the 2027 LEC season.",
     player_slug: "3xa",
     player_name: "3XA",
     current_team_short: "FA",
@@ -416,10 +502,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261023-slowq-sk",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] SK Gaming plan to keep Mid Laner SlowQ 🇹🇷 for the 2027 #LEC season. Report by @LEC_Wooloo",
     summary:
       "[울루/Sheep Esports] SK Gaming, 2027 시즌 주전 미드라이너로 슬로우큐(SlowQ) 콜업·잔류 확정 (SK Gaming plan to keep mid laner SlowQ for the 2027 LEC season)",
+    summary_en:
+      "[Wooloo/Sheep Esports] SK Gaming plans to keep mid laner SlowQ as starter for the 2027 LEC season.",
     player_slug: "slowq",
     player_name: "SlowQ",
     current_team_short: "SK",
@@ -435,10 +525,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261023-bfx-statement",
     source: "TWITTER",
     author: "BNK FEARX LoL (@BNKFEARXLoL)",
+    author_en:
+      "BNK FEARX LoL (@BNKFEARXLoL)",
     raw_text:
       "[안내] 2027 LCK 스토브리그를 앞두고 BNK FEARX 선수단 운영 및 핵심 로스터 계약 현황에 대해 팬 여러분께 안내드립니다.",
     summary:
       "[오피셜] BNK 피어엑스(BFX), 2027 시즌 스토브리그 선수단 운영 방침 및 클리어(Clear)·빅라(VicLa)·디아블(Diable) 코어 체제 공식 안내 (BNK FEARX official statement ahead of the 2027 LCK Stove League)",
+    summary_en:
+      "[Official] BNK FEARX releases official statement on 2027 stove league strategy and core roster (Clear, VicLa, Diable).",
     player_slug: "diable",
     player_name: "Diable",
     current_team_short: "BFX",
@@ -454,10 +548,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261022-razork-th",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] Razork 🇪🇸 is set to join Team Heretics in the #LEC for 2027 — After five years with Fnatic, the Spanish jungler is set to start a new chapter alongside Jackies and Jun.",
     summary:
       "[울루/Sheep Esports] 프나틱 간판 정글러 라조크(Razork), 2027 시즌 Team Heretics 전격 이적 합의… 다글라스(Daglas) 결별 (Razork set to join Team Heretics in the LEC for 2027)",
+    summary_en:
+      "[Wooloo/Sheep Esports] Fnatic star jungler Razork agrees to join Team Heretics for the 2027 LEC season.",
     player_slug: "razork",
     player_name: "Razork",
     current_team_short: "FNC",
@@ -473,10 +571,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261020-aetinoth-gx",
     source: "TWITTER",
     author: "Aron (@AR0Nqc)",
+    author_en:
+      "Aron (@AR0Nqc)",
     raw_text:
       "🚨💣 Sources: Aetinoth 🇹🇷 has received interest from multiple teams in the LEC. According to sources the player has already received 2 offers for 2027.",
     summary:
       "[LEC 썰쟁이 AR0N] 솔라리 원딜 에티노스(Aetinoth), GIANTX 등 복수의 LEC 구단으로부터 2027 시즌 주전 영입 오퍼 수령 (Aetinoth receives two LEC offers for 2027, linked with GIANTX)",
+    summary_en:
+      "[AR0N] Solary ADC Aetinoth receives multiple LEC offers for 2027, linked with GIANTX.",
     player_slug: "aetinoth",
     player_name: "Aetinoth",
     current_team_short: "FA",
@@ -492,10 +594,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261020-isma-gx",
     source: "TWITTER",
     author: "Aron (@AR0Nqc)",
+    author_en:
+      "Aron (@AR0Nqc)",
     raw_text:
       "🚨💣 Sources: Razork will most likely join Team Heretics 🇪🇸 ahead of 2027. GIANTX also made an offer to replace ISMA for the 2027 LEC season.",
     summary:
       "[LEC 썰쟁이 AR0N] GIANTX, 2027 시즌 정글러 교체 추진에 따라 기존 주전 정글러 이즈마(ISMA)와 결별 수순 (GIANTX set to replace jungler ISMA for 2027)",
+    summary_en:
+      "[AR0N] GIANTX looking to replace jungler ISMA ahead of the 2027 LEC season.",
     player_slug: "isma",
     player_name: "ISMA",
     current_team_short: "GX",
@@ -511,10 +617,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261020-apa-c9",
     source: "TWITTER",
     author: "APA (@alwaysplanahea1)",
+    author_en:
+      "APA (@alwaysplanahea1)",
     raw_text:
       "Today, I'm announcing free agency and that I'm looking for a team for the 2027 season. I enjoyed my time at C9 and looking forward to what is next.",
     summary:
       "[오피셜] Cloud9 KIA 미드라이너 APA, C9 결별 및 2027 시즌 FA 선언 (Cloud9 mid laner APA announces free agency for 2027 season)",
+    summary_en:
+      "[Official] Cloud9 KIA mid laner APA officially announces free agency for the 2027 season.",
     player_slug: "apa",
     player_name: "APA",
     current_team_short: "C9",
@@ -530,10 +640,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261020-zven-c9",
     source: "TWITTER",
     author: "Zven (@Zven)",
+    author_en:
+      "Zven (@Zven)",
     raw_text:
       "Today, I'm announcing free agency and that I'm looking for a team for the 2027 season. I'm grateful to C9 for giving me a chance once again.",
     summary:
       "[오피셜] Cloud9 KIA 원딜 즈벤(Zven), 2027 시즌 FA 시장 진출 공식 선언 (Cloud9 bot laner Zven announces free agency for 2027)",
+    summary_en:
+      "[Official] Cloud9 KIA bot laner Zven officially announces free agency for 2027.",
     player_slug: "zven",
     player_name: "Zven",
     current_team_short: "C9",
@@ -549,10 +663,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261019-carzzy-vit",
     source: "TWITTER",
     author: "Carzzy (@Carzzylol)",
+    author_en:
+      "Carzzy (@Carzzylol)",
     raw_text:
       "LFT - 2027. Able to relocate and shotcall, willing to play at least 4 games of scrim per day.",
     summary:
       "[오피셜] Team Vitality 원딜 카지(Carzzy), 2027 시즌 새로운 팀을 찾는 LFT(FA) 공식 선언 (Vitality AD Carry Carzzy officially announces LFT for 2027)",
+    summary_en:
+      "[Official] Team Vitality AD Carry Carzzy officially announces LFT (free agency) for 2027.",
     player_slug: "carzzy",
     player_name: "Carzzy",
     current_team_short: "VIT",
@@ -568,10 +686,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261018-raptor-kellin-taeyoon-kt",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] BFX Jungler Raptor 🇰🇷, AD Carry Taeyoon 🇰🇷 and Support Kellin 🇰🇷 are expected to join KT Rolster for the 2027 LCK season. The move is expected to take place once free agency opens.",
     summary:
       "[울루/Sheep Esports] 피어엑스 정글 랩터(Raptor)·서포터 켈린(Kellin) & 농심 원딜 태윤(Taeyoon), 2027 시즌 KT 롤스터 동반 합류 유력… 기존 커즈·지우·에포트 교체 (Raptor, Kellin, and Taeyoon expected to join KT Rolster for LCK 2027)",
+    summary_en:
+      "[Wooloo/Sheep Esports] BFX jungler Raptor, support Kellin, and NS ADC Taeyoon expected to join KT Rolster for 2027.",
     player_slug: "raptor",
     player_name: "Raptor",
     current_team_short: "BFX",
@@ -587,10 +709,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261013-dsg-lcs-2027",
     source: "TWITTER",
     author: "LCS Official (@LCSOfficial)",
+    author_en:
+      "LCS Official (@LCSOfficial)",
     raw_text:
       "Congratulations to Disguised on winning the 2026 LCS Promotion Tournament! 🏆 See you in 2027! 👋",
     summary:
       "[오피셜] Disguised(DSG), 승강전 우승으로 2027 LCS 프랜차이즈 슬롯 및 주전 5인(Castle·KryRa·Callme·sajed·Lyonz) 잔류 확정 (Disguised wins Promotion Tournament to lock 2027 LCS spot)",
+    summary_en:
+      "[Official] Disguised (DSG) wins LCS Promotion Tournament to secure 2027 LCS slot and roster retention (Castle, KryRa, Callme, sajed, Lyonz).",
     player_slug: "castle",
     player_name: "Castle",
     current_team_short: "DSG",
@@ -606,10 +732,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261010-deft-ns",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] AD Carry Deft 🇰🇷 is set to join Nongshim RedForce 🇰🇷 for the 2027 LCK season. The 2022 World Champion is expected to return to competitive play following his military service.",
     summary:
       "[울루/Sheep Esports] '중꺾마' 데프트(Deft), 전역 후 2027 시즌 농심 레드포스(NS) 전격 합류 유력 (Deft set to join Nongshim RedForce for LCK 2027 after military service)",
+    summary_en:
+      "[Wooloo/Sheep Esports] World Champion Deft set to join Nongshim RedForce for 2027 after military service discharge.",
     player_slug: "deft",
     player_name: "Deft",
     current_team_short: "FA",
@@ -625,10 +755,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20261008-bdd-perfect-kt",
     source: "TWITTER",
     author: "KT Rolster (@KTRolsterLoL)",
+    author_en:
+      "KT Rolster (@KTRolsterLoL)",
     raw_text:
       "[Official] Contract Extension with Bdd, PerfecT. Bdd 곽보성 선수, PerfecT 이승민 선수와 2028년까지 함께합니다. 두 선수에게 많은 관심과 사랑 부탁 드립니다.",
     summary:
       "[오피셜] kt 롤스터, 미드 비디디(Bdd) 및 탑 퍼펙트(PerfecT)와 2028년까지 2년 다년 재계약 공식 발표 (KT Rolster officially extends Bdd and PerfecT through 2028)",
+    summary_en:
+      "[Official] KT Rolster officially extends contracts of mid laner Bdd and top laner PerfecT through 2028.",
     player_slug: "bdd",
     player_name: "Bdd",
     current_team_short: "KT",
@@ -644,10 +778,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260929-angel-jdg",
     source: "WEIBO",
     author: "JDG京东电子竞技俱乐部 (@JDG京东电子竞技俱乐部)",
+    author_en:
+      "JD Gaming (@JDG京东电子竞技俱乐部)",
     raw_text:
       "Angel选手将以中路位置加入JDG与我们共同征战赛事。感谢Angel选手的加入，坚定你所相信，大家加油！ #JDG#",
     summary:
       "[웨이보/오피셜] JD Gaming(JDG), 베테랑 미드라이너 엔젤(Angel) 공식 영입 발표 (JD Gaming officially announces signing of mid laner Angel on Weibo)",
+    summary_en:
+      "[Official] JD Gaming officially announces signing of veteran mid laner Angel.",
     player_slug: "angel",
     player_name: "Angel",
     current_team_short: "EDG",
@@ -663,10 +801,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260924-noah-gx",
     source: "TWITTER",
     author: "Noah (@Noah_lol1004)",
+    author_en:
+      "Noah (@Noah_lol1004)",
     raw_text:
       "Hello everyone! GIANTX has allowed me to explore options for 2027. I'm motivated than ever and looking for a team in LEC/LCK/LCS.",
     summary:
       "[오피셜] 원딜 노아(Noah), GIANTX 허가 하에 2027 시즌 새로운 팀을 찾는 LFT 공식 발표 (Noah announces LFT for the 2027 season)",
+    summary_en:
+      "[Official] Bot laner Noah announces LFT for 2027 after being allowed by GIANTX to explore options.",
     player_slug: "noah",
     player_name: "Noah",
     current_team_short: "GX",
@@ -682,10 +824,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260923-jojopyun-mkoi",
     source: "TWITTER",
     author: "Movistar KOI (@MovistarKOILoL)",
+    author_en:
+      "Movistar KOI (@MovistarKOILoL)",
     raw_text:
       "We are thrilled to announce that Jojopyun has extended his contract with Movistar KOI for the 2027 LEC season!",
     summary:
       "[오피셜] Movistar KOI, 미드라이너 조조편(Jojopyun)과 2027 시즌 연장 계약 공식 발표 (Movistar KOI officially extends Jojopyun for 2027 LEC season)",
+    summary_en:
+      "[Official] Movistar KOI officially extends contract with mid laner Jojopyun for 2027.",
     player_slug: "jojopyun",
     player_name: "Jojopyun",
     current_team_short: "MKOI",
@@ -701,10 +847,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260922-jun-jackies-th",
     source: "TWITTER",
     author: "Sheep Esports (@Sheep_Esports)",
+    author_en:
+      "Sheep Esports (@Sheep_Esports)",
     raw_text:
       "[SOURCES] Support Jun 🇰🇷 is set to join Team Heretics in the #LEC for 2027 alongside mid laner Jackies. Report by @LEC_Wooloo, @anonimotum & @i_Eros_",
     summary:
       "[울루/Sheep Esports] GIANTX 서포터 준(Jun) & 미드 재키스(Jackies), 2027 시즌 Team Heretics 동반 이적 합의 (Jun and Jackies set to join Team Heretics for 2027 LEC)",
+    summary_en:
+      "[Wooloo/Sheep Esports] GIANTX support Jun and mid laner Jackies set to join Team Heretics for 2027.",
     player_slug: "jun",
     player_name: "Jun",
     current_team_short: "GX",
@@ -720,10 +870,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260913-wunder-sk",
     source: "TWITTER",
     author: "Wunder (@wunderlol)",
+    author_en:
+      "Wunder (@wunderlol)",
     raw_text:
       "Looking for opportunities in LEC/LCS next year - notable achievements this year: Won as many playoffs series as Vitality did, made playoffs and worlds as many times as Fnatic.",
     summary:
       "[오피셜] SK Gaming 탑라이너 원더(Wunder), 2027 시즌 LEC/LCS 새 팀을 찾는 FA 구직 선언 (SK Gaming top laner Wunder announces he is looking for opportunities for 2027)",
+    summary_en:
+      "[Official] SK Gaming top laner Wunder announces he is looking for LEC/LCS opportunities for 2027.",
     player_slug: "wunder",
     player_name: "Wunder",
     current_team_short: "SK",
@@ -739,10 +893,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260811-xiaofang-jdg",
     source: "WEIBO",
     author: "管泽元 (Guan Zeyuan @管泽元)",
+    author_en:
+      "Guan Zeyuan (@管泽元)",
     raw_text:
       "赌一手不同风格的化学反应！ JDG引入新打野！xiaofang加入！ #JDG官宣xiaofang加入#",
     summary:
       "[웨이보/오피셜] JD Gaming(JDG), 정글러 샤오팡(xiaofang) 공식 영입 발표 (JD Gaming officially signs jungler xiaofang)",
+    summary_en:
+      "[Official] JD Gaming officially announces signing of jungler xiaofang.",
     player_slug: "xiaofang",
     player_name: "xiaofang",
     current_team_short: "JDG",
@@ -758,10 +916,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260809-flandre-blg",
     source: "WEIBO",
     author: "BLG电子竞技俱乐部 (@BLG电子竞技俱乐部)",
+    author_en:
+      "BLG (@BLG电子竞技俱乐部)",
     raw_text:
       "【BLG电子竞技俱乐部英雄联盟分部人员变动公告】经过双方友好沟通与协商，上单选手李炫君（ID：Flandre）即日起正式加入BLG电子竞技俱乐部英雄联盟分部，将以BLG.Flandre之名征战英雄联盟职业赛场。",
     summary:
       "[웨이보/오피셜] Bilibili Gaming(BLG), 베테랑 탑라이너 플랑드레(Flandre) 공식 영입 발표 (BLG officially announces signing of top laner Flandre)",
+    summary_en:
+      "[Official] Bilibili Gaming (BLG) officially announces signing of top laner Flandre.",
     player_slug: "flandre",
     player_name: "Flandre",
     current_team_short: "BLG",
@@ -777,10 +939,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260806-xiaohao-wbg",
     source: "WEIBO",
     author: "WBG英雄联盟分部 (@WBG英雄联盟分部)",
+    author_en:
+      "WBG (@WBG英雄联盟分部)",
     raw_text:
       "【WBG英雄联盟分部人员变动公告】 #Xiaohao回归WBG# 我们非常高兴向大家正式宣布，经过俱乐部与选手友好沟通，打野选手彭浩（ID：Xiaohao）即日起正式回归WBG电子竞技俱乐部英雄联盟分部。",
     summary:
       "[웨이보/오피셜] Weibo Gaming(WBG), 정글러 샤오하오(Xiaohao) 공식 복귀 발표 (WBG officially announces return of jungler Xiaohao)",
+    summary_en:
+      "[Official] Weibo Gaming (WBG) officially announces return of jungler Xiaohao.",
     player_slug: "xiaohao",
     player_name: "Xiaohao",
     current_team_short: "WBG",
@@ -796,10 +962,14 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     post_id: "rv-20260804-jiejie-edg",
     source: "WEIBO",
     author: "EDG电子竞技俱乐部 (@EDG电子竞技俱乐部)",
+    author_en:
+      "EDG (@EDG电子竞技俱乐部)",
     raw_text:
       "【EDG英雄联盟分部人员变动公告】#EDG官宣Jiejie回归# 经过友好沟通与协商，我们很高兴地宣布：Jiejie（赵礼杰）选手正式回归EDG英雄联盟分部，将继续以EDG.Jiejie的身份征战英雄联盟职业赛场！",
     summary:
       "[웨이보/오피셜] EDward Gaming(EDG), WBG를 떠난 챔피언 정글러 지에지에(Jiejie) 친정팀 공식 복귀 발표 (EDG officially announces return of jungler Jiejie)",
+    summary_en:
+      "[Official] EDward Gaming (EDG) officially announces return of World Champion jungler Jiejie.",
     player_slug: "jiejie",
     player_name: "Jiejie",
     current_team_short: "WBG",

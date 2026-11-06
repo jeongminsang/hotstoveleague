@@ -21,6 +21,8 @@ interface EnrichedRumor extends Rumor {
   current_team_short?: string;
   target_team_short?: string;
   league?: string;
+  author_en?: string;
+  summary_en?: string;
 }
 
 export default function RumorsListClient({
@@ -62,8 +64,10 @@ export default function RumorsListClient({
           ...r,
           source: seed.source,
           author: seed.author,
+          author_en: seed.author_en,
           raw_text: seed.raw_text,
           summary: seed.summary,
+          summary_en: seed.summary_en,
           target_team_id: seed.target_team_id,
           confidence: seed.confidence,
           post_url: seed.post_url,
@@ -81,8 +85,10 @@ export default function RumorsListClient({
       post_id: sr.post_id,
       source: sr.source,
       author: sr.author,
+      author_en: sr.author_en,
       raw_text: sr.raw_text,
       summary: sr.summary,
+      summary_en: sr.summary_en,
       player_id: null,
       target_team_id: sr.target_team_id,
       confidence: sr.confidence,
@@ -140,13 +146,7 @@ export default function RumorsListClient({
             onClick={() => setSortDesc(!sortDesc)}
           >
             <ArrowUpDown className="w-3.5 h-3.5" />
-            {sortDesc
-              ? language === "ko"
-                ? "최신순 (시간순)"
-                : "Newest First"
-              : language === "ko"
-                ? "오래된순 (시간순)"
-                : "Oldest First"}
+            {sortDesc ? t("sortNewest") : t("sortOldest")}
           </Button>
         </div>
 
@@ -155,8 +155,9 @@ export default function RumorsListClient({
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             {t("rumorsPageTitle")}
           </h1>
-          <Badge className="bg-amber-500 text-white font-black border-0">
+          <Badge className="bg-amber-500 text-white font-black border-0 text-xs">
             {filteredRumors.length}
+            {t("rumorCountUnit")}
           </Badge>
         </div>
         <p className="text-sm text-muted-foreground">{t("rumorsPageSubtitle")}</p>
@@ -209,134 +210,173 @@ export default function RumorsListClient({
         </div>
       </div>
 
-      {/* 시간순 찌라시 타임라인 리스트 */}
-      <div className="relative pl-4 sm:pl-6 border-l-2 border-amber-500/40 space-y-4">
-        {filteredRumors.map((rumor) => {
-          const isStay =
-            rumor.current_team_short &&
-            rumor.current_team_short === rumor.target_team_short;
+      {/* 시간순 오피셜 & 루머 타임라인 리스트 */}
+      {filteredRumors.length === 0 ? (
+        <div className="w-full p-12 text-center border-2 border-dashed rounded-2xl bg-card text-muted-foreground">
+          <p className="font-bold text-sm">{t("emptyFilterRumors")}</p>
+        </div>
+      ) : (
+        <div className="relative pl-4 sm:pl-6 border-l-2 border-amber-500/40 space-y-4">
+          {filteredRumors.map((rumor) => {
+            const isStay =
+              rumor.current_team_short &&
+              rumor.current_team_short === rumor.target_team_short;
 
-          const sourceBadgeStyle =
-            rumor.source === "WEIBO"
-              ? "bg-red-600 text-white"
-              : rumor.source === "COMMUNITY"
-                ? "bg-emerald-600 text-white"
-                : "bg-sky-600 text-white";
+            const isOfficial = rumor.confidence === 100;
 
-          const formattedDate = new Date(rumor.published_at).toLocaleString(
-            language === "ko" ? "ko-KR" : "en-US",
-            {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            }
-          );
+            const sourceBadgeStyle =
+              rumor.source === "WEIBO"
+                ? "bg-red-600 text-white"
+                : rumor.source === "COMMUNITY"
+                  ? "bg-emerald-600 text-white"
+                  : "bg-sky-600 text-white";
 
-          return (
-            <a
-              key={rumor.post_id || rumor.id}
-              href={rumor.post_url || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block relative rounded-2xl border-2 border-border/80 bg-card hover:bg-amber-50/60 hover:border-amber-500 transition-all duration-200 p-4 sm:p-5 shadow-sm hover:shadow-md cursor-pointer"
-            >
-              {/* 타임라인 도트 */}
-              <div className="absolute -left-[23px] sm:-left-[31px] top-6 w-3.5 h-3.5 rounded-full bg-amber-500 ring-4 ring-background group-hover:scale-125 transition-transform" />
+            const displayAuthor =
+              language === "en" && rumor.author_en
+                ? rumor.author_en
+                : rumor.author;
 
-              <div className="flex flex-col gap-2.5">
-                {/* 상단 메타 정보 (시간, 출처, 작성자, 리그, 적중 신뢰도) */}
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
-                      <Clock className="w-3 h-3 text-amber-600" />
-                      {formattedDate}
-                    </span>
+            const displaySummary =
+              language === "en" && rumor.summary_en
+                ? rumor.summary_en
+                : rumor.summary || rumor.raw_text;
 
-                    {rumor.league && (
+            const formattedDate = new Date(rumor.published_at).toLocaleString(
+              language === "ko" ? "ko-KR" : "en-US",
+              {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }
+            );
+
+            return (
+              <a
+                key={rumor.post_id || rumor.id}
+                href={rumor.post_url || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block relative rounded-2xl border-2 border-border/80 bg-card hover:bg-amber-50/60 hover:border-amber-500 transition-all duration-200 p-4 sm:p-5 shadow-sm hover:shadow-md cursor-pointer"
+              >
+                {/* 타임라인 도트 */}
+                <div
+                  className={`absolute -left-[23px] sm:-left-[31px] top-6 w-3.5 h-3.5 rounded-full ring-4 ring-background group-hover:scale-125 transition-transform ${
+                    isOfficial ? "bg-emerald-500" : "bg-amber-500"
+                  }`}
+                />
+
+                <div className="flex flex-col gap-2.5">
+                  {/* 상단 메타 정보 (시간, 출처, 작성자, 리그, 적중 신뢰도) */}
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
+                        <Clock className="w-3 h-3 text-amber-600" />
+                        {formattedDate}
+                      </span>
+
+                      {/* 오피셜 / 루머 식별 배지 */}
                       <Badge
-                        variant="outline"
-                        className="text-[11px] font-extrabold border-primary/40 text-primary"
-                      >
-                        {rumor.league}
-                      </Badge>
-                    )}
-
-                    <Badge
-                      className={`text-[10px] px-2 py-0.5 font-extrabold border-0 ${sourceBadgeStyle}`}
-                    >
-                      {rumor.source}
-                    </Badge>
-
-                    <span className="text-xs font-extrabold text-foreground">
-                      {rumor.author}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    {rumor.confidence > 0 && (
-                      <span
-                        className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
-                          rumor.confidence >= 85
-                            ? "bg-red-500/15 text-red-700 border border-red-500/30"
-                            : "bg-amber-500/15 text-amber-800 border border-amber-500/30"
+                        className={`text-[10px] px-2 py-0.5 font-black border-0 ${
+                          isOfficial
+                            ? "bg-emerald-600 text-white"
+                            : "bg-amber-500 text-white"
                         }`}
                       >
-                        {t("confidence")} {rumor.confidence}%
+                        {isOfficial
+                          ? language === "ko"
+                            ? "오피셜"
+                            : "OFFICIAL"
+                          : language === "ko"
+                            ? "루머"
+                            : "RUMOR"}
+                      </Badge>
+
+                      {rumor.league && (
+                        <Badge
+                          variant="outline"
+                          className="text-[11px] font-extrabold border-primary/40 text-primary"
+                        >
+                          {rumor.league}
+                        </Badge>
+                      )}
+
+                      <Badge
+                        className={`text-[10px] px-2 py-0.5 font-extrabold border-0 ${sourceBadgeStyle}`}
+                      >
+                        {rumor.source}
+                      </Badge>
+
+                      <span className="text-xs font-extrabold text-foreground">
+                        {displayAuthor}
                       </span>
-                    )}
+                    </div>
 
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 group-hover:translate-x-0.5 transition-transform">
-                      {t("viewOriginalPost")}
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </div>
-
-                {/* 선수 및 이적 방향 하이라이트 바 */}
-                {rumor.player_name && (
-                  <div className="flex items-center gap-2 pt-0.5">
-                    <span className="px-2.5 py-0.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-950 font-black text-sm">
-                      {rumor.player_name}
-                    </span>
-                    {rumor.current_team_short && rumor.target_team_short && (
-                      <div className="flex items-center gap-1.5 text-xs font-extrabold">
-                        <span className="px-2 py-0.5 rounded bg-secondary text-foreground">
-                          {rumor.current_team_short}
-                        </span>
-                        <ArrowRight className="w-3.5 h-3.5 text-amber-600" />
+                    <div className="flex items-center gap-2">
+                      {rumor.confidence > 0 && (
                         <span
-                          className={`px-2 py-0.5 rounded ${
-                            isStay
-                              ? "bg-emerald-500/15 text-emerald-800 border border-emerald-500/30"
-                              : "bg-amber-500 text-white"
+                          className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
+                            rumor.confidence >= 95
+                              ? "bg-emerald-500/15 text-emerald-700 border border-emerald-500/30"
+                              : "bg-amber-500/15 text-amber-800 border border-amber-500/30"
                           }`}
                         >
-                          {rumor.target_team_short}{" "}
-                          {isStay ? `(${t("stay")})` : ""}
+                          {t("confidence")} {rumor.confidence}%
                         </span>
-                      </div>
-                    )}
+                      )}
+
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 group-hover:translate-x-0.5 transition-transform">
+                        {t("viewOriginalPost")}
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
                   </div>
-                )}
 
-                {/* 요약 본문 */}
-                <h3 className="text-sm sm:text-base font-extrabold text-foreground leading-snug">
-                  {rumor.summary || rumor.raw_text}
-                </h3>
+                  {/* 선수 및 이적 방향 하이라이트 바 */}
+                  {rumor.player_name && (
+                    <div className="flex items-center gap-2 pt-0.5">
+                      <span className="px-2.5 py-0.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-950 font-black text-sm">
+                        {rumor.player_name}
+                      </span>
+                      {rumor.current_team_short && rumor.target_team_short && (
+                        <div className="flex items-center gap-1.5 text-xs font-extrabold">
+                          <span className="px-2 py-0.5 rounded bg-secondary text-foreground">
+                            {rumor.current_team_short}
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5 text-amber-600" />
+                          <span
+                            className={`px-2 py-0.5 rounded ${
+                              isStay
+                                ? "bg-emerald-500/15 text-emerald-800 border border-emerald-500/30"
+                                : "bg-amber-500 text-white"
+                            }`}
+                          >
+                            {rumor.target_team_short}{" "}
+                            {isStay ? `(${t("stay")})` : ""}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
-                {/* 원문 인용구 */}
-                {rumor.summary && rumor.raw_text && (
-                  <p className="text-xs text-muted-foreground bg-secondary/50 p-3 rounded-xl border border-border/60 leading-relaxed font-medium">
-                    “{rumor.raw_text}”
-                  </p>
-                )}
-              </div>
-            </a>
-          );
-        })}
-      </div>
+                  {/* 요약 본문 */}
+                  <h3 className="text-sm sm:text-base font-extrabold text-foreground leading-snug">
+                    {displaySummary}
+                  </h3>
+
+                  {/* 원문 인용구 */}
+                  {rumor.raw_text && (
+                    <p className="text-xs text-muted-foreground bg-secondary/50 p-3 rounded-xl border border-border/60 leading-relaxed font-medium">
+                      “{rumor.raw_text}”
+                    </p>
+                  )}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -72,6 +72,7 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
 
       <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
         {rumors.slice(0, 12).map((rumor) => {
+          const isOfficial = rumor.confidence === 100;
           const badgeClass =
             rumor.source === "WEIBO"
               ? "bg-red-600 text-white hover:bg-red-700"
@@ -79,15 +80,45 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
                 ? "bg-emerald-600 text-white hover:bg-emerald-700"
                 : "bg-sky-600 text-white hover:bg-sky-700";
 
+          const displayAuthor =
+            language === "en" && rumor.author_en
+              ? rumor.author_en
+              : rumor.author;
+
+          const displaySummary =
+            language === "en" && rumor.summary_en
+              ? rumor.summary_en
+              : rumor.summary || rumor.raw_text;
+
           const content = (
             <>
               <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                  <Badge className={`text-[10px] px-1.5 py-0 font-bold border-0 ${badgeClass}`}>
+                <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                  <Badge
+                    className={`text-[9px] px-1.5 py-0 font-black border-0 ${
+                      isOfficial
+                        ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                        : "bg-amber-500 text-white hover:bg-amber-600"
+                    }`}
+                  >
+                    {isOfficial
+                      ? language === "ko"
+                        ? "오피셜"
+                        : "OFFICIAL"
+                      : language === "ko"
+                        ? "루머"
+                        : "RUMOR"}
+                  </Badge>
+                  {rumor.league && (
+                    <Badge variant="outline" className="text-[9px] px-1 py-0 font-bold border-primary/40 text-primary">
+                      {rumor.league}
+                    </Badge>
+                  )}
+                  <Badge className={`text-[9px] px-1.5 py-0 font-bold border-0 ${badgeClass}`}>
                     {rumor.source}
                   </Badge>
                   <span className="font-bold text-foreground truncate">
-                    {rumor.author}
+                    {displayAuthor}
                   </span>
                   <span className="text-[10px] text-muted-foreground font-mono">
                     {new Date(rumor.published_at).toLocaleDateString(
@@ -101,13 +132,19 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
                     )}
                   </span>
                   {rumor.confidence > 0 && (
-                    <span className="text-[10px] font-extrabold text-amber-600 bg-amber-500/10 px-1.5 py-0.2 rounded">
+                    <span
+                      className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded ${
+                        isOfficial
+                          ? "text-emerald-700 bg-emerald-500/10"
+                          : "text-amber-600 bg-amber-500/10"
+                      }`}
+                    >
                       {t("confidence")} {rumor.confidence}%
                     </span>
                   )}
                 </div>
                 <p className="text-foreground/90 font-medium leading-snug">
-                  {rumor.summary || rumor.raw_text}
+                  {displaySummary}
                 </p>
               </div>
 

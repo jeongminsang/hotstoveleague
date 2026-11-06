@@ -40,13 +40,19 @@ export interface Rumor {
   post_id: string;
   source: "TWITTER" | "WEIBO" | "COMMUNITY" | "NEWS" | string;
   author: string;
+  author_en?: string | null;
   raw_text: string;
   summary: string | null;
+  summary_en?: string | null;
   player_id: number | null;
   target_team_id: number | null;
   confidence: number;
   post_url: string | null;
   published_at: string;
   created_at?: string;
+  league?: string | null;
+  player_name?: string | null;
+  current_team_short?: string | null;
+  target_team_short?: string | null;
 }
 
