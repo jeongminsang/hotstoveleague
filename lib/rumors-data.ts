@@ -1,4 +1,4 @@
-import { Rumor } from "./types";
+import { Rumor, Team, Player } from "./types";
 
 export interface SeedRumor
   extends Omit<Rumor, "id" | "player_id" | "target_team_id" | "created_at"> {
@@ -1172,4 +1172,103 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     summary:
       "[오피셜] Disguised(DSG), 승강전 우승으로 2027 LCS 잔류 확정 (Castle·KryRa·Callme·sajed·Lyonz)",
   },
+  beichuan: {
+    predicted_team_id: 57,
+    confidence: 90,
+    status: "CONFIRMED",
+    source_url: "https://weibo.com/2522098777/Rq1lrwHjr",
+    author: "召唤师Park (@召唤师Park)",
+    summary:
+      "[웨이보/소환사 Park] WBG가 TT 정글러 베이촨(Beichuan) 영입을 타진했으나 선수가 이적을 고사하며 TT 잔류",
+  },
 };
+
+// 구버전 DB에서 누락되어 있던 LPL 4개 구단(LGD, OMG, TT, UP) 및 2026 로스터 자동 보강 (총 14개 LPL 파트너 구단 완성)
+export const MISSING_LPL_TEAMS: Team[] = [
+  {
+    id: 55,
+    name: "LGD Gaming",
+    short_name: "LGD",
+    league: "LPL",
+    light_logo_url: "/logos/lgd.png",
+    dark_logo_url: "/logos/lgd.png",
+    primary_color: "#E60012",
+  },
+  {
+    id: 56,
+    name: "Oh My God",
+    short_name: "OMG",
+    league: "LPL",
+    light_logo_url: "/logos/omg.png",
+    dark_logo_url: "/logos/omg.png",
+    primary_color: "#F39800",
+  },
+  {
+    id: 57,
+    name: "ThunderTalk Gaming",
+    short_name: "TT",
+    league: "LPL",
+    light_logo_url: "/logos/tt.png",
+    dark_logo_url: "/logos/tt.png",
+    primary_color: "#00B4FF",
+  },
+  {
+    id: 58,
+    name: "Ultra Prime",
+    short_name: "UP",
+    league: "LPL",
+    light_logo_url: "/logos/up.png",
+    dark_logo_url: "/logos/up.png",
+    primary_color: "#5B37EB",
+  },
+];
+
+export const MISSING_LPL_PLAYERS: Player[] = [
+  // 55. LGD Gaming (id: 55)
+  { id: 9551, slug: "sasi", name: "sasi", real_name: "Yan Rui", position: "TOP", current_team_id: 55, predicted_team_id: 55, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9552, slug: "climber", name: "climber", real_name: "Yeungists", position: "JGL", current_team_id: 55, predicted_team_id: 55, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9553, slug: "tangyuan", name: "Tangyuan", real_name: "Lin Yuhong", position: "MID", current_team_id: 55, predicted_team_id: 55, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9554, slug: "shaoye", name: "Shaoye", real_name: "Qiu Guobin", position: "BOT", current_team_id: 55, predicted_team_id: 55, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9555, slug: "ycx", name: "ycx", real_name: "Zhao Wenhao", position: "SPT", current_team_id: 55, predicted_team_id: 55, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9556, slug: "burdol", name: "Burdol", real_name: "Roh Tae-yoon", position: "TOP", current_team_id: 55, predicted_team_id: 55, is_starter: false, confidence: 100, status: "STAY" },
+
+  // 56. Oh My God (id: 56)
+  { id: 9561, slug: "hery", name: "Hery", real_name: "Wang Heyong", position: "TOP", current_team_id: 56, predicted_team_id: 56, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9562, slug: "re0", name: "re0", real_name: "Xu Hanyang", position: "JGL", current_team_id: 56, predicted_team_id: 56, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9563, slug: "linfeng", name: "LinFeng", real_name: "Chen Linfeng", position: "MID", current_team_id: 56, predicted_team_id: 56, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9564, slug: "starry", name: "Starry", real_name: "Lei Ming", position: "BOT", current_team_id: 56, predicted_team_id: 56, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9565, slug: "moham", name: "Moham", real_name: "Jeong Jae-hun", position: "SPT", current_team_id: 56, predicted_team_id: 56, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9566, slug: "juhan", name: "Juhan", real_name: "Lee Ju-han", position: "JGL", current_team_id: 56, predicted_team_id: 56, is_starter: false, confidence: 100, status: "STAY" },
+
+  // 57. ThunderTalk Gaming (id: 57)
+  { id: 9571, slug: "keshi", name: "Keshi", real_name: "Li Qinghua", position: "TOP", current_team_id: 57, predicted_team_id: 57, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9572, slug: "junhao", name: "Junhao", real_name: "Luo Junhao", position: "JGL", current_team_id: 57, predicted_team_id: 57, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9573, slug: "heru", name: "Heru", real_name: "Kim Min-seong", position: "MID", current_team_id: 57, predicted_team_id: 57, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9574, slug: "ahn", name: "Ahn", real_name: "Feng Nai", position: "BOT", current_team_id: 57, predicted_team_id: 57, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9575, slug: "feather", name: "Feather", real_name: "Wang Tiancifu", position: "SPT", current_team_id: 57, predicted_team_id: 57, is_starter: true, confidence: 100, status: "STAY" },
+  {
+    id: 9576,
+    slug: "beichuan",
+    name: "Beichuan",
+    real_name: "Yang Ling",
+    position: "JGL",
+    current_team_id: 57,
+    predicted_team_id: 57,
+    is_starter: false,
+    confidence: 90,
+    status: "CONFIRMED",
+    source_url: "https://weibo.com/2522098777/Rq1lrwHjr",
+  },
+  { id: 9577, slug: "setab", name: "SeTab", real_name: "Song Kyeong-jin", position: "MID", current_team_id: 57, predicted_team_id: 57, is_starter: false, confidence: 100, status: "STAY" },
+  { id: 9578, slug: "ryan3", name: "Ryan3", real_name: "Chen Qihong", position: "BOT", current_team_id: 57, predicted_team_id: 57, is_starter: false, confidence: 100, status: "STAY" },
+
+  // 58. Ultra Prime (id: 58)
+  { id: 9581, slug: "liangchen", name: "Liangchen", real_name: "Zhang Liangchen", position: "TOP", current_team_id: 58, predicted_team_id: 58, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9582, slug: "grizzly", name: "Grizzly", real_name: "Jo Seung-hoon", position: "JGL", current_team_id: 58, predicted_team_id: 58, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9583, slug: "saber", name: "Saber", real_name: "Song Dailin", position: "MID", current_team_id: 58, predicted_team_id: 58, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9584, slug: "hena", name: "Hena", real_name: "Park Jeung-hwan", position: "BOT", current_team_id: 58, predicted_team_id: 58, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9585, slug: "xiaoxia", name: "Xiaoxia", real_name: "Xia Jingyao", position: "SPT", current_team_id: 58, predicted_team_id: 58, is_starter: true, confidence: 100, status: "STAY" },
+  { id: 9586, slug: "1jiang", name: "1Jiang", real_name: "Chien Chung-yuan", position: "TOP", current_team_id: 58, predicted_team_id: 58, is_starter: false, confidence: 100, status: "STAY" },
+  { id: 9587, slug: "luoyiyu", name: "luoyiyu", real_name: "Luo Yiyu", position: "JGL", current_team_id: 58, predicted_team_id: 58, is_starter: false, confidence: 100, status: "STAY" },
+  { id: 9588, slug: "baiye", name: "Baiye", real_name: "Liu Baiye", position: "BOT", current_team_id: 58, predicted_team_id: 58, is_starter: false, confidence: 100, status: "STAY" },
+];

@@ -47,7 +47,7 @@ INSERT INTO teams (id, name, short_name, league, light_logo_url, dark_logo_url, 
 (9, 'Nongshim RedForce', 'NS', 'LCK', '/logos/ns.svg', '/logos/ns.svg', '#DE1F26'),
 (10, 'DN SOOPers', 'DNS', 'LCK', '/logos/dns.svg', '/logos/dns.svg', '#00A3FF'),
 
--- LPL (중국) - RNG 해체 반영, NIP 추가 등 10개 대표 구단
+-- LPL (중국) - 2026 시즌 14개 파트너 구단 전수 반영 (RNG·FPX·RA 탈퇴 반영)
 (11, 'Bilibili Gaming', 'BLG', 'LPL', '/logos/blg.svg', '/logos/blg.svg', '#00A1D6'),
 (12, 'Top Esports', 'TES', 'LPL', '/logos/tes.png', '/logos/tes.png', '#FA3A2F'),
 (13, 'JD Gaming', 'JDG', 'LPL', '/logos/jdg.png', '/logos/jdg.png', '#BA0C2F'),
@@ -58,6 +58,10 @@ INSERT INTO teams (id, name, short_name, league, light_logo_url, dark_logo_url, 
 (18, 'Ninjas in Pyjamas', 'NIP', 'LPL', '/logos/nip.svg', '/logos/nip.svg', '#00FF00'),
 (19, 'Team WE', 'WE', 'LPL', '/logos/we.png', '/logos/we.png', '#DA291C'),
 (20, 'Anyone''s Legend', 'AL', 'LPL', '/logos/al.png', '/logos/al.png', '#E50027'),
+(55, 'LGD Gaming', 'LGD', 'LPL', '/logos/lgd.png', '/logos/lgd.png', '#E60012'),
+(56, 'Oh My God', 'OMG', 'LPL', '/logos/omg.png', '/logos/omg.png', '#F39800'),
+(57, 'ThunderTalk Gaming', 'TT', 'LPL', '/logos/tt.png', '/logos/tt.png', '#00B4FF'),
+(58, 'Ultra Prime', 'UP', 'LPL', '/logos/up.png', '/logos/up.png', '#5B37EB'),
 
 -- LEC (유럽) - BDS -> Shifters(SHF) 리브랜딩, NAVI 합류 반영
 (21, 'G2 Esports', 'G2', 'LEC', '/logos/g2.svg', '/logos/g2.svg', '#000000'),
@@ -266,6 +270,42 @@ INSERT INTO players (slug, name, real_name, position, current_team_id, predicted
 ('shanks', 'Shanks', 'Cui Xiaojun', 'MID', 20, 20, true, 100, 'STAY'),
 ('hope', 'Hope', 'Wang Jie', 'BOT', 20, 20, true, 100, 'STAY'),
 ('kael', 'Kael', 'Kim Jin-hong', 'SPT', 20, 20, true, 100, 'STAY'),
+
+-- 55. LGD Gaming (id: 55)
+('sasi', 'sasi', 'Yan Rui', 'TOP', 55, 55, true, 100, 'STAY'),
+('climber', 'climber', 'Yeungists', 'JGL', 55, 55, true, 100, 'STAY'),
+('tangyuan', 'Tangyuan', 'Lin Yuhong', 'MID', 55, 55, true, 100, 'STAY'),
+('shaoye', 'Shaoye', 'Qiu Guobin', 'BOT', 55, 55, true, 100, 'STAY'),
+('ycx', 'ycx', 'Zhao Wenhao', 'SPT', 55, 55, true, 100, 'STAY'),
+('burdol', 'Burdol', 'Roh Tae-yoon', 'TOP', 55, 55, false, 100, 'STAY'),
+
+-- 56. Oh My God (id: 56)
+('hery', 'Hery', 'Wang Heyong', 'TOP', 56, 56, true, 100, 'STAY'),
+('re0', 're0', 'Xu Hanyang', 'JGL', 56, 56, true, 100, 'STAY'),
+('linfeng', 'LinFeng', 'Chen Linfeng', 'MID', 56, 56, true, 100, 'STAY'),
+('starry', 'Starry', 'Lei Ming', 'BOT', 56, 56, true, 100, 'STAY'),
+('moham', 'Moham', 'Jeong Jae-hun', 'SPT', 56, 56, true, 100, 'STAY'),
+('juhan', 'Juhan', 'Lee Ju-han', 'JGL', 56, 56, false, 100, 'STAY'),
+
+-- 57. ThunderTalk Gaming (id: 57)
+('keshi', 'Keshi', 'Li Qinghua', 'TOP', 57, 57, true, 100, 'STAY'),
+('junhao', 'Junhao', 'Luo Junhao', 'JGL', 57, 57, true, 100, 'STAY'),
+('heru', 'Heru', 'Kim Min-seong', 'MID', 57, 57, true, 100, 'STAY'),
+('ahn', 'Ahn', 'Feng Nai', 'BOT', 57, 57, true, 100, 'STAY'),
+('feather', 'Feather', 'Wang Tiancifu', 'SPT', 57, 57, true, 100, 'STAY'),
+('beichuan', 'Beichuan', 'Yang Ling', 'JGL', 57, 57, false, 90, 'CONFIRMED'),
+('setab', 'SeTab', 'Song Kyeong-jin', 'MID', 57, 57, false, 100, 'STAY'),
+('ryan3', 'Ryan3', 'Chen Qihong', 'BOT', 57, 57, false, 100, 'STAY'),
+
+-- 58. Ultra Prime (id: 58)
+('liangchen', 'Liangchen', 'Zhang Liangchen', 'TOP', 58, 58, true, 100, 'STAY'),
+('grizzly', 'Grizzly', 'Jo Seung-hoon', 'JGL', 58, 58, true, 100, 'STAY'),
+('saber', 'Saber', 'Song Dailin', 'MID', 58, 58, true, 100, 'STAY'),
+('hena', 'Hena', 'Park Jeung-hwan', 'BOT', 58, 58, true, 100, 'STAY'),
+('xiaoxia', 'Xiaoxia', 'Xia Jingyao', 'SPT', 58, 58, true, 100, 'STAY'),
+('1jiang', '1Jiang', 'Chien Chung-yuan', 'TOP', 58, 58, false, 100, 'STAY'),
+('luoyiyu', 'luoyiyu', 'Luo Yiyu', 'JGL', 58, 58, false, 100, 'STAY'),
+('baiye', 'Baiye', 'Liu Baiye', 'BOT', 58, 58, false, 100, 'STAY'),
 
 -- ==============================================================================
 -- LEC 2026년 11월 기준 최신 공식 로스터 (Shifters, NAVI 반영)

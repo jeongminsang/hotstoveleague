@@ -4,7 +4,12 @@ import { Team, Player, Rumor, Coach } from "@/lib/types";
 import RosterViewer from "@/components/RosterViewer";
 import RumorFeed from "@/components/RumorFeed";
 import HomeHero from "@/components/HomeHero";
-import { INITIAL_RUMORS, PREDICTED_PLAYER_OVERRIDES } from "@/lib/rumors-data";
+import {
+  INITIAL_RUMORS,
+  PREDICTED_PLAYER_OVERRIDES,
+  MISSING_LPL_TEAMS,
+  MISSING_LPL_PLAYERS,
+} from "@/lib/rumors-data";
 
 export default async function Index() {
   if (!hasEnvVars) {
@@ -57,7 +62,16 @@ export default async function Index() {
     .order("published_at", { ascending: false })
     .limit(20);
 
-  const teams = (teamsData as Team[]) || [];
+  const rawTeams = (teamsData as Team[]) || [];
+  const existingTeamShorts = new Set(
+    rawTeams.map((t) => t.short_name.toUpperCase())
+  );
+  const teams: Team[] = [
+    ...rawTeams,
+    ...MISSING_LPL_TEAMS.filter(
+      (mt) => !existingTeamShorts.has(mt.short_name.toUpperCase())
+    ),
+  ];
   const rawPlayers = (playersData as Player[]) || [];
   const coaches = (coachesData as Coach[]) || [];
   const rawRumors = (rumorsData as Rumor[]) || [];
@@ -184,9 +198,12 @@ export default async function Index() {
   const existingSlugs = new Set(
     mappedPlayers.map((p) => (p.slug || p.name || "").toLowerCase())
   );
+  const allExtraPlayers = [...extraPlayers, ...MISSING_LPL_PLAYERS];
   const players: Player[] = [
     ...mappedPlayers,
-    ...extraPlayers.filter((ep) => !existingSlugs.has(ep.slug || "")),
+    ...allExtraPlayers.filter(
+      (ep) => !existingSlugs.has((ep.slug || ep.name || "").toLowerCase())
+    ),
   ];
 
   const seedByPostId = new Map(INITIAL_RUMORS.map((sr) => [sr.post_id, sr]));
