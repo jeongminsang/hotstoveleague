@@ -63,32 +63,33 @@ export default async function Index() {
   const rawRumors = (rumorsData as Rumor[]) || [];
 
   // 1. 한화생명(HLE, id: 3) 정글러가 구버전 DB에서 Peanut으로 남아있을 경우 Kanavi(서진혁)로 즉시 보정
-  // 2. 최신 검증된 찌라시(PREDICTED_PLAYER_OVERRIDES) 및 원본 링크(HTTP 200 검증 완료)를 즉시 반영
-  const mappedPlayers: Player[] = rawPlayers.map((raw) => {
-    const p: Player =
-      raw.current_team_id === 3 &&
-      ((raw.slug || "").toLowerCase() === "peanut" ||
-        raw.name.toLowerCase() === "peanut")
-        ? {
-            ...raw,
-            slug: "kanavi",
-            name: "Kanavi",
-            real_name: "서진혁",
-          }
-        : raw;
+  // 2. 오피셜 구단/선수 계정 및 1티어 원천 소식통(PREDICTED_PLAYER_OVERRIDES)만 반영하고, 이외 이전 DB 잔여 예측값은 초기화
+  const mappedPlayers: Player[] = rawPlayers
+    .filter((raw) => (raw.slug || raw.name || "").toLowerCase() !== "piero")
+    .map((raw) => {
+      const p: Player =
+        raw.current_team_id === 3 &&
+        ((raw.slug || "").toLowerCase() === "peanut" ||
+          raw.name.toLowerCase() === "peanut")
+          ? {
+              ...raw,
+              slug: "kanavi",
+              name: "Kanavi",
+              real_name: "서진혁",
+            }
+          : raw;
 
-    const slugKey = (p.slug || p.name || "").toLowerCase();
-    const override = PREDICTED_PLAYER_OVERRIDES[slugKey];
-    if (override) {
-      return {
-        ...p,
-        predicted_team_id: override.predicted_team_id,
-        confidence: override.confidence,
-        status: override.status,
-        source_url: override.source_url,
-      };
-    }
-    if ((p.source_url || "").includes("inven.co.kr")) {
+      const slugKey = (p.slug || p.name || "").toLowerCase();
+      const override = PREDICTED_PLAYER_OVERRIDES[slugKey];
+      if (override) {
+        return {
+          ...p,
+          predicted_team_id: override.predicted_team_id,
+          confidence: override.confidence,
+          status: override.status,
+          source_url: override.source_url,
+        };
+      }
       return {
         ...p,
         predicted_team_id: p.current_team_id,
@@ -96,11 +97,9 @@ export default async function Index() {
         status: "STAY",
         source_url: undefined,
       };
-    }
-    return p;
-  });
+    });
 
-  // DB에 아직 추가 전인 신규/복귀 찌라시 선수(Deft, Roamer, Hype, 3XA, Piero) 자동 보강
+  // DB에 아직 추가 전인 신규/복귀 찌라시 선수(Deft, Hype, 3XA, Zicssi, SlowQ) 자동 보강
   const extraPlayers: Player[] = [
     {
       id: 9001,
@@ -114,19 +113,6 @@ export default async function Index() {
       confidence: 94,
       status: "RUMORED",
       source_url: PREDICTED_PLAYER_OVERRIDES.deft.source_url,
-    },
-    {
-      id: 9002,
-      slug: "roamer",
-      name: "Roamer",
-      real_name: "조우진",
-      position: "MID",
-      current_team_id: 7,
-      predicted_team_id: 7,
-      is_starter: true,
-      confidence: 99,
-      status: "CONFIRMED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.roamer.source_url,
     },
     {
       id: 9003,
@@ -156,16 +142,29 @@ export default async function Index() {
     },
     {
       id: 9005,
-      slug: "piero",
-      name: "Piero",
-      real_name: "김정훈",
-      position: "SPT",
+      slug: "zicssi",
+      name: "Zicssi",
+      real_name: "Léo-Paulurez",
+      position: "JGL",
       current_team_id: null,
-      predicted_team_id: 29,
+      predicted_team_id: 27,
       is_starter: false,
       confidence: 95,
       status: "RUMORED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.piero.source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES.zicssi.source_url,
+    },
+    {
+      id: 9006,
+      slug: "slowq",
+      name: "SlowQ",
+      real_name: "Yasin Koca",
+      position: "MID",
+      current_team_id: 27,
+      predicted_team_id: 27,
+      is_starter: false,
+      confidence: 95,
+      status: "CONFIRMED",
+      source_url: PREDICTED_PLAYER_OVERRIDES.slowq.source_url,
     },
   ];
 
@@ -177,12 +176,23 @@ export default async function Index() {
     ...extraPlayers.filter((ep) => !existingSlugs.has(ep.slug || "")),
   ];
 
-  const verifiedDbRumors = rawRumors.filter(
-    (r) =>
-      (r.post_id || "").startsWith("rv-") &&
-      !(r.post_url || "").includes("inven.co.kr") &&
-      r.source !== "COMMUNITY"
-  );
+  const seedByPostId = new Map(INITIAL_RUMORS.map((sr) => [sr.post_id, sr]));
+  const verifiedDbRumors = rawRumors
+    .filter((r) => seedByPostId.has(r.post_id || ""))
+    .map((r) => {
+      const sr = seedByPostId.get(r.post_id || "")!;
+      return {
+        ...r,
+        source: sr.source,
+        author: sr.author,
+        raw_text: sr.raw_text,
+        summary: sr.summary,
+        target_team_id: sr.target_team_id,
+        confidence: sr.confidence,
+        post_url: sr.post_url,
+        published_at: sr.published_at,
+      };
+    });
 
   const rumors: Rumor[] =
     verifiedDbRumors.length >= INITIAL_RUMORS.length

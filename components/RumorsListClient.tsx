@@ -46,35 +46,32 @@ export default function RumorsListClient({
     const teamById = new Map<number, Team>(teams.map((tm) => [tm.id, tm]));
     const playerById = new Map<number, Player>(players.map((pl) => [pl.id, pl]));
 
-    const verifiedDbRumors = dbRumors.filter(
-      (r) =>
-        (r.post_id || "").startsWith("rv-") &&
-        !(r.post_url || "").includes("inven.co.kr") &&
-        r.source !== "COMMUNITY"
+    const verifiedDbRumors = dbRumors.filter((r) =>
+      seedByPostId.has(r.post_id || "")
     );
 
     if (verifiedDbRumors.length >= INITIAL_RUMORS.length) {
       return verifiedDbRumors.map((r) => {
-        const seed = seedByPostId.get(r.post_id);
+        const seed = seedByPostId.get(r.post_id)!;
         const pl = r.player_id ? playerById.get(r.player_id) : undefined;
         const curTeam = pl?.current_team_id
           ? teamById.get(pl.current_team_id)
           : undefined;
-        const tgtTeam = r.target_team_id
-          ? teamById.get(r.target_team_id)
-          : undefined;
 
         return {
           ...r,
-          source: seed?.source || r.source,
-          author: seed?.author || r.author,
-          raw_text: seed?.raw_text || r.raw_text,
-          summary: seed?.summary || r.summary,
-          post_url: seed?.post_url || r.post_url,
-          player_name: pl?.name || seed?.player_name,
-          current_team_short: curTeam?.short_name || seed?.current_team_short,
-          target_team_short: tgtTeam?.short_name || seed?.target_team_short,
-          league: tgtTeam?.league || curTeam?.league || seed?.league || "LCK",
+          source: seed.source,
+          author: seed.author,
+          raw_text: seed.raw_text,
+          summary: seed.summary,
+          target_team_id: seed.target_team_id,
+          confidence: seed.confidence,
+          post_url: seed.post_url,
+          published_at: seed.published_at,
+          player_name: seed.player_name || pl?.name,
+          current_team_short: seed.current_team_short || curTeam?.short_name,
+          target_team_short: seed.target_team_short,
+          league: seed.league || curTeam?.league || "LCK",
         };
       });
     }
