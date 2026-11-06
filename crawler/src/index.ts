@@ -1,81 +1,74 @@
-import { Env, RawRumor } from "./types";
-import { fetchTwitterRumors } from "./twitter";
-import { fetchWeiboRumors } from "./weibo";
-import { parseRumorWithGemini } from "./gemini";
+import { Env } from "./types";
+import { discoverDraftsWithGemini } from "./gemini";
 import {
   getSupabaseClient,
-  filterExistingRumors,
-  syncRumorAndPrediction,
+  filterExistingDrafts,
+  insertRumorDrafts,
 } from "./supabase";
 
-async function runPipeline(env: Env): Promise<{
-  scrapedCount: number;
-  newCount: number;
-  processedCount: number;
+export async function runDraftHarvestPipeline(env: Env): Promise<{
+  discoveredCount: number;
+  newDraftCount: number;
+  savedCount: number;
 }> {
-  console.log("[HotStove Pipeline] Starting crawl cycle...");
+  console.log("[Draft Crawler] Starting draft collection cycle...");
 
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
-    console.warn("[HotStove Pipeline] Missing Supabase environment variables. Skipping DB sync.");
-    return { scrapedCount: 0, newCount: 0, processedCount: 0 };
+  if (!env.GEMINI_API_KEY) {
+    console.warn("[Draft Crawler] Missing GEMINI_API_KEY. Skipping harvest.");
+    return { discoveredCount: 0, newDraftCount: 0, savedCount: 0 };
   }
 
-  // 1. 트위터 및 웨이보에서 최신 포스트 스크래핑
-  const [twitterRumors, weiboRumors] = await Promise.all([
-    fetchTwitterRumors(),
-    fetchWeiboRumors(env.WEIBO_SUB_COOKIE),
-  ]);
+  // 1. Discover candidates via Gemini Grounded Search
+  const candidateDrafts = await discoverDraftsWithGemini(env.GEMINI_API_KEY);
+  console.log(`[Draft Crawler] Discovered ${candidateDrafts.length} candidate drafts.`);
 
-  const allRumors: RawRumor[] = [...twitterRumors, ...weiboRumors];
-  console.log(`[HotStove Pipeline] Scraped total ${allRumors.length} posts`);
+  if (candidateDrafts.length === 0) {
+    return { discoveredCount: 0, newDraftCount: 0, savedCount: 0 };
+  }
 
-  // 2. Supabase DB와 대조하여 이미 수집된 글 필터링
-  const supabase = getSupabaseClient(env);
-  const newRumors = await filterExistingRumors(supabase, allRumors);
-  console.log(`[HotStove Pipeline] Found ${newRumors.length} brand new posts`);
-
-  if (newRumors.length === 0) {
+  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.warn("[Draft Crawler] Supabase credentials missing. Returning candidate count only.");
     return {
-      scrapedCount: allRumors.length,
-      newCount: 0,
-      processedCount: 0,
+      discoveredCount: candidateDrafts.length,
+      newDraftCount: candidateDrafts.length,
+      savedCount: 0,
     };
   }
 
-  // 3. 신규 찌라시 건에 대해서만 Gemini AI 정제 및 DB 저장
-  let processedCount = 0;
-  for (const rumor of newRumors) {
-    if (!env.GEMINI_API_KEY) {
-      console.warn("[HotStove Pipeline] Missing GEMINI_API_KEY. Skipping AI parsing.");
-      break;
-    }
+  // 2. Filter out items already in rumors or rumor_drafts
+  const supabase = getSupabaseClient(env);
+  const newDrafts = await filterExistingDrafts(supabase, candidateDrafts);
+  console.log(`[Draft Crawler] ${newDrafts.length} new drafts after deduplication.`);
 
-    const parsed = await parseRumorWithGemini(env.GEMINI_API_KEY, rumor.text);
-    if (parsed) {
-      await syncRumorAndPrediction(supabase, rumor, parsed);
-      processedCount++;
-    }
+  if (newDrafts.length === 0) {
+    return {
+      discoveredCount: candidateDrafts.length,
+      newDraftCount: 0,
+      savedCount: 0,
+    };
   }
 
-  console.log(`[HotStove Pipeline] Cycle completed. Processed ${processedCount} rumors.`);
+  // 3. Insert into rumor_drafts table as 'pending'
+  const savedCount = await insertRumorDrafts(supabase, newDrafts);
+  console.log(`[Draft Crawler] Successfully saved ${savedCount} pending drafts into Supabase.`);
+
   return {
-    scrapedCount: allRumors.length,
-    newCount: newRumors.length,
-    processedCount,
+    discoveredCount: candidateDrafts.length,
+    newDraftCount: newDrafts.length,
+    savedCount,
   };
 }
 
 export default {
   /**
-   * 1분마다 Cloudflare Cron Trigger에 의해 자동 실행
+   * Cloudflare Cron Trigger (Runs every 6 hours)
    */
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
-    ctx.waitUntil(runPipeline(env));
+    ctx.waitUntil(runDraftHarvestPipeline(env));
   },
 
   /**
-   * 개발/테스트용 HTTP 엔드포인트
-   * GET /crawl 로 브라우저나 curl에서 즉시 수동 트리거 가능
+   * HTTP Handler for manual trigger or healthcheck
    */
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -86,8 +79,8 @@ export default {
       });
     }
 
-    if (url.pathname === "/crawl") {
-      const result = await runPipeline(env);
+    if (url.pathname === "/crawl" || url.pathname === "/harvest") {
+      const result = await runDraftHarvestPipeline(env);
       return new Response(JSON.stringify(result, null, 2), {
         headers: { "Content-Type": "application/json" },
       });
@@ -95,11 +88,10 @@ export default {
 
     return new Response(
       JSON.stringify({
-        service: "HotStove League Crawler",
-        endpoints: ["/crawl (POST/GET)", "/health (GET)"],
+        service: "HotStove League Draft Harvester",
+        endpoints: ["/harvest (GET/POST)", "/health (GET)"],
       }),
       { headers: { "Content-Type": "application/json" } }
     );
   },
 };
-

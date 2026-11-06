@@ -53,15 +53,52 @@ CREATE TABLE rumors (
     id SERIAL PRIMARY KEY,
     post_id VARCHAR(100) UNIQUE NOT NULL,   -- 원천 게시물 고유 ID (중복 수집 방지)
     source VARCHAR(20) NOT NULL,            -- 'WEIBO' | 'TWITTER' | 'COMMUNITY' | 'NEWS'
-    author VARCHAR(50) NOT NULL,            -- e.g. '丶涵艺', 'LEC_Wooloo', '윤민섭'
-    raw_text TEXT NOT NULL,                 -- 수집된 찌라시 원문
-    summary TEXT,                           -- 한국어/영문 1줄 요약
-    player_id INT REFERENCES players(id) ON DELETE SET NULL, -- 연관 선수
-    target_team_id INT REFERENCES teams(id) ON DELETE SET NULL, -- 언급된 행선지
+    author VARCHAR(100) NOT NULL,           -- e.g. '丶涵艺', 'LEC_Wooloo', '윤민섭'
+    author_en VARCHAR(100),                 -- 영문 작성자 표기
+    author_zh VARCHAR(100),                 -- 중문 작성자 표기
+    raw_text TEXT NOT NULL,                 -- 수집된 원문
+    summary TEXT,                           -- 국문 1줄 요약
+    summary_en TEXT,                        -- 영문 요약
+    summary_zh TEXT,                        -- 중문 요약
+    player_id INT REFERENCES players(id) ON DELETE SET NULL, -- 연관 선수 FK
+    player_slug VARCHAR(60),                -- 연관 선수 slug
+    player_name VARCHAR(60),                -- 연관 선수 인게임 태그
+    target_team_id INT REFERENCES teams(id) ON DELETE SET NULL, -- 언급된 행선지 FK
+    current_team_short VARCHAR(20),         -- 원 소속팀 약칭
+    target_team_short VARCHAR(20),          -- 행선지 약칭
+    league VARCHAR(20),                     -- 리그
     confidence INT DEFAULT 50,              -- 신뢰도 점수 (0~100)
     post_url TEXT,                          -- 원문 링크
     published_at TIMESTAMPTZ NOT NULL,      -- 원문 작성 시각
     created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 5-1. 크론 AI 수집 후보 (rumor_drafts) 테이블 생성
+CREATE TABLE rumor_drafts (
+    id SERIAL PRIMARY KEY,
+    post_id VARCHAR(100) UNIQUE NOT NULL,
+    source VARCHAR(30) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    author_en VARCHAR(100),
+    author_zh VARCHAR(100),
+    raw_text TEXT NOT NULL,
+    summary TEXT,
+    summary_en TEXT,
+    summary_zh TEXT,
+    player_slug VARCHAR(60),
+    player_name VARCHAR(60),
+    from_team VARCHAR(20),
+    to_team VARCHAR(20),
+    league VARCHAR(20),
+    kind VARCHAR(20) DEFAULT 'RUMOR',
+    confidence INT DEFAULT 50,
+    post_url TEXT NOT NULL,
+    published_at TIMESTAMPTZ NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+    review_note TEXT,
+    reviewed_at TIMESTAMPTZ,
+    collected_at TIMESTAMPTZ DEFAULT NOW(),
+    raw_payload JSONB
 );
 
 -- 6. 인덱스 생성
@@ -74,12 +111,16 @@ CREATE INDEX idx_players_predicted_team ON players(predicted_team_id);
 CREATE INDEX idx_coaches_team ON coaches(team_id);
 CREATE INDEX idx_rumors_post_id ON rumors(post_id);
 CREATE INDEX idx_rumors_published_at ON rumors(published_at DESC);
+CREATE INDEX idx_rumor_drafts_status ON rumor_drafts(status);
+CREATE INDEX idx_rumor_drafts_collected_at ON rumor_drafts(collected_at DESC);
+CREATE INDEX idx_rumor_drafts_post_id ON rumor_drafts(post_id);
 
 -- 7. Row Level Security (RLS) 설정
 ALTER TABLE teams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
 ALTER TABLE coaches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE rumors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE rumor_drafts ENABLE ROW LEVEL SECURITY;
 
 -- 모든 사용자(익명/인증) 읽기 허용
 CREATE POLICY "Public teams are viewable by everyone" ON teams FOR SELECT USING (true);
@@ -92,6 +133,7 @@ CREATE POLICY "Service role can modify teams" ON teams FOR ALL TO service_role U
 CREATE POLICY "Service role can modify players" ON players FOR ALL TO service_role USING (true);
 CREATE POLICY "Service role can modify coaches" ON coaches FOR ALL TO service_role USING (true);
 CREATE POLICY "Service role can modify rumors" ON rumors FOR ALL TO service_role USING (true);
+CREATE POLICY "Service role can modify rumor_drafts" ON rumor_drafts FOR ALL TO service_role USING (true);
 
 -- 8. Supabase Realtime 활성화 (웹소켓 실시간 이벤트 전송)
 ALTER PUBLICATION supabase_realtime ADD TABLE players;

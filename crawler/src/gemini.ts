@@ -1,41 +1,58 @@
-import { ParsedRumor } from "./types";
+import { CandidateDraft } from "./types";
 
-export async function parseRumorWithGemini(
-  apiKey: string,
-  rawText: string
-): Promise<ParsedRumor | null> {
-  // 기본 모델은 gemini-1.5-flash 또는 gemini-2.0-flash-lite / gemini-3.5-flash-lite
-  const model = "gemini-1.5-flash";
+const SEARCH_PROMPTS = [
+  "LoL 2026 stove league transfer rumors Wooloo Sheep Esports LCK LPL",
+  "LOL 전이 涵艺 恋恋红茶 微博 2026 LPL LCK 转会期 爆料",
+  "League of Legends roster rumor confirmed 2026 T1 GenG HLE DK KT BLG TES JDG",
+];
+
+const SYSTEM_INSTRUCTION = `You are an elite League of Legends esports stove league investigator tracking 2025-2026 off-season roster rumors and official moves.
+You will receive recent search results from trusted sources (Sheep Esports, LEC Wooloo, official team announcements, reliable Chinese insiders like 涵艺, 恋恋红茶, 召唤师Park, 王玮晨, etc.).
+
+Your task is to identify newly reported roster rumors, contract renewals, FA departures, or signed deals.
+For each valid rumor, produce a structured JSON object according to the schema.
+
+Strict Rules:
+1. Focus on League of Legends tier-1 professional leagues (LCK, LPL, LEC, LCS/Americas).
+2. Do not invent rumors. Every item MUST correspond to a real report or announcement.
+3. author should be the insider handle or team (e.g. "@LEC_Wooloo", "Sheep Esports", "涵艺", "T1 LoL", "Dplus KIA").
+4. Provide summaries in 3 languages:
+   - summary (Korean)
+   - summary_en (English)
+   - summary_zh (Chinese)
+5. Keep team names in standard English short codes (e.g. T1, GEN, HLE, DK, KT, FOX, BRO, DRX, NS, KDF/DN, BLG, TES, JDG, WBG, iG, EDG, G2, FNC, TH, C9, TL).
+6. Player name should be their standard in-game ID (e.g. "Chovy", "Faker", "Ruler", "Kanavi", "Scout", "Gala").
+7. post_id should be deterministic: if a tweet/weibo id or URL exists, derive a unique string; otherwise "draft-" + author-player-target_team.
+8. Output JSON only matching the schema: { "drafts": [ CandidateDraft ] }`;
+
+export async function discoverDraftsWithGemini(
+  apiKey: string
+): Promise<CandidateDraft[]> {
+  const model = "gemini-2.5-flash";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-  const systemInstruction = `당신은 League of Legends(LCK/LPL/글로벌) e스포츠 스토브리그 및 이적시장 전문 분석가입니다.
-제공된 텍스트(한국어, 중국어, 영어)를 읽고 선수 이적, 재계약, FA 관련 루머인지 분석하세요.
-반드시 제공된 JSON 스키마 규격으로만 응답해야 합니다.
-
-[판단 기준]
-1. is_roster_rumor: 특정 선수나 팀의 이적, 계약 종료, 재계약, 협상 소식에 관한 내용이면 true, 단순 일상 잡담/경기 감상이면 false.
-2. player_name: 언급된 핵심 선수의 공식 영문 소환사명(예: Faker, Chovy, Zeus, Viper, Canyon 등). 없으면 null.
-3. target_team: 이적 예상 또는 거론된 행선지 팀명(예: T1, Gen.G, HLE, DK, KT, KDF, FOX, DRX, NS, BRO, BLG, WBG, TES 등). 없으면 null.
-4. status: 이적 유력(TRANSFER), 재계약(RENEWAL), FA신분(FA), 잔류(STAY), 미정(UNKNOWN).
-5. confidence: 루머 확신도 0~100 (오피셜 발표=100, 기자/유명썰쟁이 유력 언급=80, 단순 찌라시/썰=50).
-6. one_line_summary: 한국어로 작성된 명확하고 간결한 1줄 요약.`;
-
+  const queryText = SEARCH_PROMPTS.join("\n- ");
   const requestBody = {
     contents: [
       {
         parts: [
           {
-            text: `[찌라시 원문]\n"${rawText}"\n\n위 원문을 분석하여 JSON 스키마에 맞춰 정보를 추출하세요.`,
+            text: `Investigate and extract the latest 2025-2026 LoL stove league roster rumors and announcements across LCK, LPL, LEC, LCS using Google Search.\nFocus points:\n- ${queryText}\n\nReturn up to 10 of the most recent, notable transfer/roster rumors formatted as JSON.`,
           },
         ],
       },
     ],
+    tools: [
+      {
+        google_search: {},
+      },
+    ],
     generationConfig: {
+      temperature: 0.2,
       response_mime_type: "application/json",
-      temperature: 0.1,
     },
     system_instruction: {
-      parts: [{ text: systemInstruction }],
+      parts: [{ text: SYSTEM_INSTRUCTION }],
     },
   };
 
@@ -47,19 +64,35 @@ export async function parseRumorWithGemini(
     });
 
     if (!res.ok) {
-      console.error(`[Gemini] API error ${res.status}:`, await res.text());
-      return null;
+      const errText = await res.text();
+      console.error(`[Gemini Search] API error ${res.status}:`, errText);
+      return [];
     }
 
-    const data = await res.json<any>();
-    const textOutput = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!textOutput) return null;
+    const data = (await res.json()) as {
+      candidates?: Array<{
+        content?: {
+          parts?: Array<{ text?: string }>;
+        };
+      }>;
+    };
 
-    const parsed: ParsedRumor = JSON.parse(textOutput);
-    return parsed;
+    const textOutput = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!textOutput) {
+      console.warn("[Gemini Search] Empty response from model");
+      return [];
+    }
+
+    let parsed: { drafts?: CandidateDraft[] } | CandidateDraft[] = JSON.parse(textOutput);
+    const drafts: CandidateDraft[] = Array.isArray(parsed)
+      ? parsed
+      : Array.isArray(parsed?.drafts)
+      ? parsed.drafts
+      : [];
+
+    return drafts.filter((d) => Boolean(d && (d.summary || d.raw_text)));
   } catch (err) {
-    console.error("[Gemini] Failed to parse rumor:", err);
-    return null;
+    console.error("[Gemini Search] Failed to discover drafts:", err);
+    return [];
   }
 }
-

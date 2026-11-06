@@ -1,5 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { Env, ParsedRumor, RawRumor } from "./types";
+import { Env, CandidateDraft, RumorDraftRow } from "./types";
 
 export function getSupabaseClient(env: Env): SupabaseClient {
   return createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
@@ -11,107 +11,80 @@ export function getSupabaseClient(env: Env): SupabaseClient {
 }
 
 /**
- * DB에 이미 존재하는 postId인지 확인하여 신규 찌라시만 필터링합니다.
+ * Filter candidates against existing rumors and rumor_drafts to avoid duplicates
  */
-export async function filterExistingRumors(
+export async function filterExistingDrafts(
   supabase: SupabaseClient,
-  rumors: RawRumor[]
-): Promise<RawRumor[]> {
-  if (rumors.length === 0) return [];
+  drafts: CandidateDraft[]
+): Promise<CandidateDraft[]> {
+  if (drafts.length === 0) return [];
 
-  const postIds = rumors.map((r) => r.postId);
-  const { data: existingRows, error } = await supabase
+  const postIds = drafts.map((d) => d.post_id).filter(Boolean);
+  if (postIds.length === 0) return drafts;
+
+  // Check against published rumors
+  const { data: existingRumors } = await supabase
     .from("rumors")
     .select("post_id")
     .in("post_id", postIds);
 
-  if (error) {
-    console.error("[Supabase] Failed to check existing rumors:", error);
-    return rumors;
-  }
+  const existingPostIds = new Set(
+    (existingRumors || []).map((r) => r.post_id).filter(Boolean)
+  );
 
-  const existingSet = new Set((existingRows || []).map((row) => row.post_id));
-  return rumors.filter((r) => !existingSet.has(r.postId));
+  // Check against existing drafts
+  const { data: existingDrafts } = await supabase
+    .from("rumor_drafts")
+    .select("post_id")
+    .in("post_id", postIds);
+
+  (existingDrafts || []).forEach((d) => {
+    if (d.post_id) existingPostIds.add(d.post_id);
+  });
+
+  return drafts.filter((d) => !existingPostIds.has(d.post_id));
 }
 
 /**
- * 정제된 루머를 rumors 테이블에 INSERT하고,
- * 대상 선수가 확인되면 players 테이블의 예측 로스터를 UPDATE합니다.
+ * Insert candidate drafts into rumor_drafts table with status 'pending'
  */
-export async function syncRumorAndPrediction(
+export async function insertRumorDrafts(
   supabase: SupabaseClient,
-  raw: RawRumor,
-  parsed: ParsedRumor
-): Promise<void> {
-  let matchedPlayerId: number | null = null;
-  let targetTeamId: number | null = null;
+  drafts: CandidateDraft[]
+): Promise<number> {
+  if (drafts.length === 0) return 0;
 
-  // 1. 대상 선수 매칭 (대소문자 무시)
-  if (parsed.player_name) {
-    const { data: players } = await supabase
-      .from("players")
-      .select("id, name, current_team_id")
-      .ilike("name", parsed.player_name)
-      .limit(1);
+  const rows: RumorDraftRow[] = drafts.map((d) => ({
+    post_id: d.post_id || `draft-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    source: d.source || "COMMUNITY",
+    author: d.author || "Insider",
+    author_en: d.author_en || d.author,
+    author_zh: d.author_zh || d.author,
+    raw_text: d.raw_text || d.summary || "",
+    summary: d.summary || "",
+    summary_en: d.summary_en || null,
+    summary_zh: d.summary_zh || null,
+    player_slug: d.player_slug?.toLowerCase() || (d.player_name ? d.player_name.toLowerCase() : null),
+    player_name: d.player_name || null,
+    current_team_short: d.current_team_short?.toUpperCase() || null,
+    target_team_short: d.target_team_short?.toUpperCase() || null,
+    league: d.league || "LCK",
+    kind: d.kind || "UNKNOWN",
+    confidence: typeof d.confidence === "number" ? d.confidence : 70,
+    post_url: d.post_url || null,
+    published_at: d.published_at || new Date().toISOString(),
+    status: "pending",
+    raw_payload: d as unknown as Record<string, unknown>,
+  }));
 
-    if (players && players.length > 0) {
-      matchedPlayerId = players[0].id;
-    }
+  const { error, count } = await supabase
+    .from("rumor_drafts")
+    .insert(rows, { count: "exact" });
+
+  if (error) {
+    console.error("[Supabase] Failed to insert rumor drafts:", error);
+    return 0;
   }
 
-  // 2. 이적 대상 팀 매칭
-  if (parsed.target_team) {
-    const { data: teams } = await supabase
-      .from("teams")
-      .select("id, name, short_name")
-      .or(`name.ilike.%${parsed.target_team}%,short_name.ilike.%${parsed.target_team}%`)
-      .limit(1);
-
-    if (teams && teams.length > 0) {
-      targetTeamId = teams[0].id;
-    }
-  }
-
-  // 3. rumors 테이블에 INSERT
-  const { error: insertError } = await supabase.from("rumors").insert({
-    post_id: raw.postId,
-    source: raw.source,
-    author: raw.author,
-    raw_text: raw.text,
-    summary: parsed.one_line_summary,
-    player_id: matchedPlayerId,
-    target_team_id: targetTeamId,
-    confidence: parsed.confidence,
-    post_url: raw.postUrl,
-    published_at: raw.publishedAt,
-  });
-
-  if (insertError) {
-    console.error(`[Supabase] Failed to insert rumor ${raw.postId}:`, insertError);
-    return;
-  }
-
-  console.log(`[Supabase] Rumor inserted: ${raw.postId} (${parsed.one_line_summary})`);
-
-  // 4. 선수 이적 예측 UPDATE (이벤트 발생 시 Supabase Realtime을 통해 웹소켓 푸시됨)
-  if (matchedPlayerId && parsed.is_roster_rumor && targetTeamId) {
-    const { error: updateError } = await supabase
-      .from("players")
-      .update({
-        predicted_team_id: targetTeamId,
-        confidence: parsed.confidence,
-        status: parsed.status,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", matchedPlayerId);
-
-    if (updateError) {
-      console.error(`[Supabase] Failed to update player ${matchedPlayerId}:`, updateError);
-    } else {
-      console.log(
-        `[Supabase] Updated player ${matchedPlayerId} -> Team ${targetTeamId} (Confidence: ${parsed.confidence}%)`
-      );
-    }
-  }
+  return count || rows.length;
 }
-

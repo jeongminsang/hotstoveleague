@@ -1,42 +1,37 @@
-# 🕷️ HotStove Crawler (Cloudflare Worker)
+# HotStove League Draft Harvester (Cloudflare Worker)
 
-LCK 스토브리그 인사이더(웨이보, 트위터) 실시간 수집 및 Gemini AI 정제 엔진입니다.
+Cloudflare Worker 환경에서 실행되는 LoL 스토브리그 이적 루머 초안(`rumor_drafts`) 자동 수집 파이프라인입니다.
 
-## 🚀 배포 및 설정 가이드
+## 동작 방식
+1. **Cron 트리거**: 6시간마다 1회(`0 */6 * * *`) 자동 실행 (하루 4회, Gemini 무료 티어 할당량 준수)
+2. **Gemini Grounded Search**: 공식 구단 발표 및 신뢰도 높은 인사이더(Sheep Esports, @LEC_Wooloo, 웨이보 涵艺, 恋恋红茶 등) 출처의 최신 이적 루머를 실시간 웹 검색 기반으로 발굴
+3. **Draft 격리 보관**: 수집된 데이터는 공개 피드에 노출되지 않으며, `rumor_drafts` 테이블에 `status = 'pending'` 상태로만 안전하게 저장됩니다.
+4. **로컬 승인**: 사용자가 로컬 AI 검증 CLI (`pnpm drafts:review`)를 통해 교차 검증 후 승인(`approved`)해야 실제 사이트에 반영됩니다.
 
-### 1. Cloudflare 로그인
+## 환경 변수 및 Secret 설정
+
+`wrangler.toml`의 `[vars]`에 Supabase URL을 입력하고, 민감 정보는 `wrangler secret`으로 등록합니다:
+
 ```bash
-cd crawler
-pnpm dlx wrangler login
+# Supabase URL 설정 (wrangler.toml 또는 Secret)
+npx wrangler secret put SUPABASE_URL
+
+# Supabase Service Role Key (Draft 테이블 쓰기 권한)
+npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+
+# Google Gemini API Key (무료 티어 지원)
+npx wrangler secret put GEMINI_API_KEY
 ```
 
-### 2. Secrets 등록 (민감 정보 환경변수)
+## 로컬 테스트 및 배포
+
 ```bash
-# Supabase 서비스 롤 키 등록 (쓰기 권한 필요)
-pnpm dlx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+# 로컬 개발 서버 실행
+pnpm dev
 
-# Google Gemini API 키 등록 (무료)
-pnpm dlx wrangler secret put GEMINI_API_KEY
+# 수동 수집 트리거 테스트 (브라우저 또는 curl)
+curl http://localhost:8787/harvest
+
+# Cloudflare 배포
+pnpm deploy
 ```
-
-### 3. wrangler.toml 변수 설정
-`crawler/wrangler.toml`의 `[vars]`에 Supabase 프로젝트 URL을 입력합니다:
-```toml
-[vars]
-SUPABASE_URL = "https://your-project.supabase.co"
-WEIBO_SUB_COOKIE = "선택사항"
-```
-
-### 4. Cloudflare Worker 배포
-```bash
-pnpm run deploy
-```
-배포되면 **1분 주기 Cron Trigger (`* * * * *`)**가 자동으로 활성화되어 상시 감시가 시작됩니다.
-
-### 5. 수동 테스트 및 실시간 로그 모니터링
-* **수동 트리거**: 배포된 Worker URL의 `GET /crawl` 또는 `GET /health` 호출
-* **실시간 로그 보기**:
-  ```bash
-  pnpm dlx wrangler tail
-  ```
-

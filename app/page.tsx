@@ -207,33 +207,32 @@ export default async function Index() {
   ];
 
   const seedByPostId = new Map(INITIAL_RUMORS.map((sr) => [sr.post_id, sr]));
-  const verifiedDbRumors: Rumor[] = rawRumors
-    .filter((r) => seedByPostId.has(r.post_id || ""))
-    .map((r) => {
-      const sr = seedByPostId.get(r.post_id || "")!;
-      return {
-        ...r,
-        source: sr.source,
-        author: sr.author,
-        author_en: sr.author_en,
-        author_zh: sr.author_zh,
-        raw_text: sr.raw_text,
-        summary: sr.summary,
-        summary_en: sr.summary_en,
-        summary_zh: sr.summary_zh,
-        target_team_id: sr.target_team_id,
-        confidence: sr.confidence,
-        post_url: sr.post_url,
-        published_at: sr.published_at,
-        league: sr.league,
-        player_name: sr.player_name,
-        current_team_short: sr.current_team_short,
-        target_team_short: sr.target_team_short,
-      };
-    });
+  // DB에 저장된 루머가 있으면 이를 직접 사용하되, 혹시 누락된 메타데이터가 있다면 seed 데이터로 보강
+  const verifiedDbRumors: Rumor[] = rawRumors.map((r) => {
+    const sr = r.post_id ? seedByPostId.get(r.post_id) : undefined;
+    return {
+      ...r,
+      source: r.source || sr?.source || "X",
+      author: r.author || sr?.author || "Unknown",
+      author_en: r.author_en || sr?.author_en,
+      author_zh: r.author_zh || sr?.author_zh,
+      raw_text: r.raw_text || sr?.raw_text || "",
+      summary: r.summary || sr?.summary || "",
+      summary_en: r.summary_en || sr?.summary_en,
+      summary_zh: r.summary_zh || sr?.summary_zh,
+      target_team_id: r.target_team_id ?? sr?.target_team_id ?? null,
+      confidence: r.confidence ?? sr?.confidence ?? 80,
+      post_url: r.post_url ?? sr?.post_url ?? null,
+      published_at: r.published_at ?? sr?.published_at ?? new Date().toISOString(),
+      league: r.league || sr?.league,
+      player_name: r.player_name || sr?.player_name,
+      current_team_short: r.current_team_short || sr?.current_team_short,
+      target_team_short: r.target_team_short || sr?.target_team_short,
+    };
+  });
 
   const rumors: Rumor[] =
-    verifiedDbRumors.length >= INITIAL_RUMORS.length
+    verifiedDbRumors.length > 0
       ? verifiedDbRumors
       : INITIAL_RUMORS.map((sr) => ({
           id: sr.id,

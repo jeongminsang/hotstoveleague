@@ -41,8 +41,8 @@ export default function RumorsListClient({
   const [selectedSource, setSelectedSource] = useState<string>("ALL");
   const [sortDesc, setSortDesc] = useState<boolean>(true);
 
-  // DB에 찌라시가 있으면 DB 데이터를 우선하되 메타데이터를 보강하고,
-  // 아직 seed.sql 재실행 전이라 비어 있으면 INITIAL_RUMORS 34건을 즉시 활용
+  // DB에 찌라시가 있으면 DB 데이터를 우선 활용하고(누락 시 seed로 보강),
+  // DB가 완전히 비어있을 때만 INITIAL_RUMORS를 기본 표시
   const allRumors: EnrichedRumor[] = useMemo(() => {
     const seedByPostId = new Map<string, SeedRumor>(
       INITIAL_RUMORS.map((r) => [r.post_id, r])
@@ -50,13 +50,9 @@ export default function RumorsListClient({
     const teamById = new Map<number, Team>(teams.map((tm) => [tm.id, tm]));
     const playerById = new Map<number, Player>(players.map((pl) => [pl.id, pl]));
 
-    const verifiedDbRumors = dbRumors.filter((r) =>
-      seedByPostId.has(r.post_id || "")
-    );
-
-    if (verifiedDbRumors.length >= INITIAL_RUMORS.length) {
-      return verifiedDbRumors.map((r) => {
-        const seed = seedByPostId.get(r.post_id)!;
+    if (dbRumors.length > 0) {
+      return dbRumors.map((r) => {
+        const seed = r.post_id ? seedByPostId.get(r.post_id) : undefined;
         const pl = r.player_id ? playerById.get(r.player_id) : undefined;
         const curTeam = pl?.current_team_id
           ? teamById.get(pl.current_team_id)
@@ -64,22 +60,23 @@ export default function RumorsListClient({
 
         return {
           ...r,
-          source: seed.source,
-          author: seed.author,
-          author_en: seed.author_en,
-          author_zh: seed.author_zh,
-          raw_text: seed.raw_text,
-          summary: seed.summary,
-          summary_en: seed.summary_en,
-          summary_zh: seed.summary_zh,
-          target_team_id: seed.target_team_id,
-          confidence: seed.confidence,
-          post_url: seed.post_url,
-          published_at: seed.published_at,
-          player_name: seed.player_name || pl?.name,
-          current_team_short: seed.current_team_short || curTeam?.short_name,
-          target_team_short: seed.target_team_short,
-          league: seed.league || curTeam?.league || "LCK",
+          source: r.source || seed?.source || "X",
+          author: r.author || seed?.author || "Unknown",
+          author_en: r.author_en || seed?.author_en,
+          author_zh: r.author_zh || seed?.author_zh,
+          raw_text: r.raw_text || seed?.raw_text || "",
+          summary: r.summary || seed?.summary || "",
+          summary_en: r.summary_en || seed?.summary_en,
+          summary_zh: r.summary_zh || seed?.summary_zh,
+          target_team_id: r.target_team_id ?? seed?.target_team_id ?? null,
+          confidence: r.confidence ?? seed?.confidence ?? 80,
+          post_url: r.post_url ?? seed?.post_url ?? null,
+          published_at: r.published_at ?? seed?.published_at ?? new Date().toISOString(),
+          player_name: r.player_name || seed?.player_name || pl?.name,
+          current_team_short:
+            r.current_team_short || seed?.current_team_short || curTeam?.short_name,
+          target_team_short: r.target_team_short || seed?.target_team_short,
+          league: r.league || seed?.league || curTeam?.league || "LCK",
         };
       });
     }
