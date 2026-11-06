@@ -1,10 +1,7 @@
-import HeaderAuth from "@/components/header-auth";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import { LanguageProvider } from "@/components/language-provider";
+import Navbar from "@/components/Navbar";
 import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
-import Link from "next/link";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -12,8 +9,15 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
+  description: "Real-time AI transfer predictions, official rosters and insider rumors for LCK, LPL, LEC, LCS",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -22,47 +26,51 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col items-center">
-              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-                  <div className="flex gap-5 items-center font-semibold">
-                    <Button size="sm" variant={"outline"}>
-                      <Link href="/">HotStoveLeague</Link>
-                    </Button>
-                  </div>
-                  {<HeaderAuth />}
+    <html lang="en" className={`${GeistSans.className} dark`}>
+      <body className="bg-[#0b0e11] text-[#eaecef] antialiased min-h-screen flex flex-col selection:bg-[#FCD535] selection:text-[#181a20]">
+        <LanguageProvider>
+          {/* Top Binance-style Dark Nav */}
+          <Navbar />
+
+          {/* Main Content Area (Max Width 1280px / 1440px for Product Density) */}
+          <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col gap-8">
+            {children}
+          </main>
+
+          {/* Footer: Binance design.md spec (Surface Soft Light #fafafa, Hairline Light #eaecef, Vertical padding 64px, Muted #707a8a) */}
+          <footer className="w-full bg-[#fafafa] text-[#181a20] border-t border-[#eaecef] mt-auto">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-8 text-[13px] text-[#707a8a]">
+              {/* Brand & Mission Statement */}
+              <div className="flex flex-col gap-1.5 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <span className="font-extrabold tracking-tight text-base text-[#181a20]">
+                    HOTSTOVE<span className="text-[#f0b90b]">.LEAGUE</span>
+                  </span>
+                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#f5f5f5] text-[#707a8a] border border-[#eaecef]">
+                    TERMINAL
+                  </span>
                 </div>
-              </nav>
-              <div className="flex flex-col gap-20 w-full p-5 flex-center">
-                {children}
+                <p className="text-xs text-[#707a8a] max-w-md leading-relaxed">
+                  Professional League of Legends Off-season Roster & Intelligence Terminal. Real-time verified rumors & official rosters across global leagues.
+                </p>
               </div>
 
-              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-                <p>
-                  Powered by{" "}
-                  <a
-                    href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-                    target="_blank"
-                    className="font-bold hover:underline"
-                    rel="noreferrer"
-                  >
-                    Supabase
-                  </a>
-                </p>
-                <ThemeSwitcher />
-              </footer>
+              {/* Leagues & Copyright */}
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-xs font-medium">
+                <div className="flex items-center gap-4 text-[#181a20]">
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCK</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LPL</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LEC</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCS</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCP</span>
+                  <span className="hover:text-[#f0b90b] cursor-default transition-colors">CBLOL</span>
+                </div>
+                <span className="hidden sm:inline text-[#cdd1d6]">|</span>
+                <span className="text-[#707a8a]">HotStoveLeague © 2026. All rights reserved.</span>
+              </div>
             </div>
-          </main>
-        </ThemeProvider>
+          </footer>
+        </LanguageProvider>
       </body>
     </html>
   );
