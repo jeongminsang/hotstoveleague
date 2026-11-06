@@ -49,13 +49,27 @@ CREATE INDEX IF NOT EXISTS idx_rumor_drafts_status ON rumor_drafts(status);
 CREATE INDEX IF NOT EXISTS idx_rumor_drafts_collected_at ON rumor_drafts(collected_at DESC);
 CREATE INDEX IF NOT EXISTS idx_rumor_drafts_post_id ON rumor_drafts(post_id);
 
--- 4. RLS 설정: rumor_drafts는 관리자/service_role만 접근 가능 (익명 사용자 접근 원천 차단)
+-- 4. RLS 및 쓰기 권한: publishable key(anon)로도 draft와 rumors/players 관리 가능하도록 허용
 ALTER TABLE rumor_drafts ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Service role full access to rumor_drafts" ON rumor_drafts;
-CREATE POLICY "Service role full access to rumor_drafts"
+DROP POLICY IF EXISTS "Allow all access to rumor_drafts" ON rumor_drafts;
+CREATE POLICY "Allow all access to rumor_drafts"
     ON rumor_drafts FOR ALL
-    TO service_role
+    USING (true)
+    WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Service role can modify rumors" ON rumors;
+DROP POLICY IF EXISTS "Allow modify rumors" ON rumors;
+CREATE POLICY "Allow modify rumors"
+    ON rumors FOR ALL
+    USING (true)
+    WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Service role can modify players" ON players;
+DROP POLICY IF EXISTS "Allow modify players" ON players;
+CREATE POLICY "Allow modify players"
+    ON players FOR ALL
     USING (true)
     WITH CHECK (true);
 

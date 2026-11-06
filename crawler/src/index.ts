@@ -26,7 +26,7 @@ export async function runDraftHarvestPipeline(env: Env): Promise<{
     return { discoveredCount: 0, newDraftCount: 0, savedCount: 0 };
   }
 
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!env.SUPABASE_URL || !env.SUPABASE_KEY) {
     console.warn("[Draft Crawler] Supabase credentials missing. Returning candidate count only.");
     return {
       discoveredCount: candidateDrafts.length,

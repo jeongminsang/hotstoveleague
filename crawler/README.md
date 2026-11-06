@@ -10,16 +10,16 @@ Cloudflare Worker 환경에서 실행되는 LoL 스토브리그 이적 루머 �
 
 ## 환경 변수 및 Secret 설정
 
-`wrangler.toml`의 `[vars]`에 Supabase URL을 입력하고, 민감 정보는 `wrangler secret`으로 등록합니다:
+`wrangler.toml`의 `[vars]`에 Supabase URL을 입력하고, 키는 `wrangler secret`으로 등록합니다:
 
 ```bash
-# Supabase URL 설정 (wrangler.toml 또는 Secret)
+# 1. Supabase Project URL (NEXT_PUBLIC_SUPABASE_URL 값)
 npx wrangler secret put SUPABASE_URL
 
-# Supabase Service Role Key (Draft 테이블 쓰기 권한)
-npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+# 2. Supabase Key (NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY 값)
+npx wrangler secret put SUPABASE_KEY
 
-# Google Gemini API Key (무료 티어 지원)
+# 3. Google Gemini API Key (GEMINI_API_KEY 값)
 npx wrangler secret put GEMINI_API_KEY
 ```
 

@@ -2,7 +2,7 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Env, CandidateDraft, RumorDraftRow } from "./types";
 
 export function getSupabaseClient(env: Env): SupabaseClient {
-  return createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
+  return createClient(env.SUPABASE_URL, env.SUPABASE_KEY, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,

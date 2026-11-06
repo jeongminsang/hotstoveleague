@@ -9,6 +9,6 @@ crons = ["0 */6 * * *"]
 [vars]
 SUPABASE_URL = ""
 
-# Secrets (wrangler secret put 으로 등록 권장):
-# SUPABASE_SERVICE_ROLE_KEY
-# GEMINI_API_KEY
+# Secrets (wrangler secret put 으로 등록):
+# SUPABASE_KEY (본인의 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY 입력)
+# GEMINI_API_KEY (본인의 GEMINI_API_KEY 입력)

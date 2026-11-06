@@ -128,12 +128,12 @@ CREATE POLICY "Public players are viewable by everyone" ON players FOR SELECT US
 CREATE POLICY "Public coaches are viewable by everyone" ON coaches FOR SELECT USING (true);
 CREATE POLICY "Public rumors are viewable by everyone" ON rumors FOR SELECT USING (true);
 
--- 쓰기는 Service Role (Cloudflare Worker 및 관리자)만 허용
+-- 쓰기는 Service Role 및 API Key (Cloudflare Worker 및 로컬 CLI) 허용
 CREATE POLICY "Service role can modify teams" ON teams FOR ALL TO service_role USING (true);
-CREATE POLICY "Service role can modify players" ON players FOR ALL TO service_role USING (true);
+CREATE POLICY "Service role can modify players" ON players FOR ALL USING (true);
 CREATE POLICY "Service role can modify coaches" ON coaches FOR ALL TO service_role USING (true);
-CREATE POLICY "Service role can modify rumors" ON rumors FOR ALL TO service_role USING (true);
-CREATE POLICY "Service role can modify rumor_drafts" ON rumor_drafts FOR ALL TO service_role USING (true);
+CREATE POLICY "Service role can modify rumors" ON rumors FOR ALL USING (true);
+CREATE POLICY "Allow modify rumor_drafts" ON rumor_drafts FOR ALL USING (true);
 
 -- 8. Supabase Realtime 활성화 (웹소켓 실시간 이벤트 전송)
 ALTER PUBLICATION supabase_realtime ADD TABLE players;
