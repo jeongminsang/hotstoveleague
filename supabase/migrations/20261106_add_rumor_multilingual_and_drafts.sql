@@ -59,6 +59,17 @@ CREATE POLICY "Service role full access to rumor_drafts"
     USING (true)
     WITH CHECK (true);
 
--- 5. Realtime 발행 목록 추가 (선택사항)
-ALTER PUBLICATION supabase_realtime ADD TABLE rumors;
+-- 5. Realtime 발행 목록 안전 추가 (이미 등록되어 있으면 건너뜀)
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_publication_tables
+        WHERE pubname = 'supabase_realtime'
+          AND schemaname = 'public'
+          AND tablename = 'rumors'
+    ) THEN
+        ALTER PUBLICATION supabase_realtime ADD TABLE rumors;
+    END IF;
+END $$;
 
