@@ -3,14 +3,65 @@ import Navbar from "@/components/Navbar";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
+const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL
+  ? process.env.NEXT_PUBLIC_SITE_URL
+  : process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  : "https://hotstoveleague.lol";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
   description: "Real-time AI transfer predictions, official rosters and insider rumors for LCK, LPL, LEC, LCS",
+  applicationName: "HotStoveLeague",
+  keywords: [
+    "LoL",
+    "League of Legends",
+    "Stove League",
+    "LCK",
+    "LPL",
+    "LEC",
+    "LCS",
+    "Roster",
+    "Transfer",
+    "Rumors",
+    "스토브리그",
+    "롤 이적시장",
+    "2026 LoL",
+    "2027 LoL",
+  ],
+  authors: [{ name: "HotStoveLeague" }],
+  creator: "HotStoveLeague",
+  publisher: "HotStoveLeague",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["ko_KR", "zh_CN"],
+    url: "https://hotstoveleague.lol",
+    siteName: "HotStoveLeague",
+    title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
+    description: "Real-time AI transfer predictions, verified official rosters and insider rumors for LCK, LPL, LEC, LCS.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HotStoveLeague • LoL 2026/27 Transfer Terminal Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HotStoveLeague • LoL 2026/27 Transfer Terminal",
+    description: "Real-time AI transfer predictions, verified official rosters and insider rumors for LCK, LPL, LEC, LCS.",
+    images: ["/og-image.png"],
+    creator: "@HotStoveLeague",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
