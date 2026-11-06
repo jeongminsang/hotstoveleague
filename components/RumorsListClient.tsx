@@ -22,7 +22,9 @@ interface EnrichedRumor extends Rumor {
   target_team_short?: string;
   league?: string;
   author_en?: string;
+  author_zh?: string;
   summary_en?: string;
+  summary_zh?: string;
 }
 
 export default function RumorsListClient({
@@ -65,9 +67,11 @@ export default function RumorsListClient({
           source: seed.source,
           author: seed.author,
           author_en: seed.author_en,
+          author_zh: seed.author_zh,
           raw_text: seed.raw_text,
           summary: seed.summary,
           summary_en: seed.summary_en,
+          summary_zh: seed.summary_zh,
           target_team_id: seed.target_team_id,
           confidence: seed.confidence,
           post_url: seed.post_url,
@@ -86,9 +90,11 @@ export default function RumorsListClient({
       source: sr.source,
       author: sr.author,
       author_en: sr.author_en,
+      author_zh: sr.author_zh,
       raw_text: sr.raw_text,
       summary: sr.summary,
       summary_en: sr.summary_en,
+      summary_zh: sr.summary_zh,
       player_id: null,
       target_team_id: sr.target_team_id,
       confidence: sr.confidence,
@@ -232,17 +238,21 @@ export default function RumorsListClient({
                   : "bg-sky-600 text-white";
 
             const displayAuthor =
-              language === "en" && rumor.author_en
-                ? rumor.author_en
-                : rumor.author;
+              language === "zh" && rumor.author_zh
+                ? rumor.author_zh
+                : language === "en" && rumor.author_en
+                  ? rumor.author_en
+                  : rumor.author;
 
             const displaySummary =
-              language === "en" && rumor.summary_en
-                ? rumor.summary_en
-                : rumor.summary || rumor.raw_text;
+              language === "zh" && rumor.summary_zh
+                ? rumor.summary_zh
+                : language === "en" && rumor.summary_en
+                  ? rumor.summary_en
+                  : rumor.summary || rumor.raw_text;
 
             const formattedDate = new Date(rumor.published_at).toLocaleString(
-              language === "ko" ? "ko-KR" : "en-US",
+              language === "ko" ? "ko-KR" : language === "zh" ? "zh-CN" : "en-US",
               {
                 year: "numeric",
                 month: "short",
@@ -285,12 +295,16 @@ export default function RumorsListClient({
                         }`}
                       >
                         {isOfficial
-                          ? language === "ko"
-                            ? "오피셜"
-                            : "OFFICIAL"
-                          : language === "ko"
-                            ? "루머"
-                            : "RUMOR"}
+                          ? language === "zh"
+                            ? "官宣"
+                            : language === "ko"
+                              ? "오피셜"
+                              : "OFFICIAL"
+                          : language === "zh"
+                            ? "流言"
+                            : language === "ko"
+                              ? "루머"
+                              : "RUMOR"}
                       </Badge>
 
                       {rumor.league && (

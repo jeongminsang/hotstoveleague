@@ -41,9 +41,11 @@ export interface Rumor {
   source: "TWITTER" | "WEIBO" | "COMMUNITY" | "NEWS" | string;
   author: string;
   author_en?: string | null;
+  author_zh?: string | null;
   raw_text: string;
   summary: string | null;
   summary_en?: string | null;
+  summary_zh?: string | null;
   player_id: number | null;
   target_team_id: number | null;
   confidence: number;

@@ -79,7 +79,9 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
           const isOfficial = rumor.confidence === 100;
           const seed = seedByPostId.get(rumor.post_id || "");
           const author_en = rumor.author_en || seed?.author_en;
+          const author_zh = rumor.author_zh || seed?.author_zh;
           const summary_en = rumor.summary_en || seed?.summary_en;
+          const summary_zh = rumor.summary_zh || seed?.summary_zh;
           const league = rumor.league || seed?.league;
           const playerName = rumor.player_name || seed?.player_name;
           const currentTeam = rumor.current_team_short || seed?.current_team_short;
@@ -94,14 +96,18 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
                 : "bg-sky-600 text-white hover:bg-sky-700";
 
           const displayAuthor =
-            language === "en" && author_en
-              ? author_en
-              : rumor.author || seed?.author || "";
+            language === "zh" && author_zh
+              ? author_zh
+              : language === "en" && author_en
+                ? author_en
+                : rumor.author || seed?.author || "";
 
           const displaySummary =
-            language === "en" && summary_en
-              ? summary_en
-              : rumor.summary || seed?.summary || rumor.raw_text || "";
+            language === "zh" && summary_zh
+              ? summary_zh
+              : language === "en" && summary_en
+                ? summary_en
+                : rumor.summary || seed?.summary || rumor.raw_text || "";
 
           const content = (
             <>
@@ -115,12 +121,16 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
                     }`}
                   >
                     {isOfficial
-                      ? language === "ko"
-                        ? "오피셜"
-                        : "OFFICIAL"
-                      : language === "ko"
-                        ? "루머"
-                        : "RUMOR"}
+                      ? language === "zh"
+                        ? "官宣"
+                        : language === "ko"
+                          ? "오피셜"
+                          : "OFFICIAL"
+                      : language === "zh"
+                        ? "流言"
+                        : language === "ko"
+                          ? "루머"
+                          : "RUMOR"}
                   </Badge>
                   {league && (
                     <Badge variant="outline" className="text-[9px] px-1 py-0 font-bold border-primary/40 text-primary">
@@ -135,7 +145,7 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
                   </span>
                   <span className="text-[10px] text-muted-foreground font-mono">
                     {new Date(rumor.published_at).toLocaleDateString(
-                      language === "ko" ? "ko-KR" : "en-US",
+                      language === "ko" ? "ko-KR" : language === "zh" ? "zh-CN" : "en-US",
                       {
                         month: "short",
                         day: "numeric",

@@ -224,6 +224,7 @@ export default function TeamCard({
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title={
+                                  (language === "zh" && override?.summary_zh) ||
                                   (language === "en" && override?.summary_en) ||
                                   override?.summary ||
                                   t("rumorSourceClick")

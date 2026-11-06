@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export type Language = "ko" | "en";
+export type Language = "ko" | "en" | "zh";
 
 export const LEAGUES = [
   { key: "LCK", name: "LCK", region: "Korea" },
@@ -96,6 +96,47 @@ export const translations = {
     dbInitRequired: "Database Initialization Required",
     dbInitDesc: "Please run schema.sql and seed.sql in the Supabase SQL Editor.",
   },
+  zh: {
+    title: "全球英雄联盟转会期预测看板",
+    subtitle: "AI实时提炼全球各大联赛一手爆料与官宣数据，快人一步。",
+    navHome: "🔥 HotStoveLeague",
+    navOfficialAndRumors: "⚡ 官宣与流言",
+    liveRadar: "⚡ 实时爆料雷达",
+    latestRumors: "最新官宣与流言",
+    viewAllRumors: "查看全部官宣与流言",
+    rumorsPageTitle: "2027 转会期官宣与流言追踪",
+    rumorsPageSubtitle: "按时间线实时呈现俱乐部官方公告(Official)与第一梯队爆料人转会流言(Rumor)。点击直达原帖来源。",
+    backToRosters: "← 返回阵容预览",
+    sortNewest: "最新优先 (按时间)",
+    sortOldest: "最早优先 (按时间)",
+    rumorCountUnit: " 条",
+    emptyFilterRumors: "当前筛选条件下暂无官宣或流言数据。",
+    allSources: "全部来源",
+    allLeagues: "全部联赛",
+    viewOriginalPost: "查看原帖",
+    rumorSourceClick: "点击查看原帖来源",
+    resignNotice: "✓ 续约/留队消息",
+    stay: "留队",
+    noRumors: "暂无最新转会动态。",
+    noTeamsInLeague: "该联赛暂无注册战队信息。",
+    source: "来源",
+    confidence: "可信度",
+    officialRoster: "📋 2026 官方注册名单",
+    predictedRoster: "🔄 2027 预测阵容",
+    officialSubtitle: "2026 赛季官方注册阵容",
+    predictedSubtitle: "2027 转会期官宣与流言预测阵容",
+    headCoach: "主教练",
+    coach: "教练",
+    transferredNotice: "➔ 转会流言",
+    likely: "🔥 大概率",
+    rumor: "⚡ 流言",
+    vacant: "待定",
+    playersCount: "人",
+    envRequiredTitle: "需要配置 Supabase 环境变量",
+    envRequiredDesc: "请在项目根目录下创建 .env.local 文件并填入 Supabase 密钥。",
+    dbInitRequired: "需要初始化数据库",
+    dbInitDesc: "请在 Supabase 控制台的 SQL Editor 中运行 schema.sql 与 seed.sql。",
+  },
 };
 
 export const teamNames: Record<Language, Record<string, string>> = {
@@ -123,6 +164,34 @@ export const teamNames: Record<Language, Record<string, string>> = {
     NS: "Nongshim RedForce",
     DNS: "DN SOOPers",
   },
+  zh: {
+    T1: "T1",
+    GEN: "Gen.G",
+    HLE: "韩华生命电子竞技",
+    DK: "Dplus KIA",
+    KT: "kt 롤스터",
+    BFX: "BNK FEARX",
+    BRO: "韩进 BRION",
+    KRX: "DRX",
+    NS: "农心 RedForce",
+    DNS: "DN SOOPers",
+    BLG: "Bilibili Gaming",
+    TES: "Top Esports",
+    JDG: "JD Gaming",
+    WBG: "Weibo Gaming",
+    LNG: "LNG Esports",
+    NIP: "Ninjas in Pyjamas",
+    WE: "Team WE",
+    IG: "Invictus Gaming",
+    EDG: "EDward Gaming",
+    RNG: "Royal Never Give Up",
+    FPX: "FunPlus Phoenix",
+    AL: "Anyone's Legend",
+    LGD: "LGD Gaming",
+    OMG: "Oh My God",
+    TT: "ThunderTalk Gaming",
+    UP: "Ultra Prime",
+  },
 };
 
 interface LanguageContextType {
@@ -144,7 +213,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("stove_league_lang") as Language;
-    if (saved === "ko" || saved === "en") {
+    if (saved === "ko" || saved === "en" || saved === "zh") {
       setLanguageState(saved);
     }
   }, []);
