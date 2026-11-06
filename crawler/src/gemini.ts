@@ -1,133 +1,117 @@
 import { CandidateDraft } from "./types";
+import { RealNewsItem } from "./news";
 
-const SEARCH_PROMPTS = [
-  "LoL 2026 stove league transfer rumors Wooloo Sheep Esports LCK LPL",
-  "LOL 전이 涵艺 恋恋红茶 微博 2026 LPL LCK 转会期 爆料",
-  "League of Legends roster rumor confirmed 2026 T1 GenG HLE DK KT BLG TES JDG",
-];
-
-const SYSTEM_INSTRUCTION = `You are an elite League of Legends esports stove league investigator tracking active 2026-2027 offseason roster rumors and official moves.
-Current reference date: November 2026.
-Sources include trusted insiders (Sheep Esports, LEC Wooloo, official team announcements, reliable Chinese insiders like 涵艺, 恋恋红茶, 召唤师Park, 王玮晨, etc.).
-
-Your task is to extract newly reported roster rumors, contract renewals, FA departures, or signed deals for the 2026/2027 season.
-For each valid rumor, produce a structured JSON object according to the schema.
+const SYSTEM_INSTRUCTION = `You are an elite League of Legends esports stove league investigator.
+You are given REAL published articles and reports.
+Your job is to strictly analyze whether the article is related to LoL player/coach roster transfers, FA, contracts, or leaker reports (Sheep Esports, Wooloo, etc.).
 
 Strict Rules:
-1. Focus on League of Legends tier-1 professional leagues (LCK, LPL, LEC, LCS/Americas).
-2. published_at MUST strictly be in November 2026 (e.g. "2026-11-06T..."). Do NOT use 2024 or 2025 dates!
-3. author should be the insider handle or team (e.g. "@LEC_Wooloo", "Sheep Esports", "涵艺", "T1 LoL", "Dplus KIA").
-4. Provide summaries in 3 languages:
-   - summary (Korean)
-   - summary_en (English)
-   - summary_zh (Chinese)
-5. Keep team names in standard English short codes (e.g. T1, GEN, HLE, DK, KT, FOX, BRO, DRX, NS, KDF/DN, BLG, TES, JDG, WBG, iG, EDG, G2, FNC, TH, C9, TL).
-6. Player name should be their standard in-game ID (e.g. "Chovy", "Faker", "Ruler", "Kanavi", "Scout", "Gala", "Viper", "Canyon").
-7. post_id should be deterministic: e.g. "rumor-202611-" + author-player-target_team.
-8. Output JSON only matching the schema: { "drafts": [ CandidateDraft ] }`;
+1. Do NOT invent or fabricate any rumor.
+2. If the article is NOT a roster rumor or transfer news (e.g. general match recap or tournament awards), set is_roster_rumor: false.
+3. If it IS a roster transfer rumor/announcement:
+   - summary: 1-sentence concise factual summary in Korean
+   - summary_en: 1-sentence concise summary in English
+   - summary_zh: 1-sentence concise summary in Chinese
+   - player_name: player's official in-game tag (e.g. "Zicssi", "SkewMond", "Caps", "Ruler") or null if coach/general
+   - player_slug: lowercase tag (e.g. "zicssi") or null
+   - from_team: current team short code or null
+   - to_team: target or rumored team short code (e.g. "SK", "G2", "T1", "GEN", "FA") or null
+   - league: "LCK" | "LPL" | "LEC" | "LCS"
+   - kind: "TRANSFER" | "RENEWAL" | "FA" | "STAY"
+   - confidence: 90 for Sheep Esports/Wooloo reports, 100 for official announcements, 80 for press
+4. Return JSON only:
+{
+  "is_roster_rumor": boolean,
+  "summary": string,
+  "summary_en": string,
+  "summary_zh": string,
+  "player_name": string | null,
+  "player_slug": string | null,
+  "from_team": string | null,
+  "to_team": string | null,
+  "league": string,
+  "kind": string,
+  "confidence": number
+}`;
 
-export async function discoverDraftsWithGemini(
-  apiKey: string
-): Promise<CandidateDraft[]> {
+export async function parseRealNewsWithGemini(
+  apiKey: string,
+  news: RealNewsItem
+): Promise<CandidateDraft | null> {
   const model = "gemini-flash-lite-latest";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-  const nowIso = new Date().toISOString();
-  const requestBody = {
-    contents: [
-      {
-        parts: [
-          {
-            text: `Current Date is November 2026 (ISO: ${nowIso}).
-You are monitoring active LoL professional esports 2026 stove league transfer windows and official contract movements across LCK, LPL, LEC, and Americas.
-Generate notable, realistic 2026 offseason transfer rumors, contract renewals, or FA rumors involving key teams (T1, Gen.G, HLE, DK, KT, BLG, TES, JDG, WBG, G2, FNC, C9, TL) and star players (e.g., Chovy, Ruler, Kanavi, Scout, Gala, Tarzan, Kiin, Canyon, Peyz, Viper, Caps).
+  const prompt = `Analyze this real esports news report:
+Title: "${news.title}"
+Source Author: "${news.author}"
+Published Date: "${news.pubDate}"
 
-All rumors MUST have published_at timestamp set to current date in November 2026.
-
-Return at least 4 to 8 valid transfer rumors formatted as a JSON object:
-{
-  "drafts": [
-    {
-      "post_id": "rumor-202611-<slug>-<unique>",
-      "source": "COMMUNITY" | "X" | "WEIBO",
-      "author": "<reporter/leaker name>",
-      "author_en": "<author in en>",
-      "author_zh": "<author in zh>",
-      "raw_text": "<detailed description of the transfer report>",
-      "summary": "<1-line summary in Korean>",
-      "summary_en": "<1-line summary in English>",
-      "summary_zh": "<1-line summary in Chinese>",
-      "player_slug": "<lowercase player name>",
-      "player_name": "<Player ID>",
-      "current_team_short": "<team code>",
-      "target_team_short": "<team code>",
-      "league": "LCK" | "LPL" | "LEC" | "LCS",
-      "kind": "TRANSFER" | "RENEWAL" | "FA" | "STAY",
-      "confidence": 85,
-      "post_url": "https://x.com/Wooloo/status/20261106...",
-      "published_at": "${nowIso}"
-    }
-  ]
-}`,
-          },
-        ],
-      },
-    ],
-    generationConfig: {
-      temperature: 0.3,
-      response_mime_type: "application/json",
-    },
-    system_instruction: {
-      parts: [{ text: SYSTEM_INSTRUCTION }],
-    },
-  };
+Extract transfer data according to the schema. If it is not a roster transfer rumor or report, set is_roster_rumor to false.`;
 
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.1,
+          response_mime_type: "application/json",
+        },
+        system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+      }),
     });
 
     if (!res.ok) {
       const errText = await res.text();
-      throw new Error(`Gemini API HTTP ${res.status}: ${errText}`);
+      console.error(`[Gemini Parse] HTTP ${res.status}:`, errText);
+      return null;
     }
 
-    const data = (await res.json()) as {
-      candidates?: Array<{
-        content?: {
-          parts?: Array<{ text?: string }>;
-        };
-      }>;
-    };
-
+    const data = (await res.json()) as any;
     const textOutput = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!textOutput) {
-      throw new Error(`Empty response from Gemini: ${JSON.stringify(data)}`);
+    if (!textOutput) return null;
+
+    const rawTitle = (news.title || "").toLowerCase();
+    // Exclude Valorant / VCT titles to keep strictly League of Legends
+    if (rawTitle.includes("vct") || rawTitle.includes("valorant")) {
+      return null;
     }
 
-    let parsed: any = JSON.parse(textOutput);
-    let drafts: CandidateDraft[] = [];
-    if (Array.isArray(parsed)) {
-      drafts = parsed;
-    } else if (Array.isArray(parsed?.drafts)) {
-      drafts = parsed.drafts;
-    } else if (Array.isArray(parsed?.items)) {
-      drafts = parsed.items;
-    } else if (Array.isArray(parsed?.rumors)) {
-      drafts = parsed.rumors;
-    } else if (typeof parsed === "object" && parsed !== null) {
-      // If single draft returned
-      drafts = [parsed];
+    // Direct detection of Sheep Esports / Wooloo source reports
+    const isSourceReport = /sources:|sources |verbal agreement|won't continue|set to join|to join|transfer|roster/i.test(news.title);
+
+    let parsed: any = null;
+    try {
+      parsed = JSON.parse(textOutput);
+    } catch {
+      return null;
     }
 
-    if (drafts.length === 0) {
-      throw new Error(`Parsed JSON had 0 items: ${textOutput.slice(0, 200)}`);
-    }
+    if (!parsed?.is_roster_rumor && !isSourceReport) return null;
 
-    return drafts.filter((d) => Boolean(d && (d.summary || d.raw_text)));
-  } catch (err: any) {
-    throw new Error(`[discoverDraftsWithGemini] ${err?.message || String(err)}`);
+    return {
+      post_id: news.id,
+      source: (news.source as any) || "NEWS",
+      author: news.author,
+      author_en: news.author,
+      author_zh: news.author,
+      raw_text: news.title,
+      summary: parsed.summary,
+      summary_en: parsed.summary_en,
+      summary_zh: parsed.summary_zh,
+      player_slug: parsed.player_slug || undefined,
+      player_name: parsed.player_name || undefined,
+      current_team_short: parsed.from_team || undefined,
+      target_team_short: parsed.to_team || undefined,
+      league: parsed.league || "LCK",
+      kind: parsed.kind || "UNKNOWN",
+      confidence: parsed.confidence || 85,
+      post_url: news.link, // REAL actual link from Google News RSS
+      published_at: news.pubDate, // REAL actual published date from source
+    };
+  } catch (err) {
+    console.error("[Gemini Parse] Failed to parse article:", err);
+    return null;
   }
 }
