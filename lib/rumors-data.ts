@@ -528,18 +528,18 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     author_en:
       "BNK FEARX LoL (@BNKFEARXLoL)",
     raw_text:
-      "[안내] 2027 LCK 스토브리그를 앞두고 BNK FEARX 선수단 운영 및 핵심 로스터 계약 현황에 대해 팬 여러분께 안내드립니다.",
+      "[안내] 최근 소속 선수단 관련 루머에 대해 안내드립니다. 당 구단은 현재 소속 선수들에게 타 팀과의 사전 접촉을 허용한 사실이 없으며, 공식적인 이적 문의나 상호 합의 또한 일체 없었음을 밝힙니다. 팬 여러분께서는 확인되지 않은 추측성 루머 유포를 자제해 주시기를 바랍니다.",
     summary:
-      "[오피셜] BNK 피어엑스(BFX), 2027 시즌 스토브리그 선수단 운영 방침 및 클리어(Clear)·빅라(VicLa)·디아블(Diable) 코어 체제 공식 안내 (BNK FEARX official statement ahead of the 2027 LCK Stove League)",
+      "[오피셜] BNK 피어엑스(BFX), 선수단(랩터·태윤·켈린) KT 이적설 관련 공식 입장문 발표… '타 팀 사전 접촉 허용한 바 없으며 사실무근, 루머 유포 자제 당부' (BNK FEARX statement denying pre-contact rumors)",
     summary_en:
-      "[Official] BNK FEARX releases official statement on 2027 stove league strategy and core roster (Clear, VicLa, Diable).",
-    player_slug: "diable",
-    player_name: "Diable",
+      "[Official] BNK FEARX releases official statement regarding KT transfer rumors (Raptor, Taeyoon, Kellin): 'No permission given for pre-contract talks; please refrain from unverified rumors.'",
+    player_slug: "bfx_statement",
+    player_name: "Raptor / Kellin / Taeyoon",
     current_team_short: "BFX",
     target_team_short: "BFX",
     target_team_id: 6,
     league: "LCK",
-    confidence: 95,
+    confidence: 100,
     post_url: "https://x.com/BNKFEARXLoL/status/2113580536044429595",
     published_at: "2026-10-23T12:45:00Z",
   },
@@ -1137,31 +1137,6 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       "[울루/Sheep Esports] KT 롤스터가 2027 시즌 서포터 켈린(Kellin) 영입을 추진함에 따라 기존 서포터 에포트(Effort) FA 전환",
     summary_en:
       "[Wooloo/Sheep Esports] With KT Rolster pursuing support Kellin for 2027, incumbent support Effort enters free agency (FA).",
-  },
-  // LCK: BNK FEARX 코어 잔류 (@BNKFEARXLoL)
-  clear: {
-    predicted_team_id: 6,
-    confidence: 95,
-    status: "CONFIRMED",
-    source_url: "https://x.com/BNKFEARXLoL/status/2113580536044429595",
-    author: "BNK FEARX LoL (@BNKFEARXLoL)",
-    author_en: "BNK FEARX LoL (@BNKFEARXLoL)",
-    summary:
-      "[오피셜] BNK 피어엑스, 2027 스토브리그 선수단 운영 안내를 통해 탑 클리어(Clear)·미드 빅라(VicLa)·원딜 디아블(Diable) 코어 체제 확인",
-    summary_en:
-      "[Official] BNK FEARX confirms 2027 core roster around top Clear, mid VicLa, and ADC Diable.",
-  },
-  vicla: {
-    predicted_team_id: 6,
-    confidence: 95,
-    status: "CONFIRMED",
-    source_url: "https://x.com/BNKFEARXLoL/status/2113580536044429595",
-    author: "BNK FEARX LoL (@BNKFEARXLoL)",
-    author_en: "BNK FEARX LoL (@BNKFEARXLoL)",
-    summary:
-      "[오피셜] BNK 피어엑스, 2027 스토브리그 선수단 운영 안내를 통해 미드 빅라(VicLa)·탑 클리어(Clear)·원딜 디아블(Diable) 코어 체제 확인",
-    summary_en:
-      "[Official] BNK FEARX confirms 2027 core roster around mid VicLa, top Clear, and ADC Diable.",
   },
   // LCK: 한화생명(HLE) 2년 계약 잔류 코어 (@恋恋红茶_244)
   zeka: {
