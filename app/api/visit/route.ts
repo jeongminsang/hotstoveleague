@@ -1,19 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPABASE_KEY =
-  process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+export const dynamic = "force-dynamic";
 
 // Base offset requested by user (between 20 ~ 43, default 34)
 const BASE_OFFSET = 34;
 
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    return null;
+  }
+
+  return createClient(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
+
 export async function GET(req: NextRequest) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) {
+      return NextResponse.json({
+        today_uniques: 3,
+        today_views: 12,
+        total_uniques: BASE_OFFSET,
+        fallback: true,
+      });
+    }
+
     const today = new Date().toISOString().slice(0, 10);
     const { data: rows, error } = await supabase
       .from("site_visits")
@@ -50,6 +70,16 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
     const isUnique = Boolean(body.isUnique);
     const today = new Date().toISOString().slice(0, 10);
+
+    const supabase = getSupabase();
+    if (!supabase) {
+      return NextResponse.json({
+        today_uniques: isUnique ? 1 : 0,
+        today_views: 1,
+        total_uniques: BASE_OFFSET,
+        fallback: true,
+      });
+    }
 
     // 1. First attempt: call RPC record_site_visit
     const { data: rpcData, error: rpcError } = await supabase.rpc("record_site_visit", {
@@ -104,4 +134,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
