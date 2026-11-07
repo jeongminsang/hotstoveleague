@@ -1,5 +1,7 @@
 import { LanguageProvider } from "@/components/language-provider";
 import Navbar from "@/components/Navbar";
+import VisitorCounter from "@/components/VisitorCounter";
+import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
@@ -103,6 +105,8 @@ export default function RootLayout({
 
               {/* Leagues & Copyright */}
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-xs font-medium">
+                <VisitorCounter />
+                <span className="hidden sm:inline text-[#cdd1d6]">|</span>
                 <div className="flex items-center gap-4 text-[#181a20]">
                   <span className="hover:text-[#f0b90b] cursor-default transition-colors">LCK</span>
                   <span className="hover:text-[#f0b90b] cursor-default transition-colors">LPL</span>
@@ -117,6 +121,7 @@ export default function RootLayout({
             </div>
           </footer>
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
