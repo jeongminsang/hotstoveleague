@@ -185,8 +185,10 @@ async function publishApproved(dryRun = false) {
   let updatedRosters = 0;
 
   for (const draft of approvedDrafts) {
-    const targetTeamId = draft.target_team_short
-      ? teamByShort.get(draft.target_team_short.toUpperCase()) || null
+    const toShort = draft.target_team_short || draft.to_team || null;
+    const fromShort = draft.current_team_short || draft.from_team || null;
+    const targetTeamId = toShort
+      ? teamByShort.get(toShort.toUpperCase()) || null
       : null;
 
     let matchedPlayerId: number | null = null;
@@ -198,7 +200,7 @@ async function publishApproved(dryRun = false) {
       if (p) matchedPlayerId = p.id;
     }
 
-    console.log(`\n• Draft #${draft.id}: [${draft.league || "LCK"}] ${draft.player_name || "Unknown"} -> ${draft.target_team_short || "FA"}`);
+    console.log(`\n• Draft #${draft.id}: [${draft.league || "LCK"}] ${draft.player_name || "Unknown"} -> ${toShort || "FA"}`);
     console.log(`  Summary: ${draft.summary}`);
 
     if (dryRun) {
@@ -229,8 +231,8 @@ async function publishApproved(dryRun = false) {
         league: draft.league,
         player_slug: draft.player_slug,
         player_name: draft.player_name,
-        current_team_short: draft.current_team_short,
-        target_team_short: draft.target_team_short,
+        current_team_short: fromShort,
+        target_team_short: toShort,
       },
       { onConflict: "post_id" }
     );
