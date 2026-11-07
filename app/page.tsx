@@ -77,7 +77,7 @@ export default async function Index() {
   const rawRumors = (rumorsData as Rumor[]) || [];
 
   // 1. 한화생명(HLE, id: 3) 정글러가 구버전 DB에서 Peanut으로 남아있을 경우 Kanavi(서진혁)로 즉시 보정
-  // 2. 오피셜 구단/선수 계정 및 1티어 원천 소식통(PREDICTED_PLAYER_OVERRIDES)만 반영하고, 이외 이전 DB 잔여 예측값은 초기화
+  // 2. 1순위 PREDICTED_PLAYER_OVERRIDES, 2순위 DB players 레코드의 predicted_team_id / 루머 반영, 3순위 원래 소속팀 유지
   const mappedPlayers: Player[] = rawPlayers
     .filter((raw) => (raw.slug || raw.name || "").toLowerCase() !== "piero")
     .map((raw) => {
@@ -104,6 +104,21 @@ export default async function Index() {
           source_url: override.source_url,
         };
       }
+
+      // DB에 수집·승인된 최신 루머로 predicted_team_id나 status가 업데이트된 경우 그대로 우선 채택
+      if (
+        p.predicted_team_id !== undefined &&
+        (p.predicted_team_id !== p.current_team_id || (p.status && p.status !== "STAY"))
+      ) {
+        return {
+          ...p,
+          predicted_team_id: p.predicted_team_id,
+          confidence: p.confidence || 80,
+          status: p.status || "RUMORED",
+          source_url: p.source_url || undefined,
+        };
+      }
+
       return {
         ...p,
         predicted_team_id: p.current_team_id,
