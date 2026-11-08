@@ -10,7 +10,7 @@ import {
   MISSING_LPL_TEAMS,
   MISSING_LPL_PLAYERS,
 } from "@/lib/rumors-data";
-import { GLOBAL_COACHES } from "@/lib/coaches-data";
+import { GLOBAL_COACHES, PREDICTED_COACH_OVERRIDES } from "@/lib/coaches-data";
 
 export default async function Index() {
   if (!hasEnvVars) {
@@ -76,10 +76,67 @@ export default async function Index() {
   const rawPlayers = (playersData as Player[]) || [];
   const rawDbCoaches = (coachesData as Coach[]) || [];
   const dbCoachTeamIds = new Set(rawDbCoaches.map((c) => c.team_id));
-  const coaches: Coach[] = [
+  const baseCoaches: Coach[] = [
     ...rawDbCoaches,
     ...GLOBAL_COACHES.filter((gc) => !dbCoachTeamIds.has(gc.team_id)),
   ];
+
+  // 2027 시즌 예상 감코진 (루머 및 CONFIRMED 반영)
+  const coachOverridesList = Object.values(PREDICTED_COACH_OVERRIDES);
+  const expectedCoaches: Coach[] = [];
+
+  baseCoaches.forEach((bc) => {
+    // G2의 경우 Perkz 감독은 2027 시즌 결별로 2027 예상 명단에서 제외
+    if (bc.team_id === 21 && bc.name.toLowerCase() === "perkz") {
+      return;
+    }
+
+    const matchedOverride = coachOverridesList.find(
+      (cov) =>
+        cov.predicted_team_id === bc.team_id &&
+        cov.name.toLowerCase() === bc.name.toLowerCase()
+    );
+
+    if (matchedOverride) {
+      expectedCoaches.push({
+        ...bc,
+        predicted_team_id: matchedOverride.predicted_team_id,
+        status: matchedOverride.status,
+        confidence: matchedOverride.confidence,
+        source_url: matchedOverride.source_url,
+      });
+    } else {
+      expectedCoaches.push({
+        ...bc,
+        predicted_team_id: bc.team_id,
+      });
+    }
+  });
+
+  // 신규 팀 합류 루머 코치들 추가 (G2 Mithy 등)
+  let extraCoachIdCounter = 8000;
+  coachOverridesList.forEach((cov) => {
+    const alreadyExists = expectedCoaches.some(
+      (c) =>
+        c.predicted_team_id === cov.predicted_team_id &&
+        c.name.toLowerCase() === cov.name.toLowerCase()
+    );
+    if (!alreadyExists && cov.predicted_team_id) {
+      expectedCoaches.push({
+        id: ++extraCoachIdCounter,
+        team_id: cov.predicted_team_id,
+        role: cov.role,
+        name: cov.name,
+        real_name: cov.real_name,
+        predicted_team_id: cov.predicted_team_id,
+        status: cov.status,
+        confidence: cov.confidence,
+        source_url: cov.source_url,
+      });
+    }
+  });
+
+  const coaches = baseCoaches;
   const rawRumors = (rumorsData as Rumor[]) || [];
 
   // 1. 한화생명(HLE, id: 3) 정글러가 구버전 DB에서 Peanut으로 남아있을 경우 Kanavi(서진혁)로 즉시 보정
@@ -300,6 +357,7 @@ export default async function Index() {
           initialTeams={teams}
           initialPlayers={players}
           initialCoaches={coaches}
+          expectedCoaches={expectedCoaches}
         />
       )}
     </div>

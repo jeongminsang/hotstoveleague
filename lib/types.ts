@@ -16,6 +16,10 @@ export interface Coach {
   role: "HEAD_COACH" | "COACH";
   name: string;
   real_name: string | null;
+  predicted_team_id?: number | null;
+  status?: "CONFIRMED" | "RUMORED" | "FA" | "STAY";
+  confidence?: number;
+  source_url?: string | null;
 }
 
 export interface Player {

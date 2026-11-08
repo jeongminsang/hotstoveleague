@@ -17,19 +17,26 @@ export default function TeamCard({
   teamRoster,
   expectedRoster,
   coaches = [],
+  expectedCoaches = [],
 }: {
   team: Team;
   allTeams?: Team[];
   teamRoster: Player[];
   expectedRoster: Player[];
   coaches?: Coach[];
+  expectedCoaches?: Coach[];
 }) {
   const { t, getTeamName } = useLanguage();
   const [isPrevRoster, setPrevRoster] = useState(false); // 기본 Expected (예측)
 
   const activeRoster = isPrevRoster ? teamRoster : expectedRoster;
-  const headCoaches = coaches.filter((c) => c.role === "HEAD_COACH");
-  const subCoaches = coaches.filter((c) => c.role === "COACH");
+  const activeCoaches = isPrevRoster
+    ? coaches
+    : expectedCoaches && expectedCoaches.length > 0
+    ? expectedCoaches
+    : coaches;
+  const headCoaches = activeCoaches.filter((c) => c.role === "HEAD_COACH");
+  const subCoaches = activeCoaches.filter((c) => c.role === "COACH");
 
   return (
     <div className="w-full rounded-xl bg-[#1e2329] border border-[#2b3139] hover:border-[#FCD535]/50 transition-all duration-200 overflow-hidden shadow-sm flex flex-col justify-between">
@@ -69,22 +76,113 @@ export default function TeamCard({
       </div>
 
       {/* Coaches Strip */}
-      {coaches && coaches.length > 0 && (
-        <div className="px-3.5 sm:px-4 py-1.5 sm:py-2 bg-[#0b0e11]/60 border-b border-[#2b3139] flex items-center gap-2 sm:gap-3 text-xs flex-wrap">
-          <span className="text-[9px] sm:text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#2b3139] text-[#FCD535] shrink-0">
-            COACH
-          </span>
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-[#eaecef] text-[11px] sm:text-xs">
-            {headCoaches.map((hc) => (
-              <span key={hc.id} className="font-semibold text-white">
-                {hc.name} <span className="text-[9px] sm:text-[10px] text-[#707a8a]">(HC)</span>
-              </span>
-            ))}
-            {subCoaches.map((sc) => (
-              <span key={sc.id} className="text-[#929aa5]">
-                {sc.name}
-              </span>
-            ))}
+      {activeCoaches && activeCoaches.length > 0 && (
+        <div className="px-3.5 sm:px-4 py-1.5 sm:py-2 bg-[#0b0e11]/60 border-b border-[#2b3139] flex items-center justify-between gap-2 text-xs flex-wrap">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <span className="text-[9px] sm:text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#2b3139] text-[#FCD535] shrink-0">
+              COACH
+            </span>
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-[#eaecef] text-[11px] sm:text-xs">
+              {headCoaches.map((hc) => {
+                const isConfirmed = hc.status === "CONFIRMED";
+                const isRumored = hc.status === "RUMORED";
+                const hasStatus = !isPrevRoster && (isConfirmed || isRumored);
+
+                return (
+                  <span key={hc.id} className="inline-flex items-center gap-1 font-semibold text-white">
+                    <span>{hc.name}</span>
+                    <span className="text-[9px] sm:text-[10px] text-[#707a8a]">(HC)</span>
+
+                    {/* Rumor / Confirmed Badge & Source */}
+                    {hasStatus && (
+                      <span className="inline-flex items-center gap-1 ml-0.5">
+                        <span
+                          className={`text-[8px] sm:text-[9px] font-bold px-1 py-0.2 rounded font-mono ${
+                            isConfirmed
+                              ? "bg-[#0ecb81]/15 text-[#0ecb81] border border-[#0ecb81]/30"
+                              : "bg-[#FCD535]/15 text-[#FCD535] border border-[#FCD535]/30"
+                          }`}
+                        >
+                          {isConfirmed ? "CONFIRMED" : "RUMOR"}
+                        </span>
+                        {typeof hc.confidence === "number" && (
+                          <span
+                            className={`font-mono text-[9px] sm:text-[10px] font-bold ${
+                              hc.confidence === 100
+                                ? "text-[#0ecb81]"
+                                : hc.confidence >= 80
+                                ? "text-[#FCD535]"
+                                : "text-[#f6465d]"
+                            }`}
+                          >
+                            {hc.confidence}%
+                          </span>
+                        )}
+                        {hc.source_url && (
+                          <a
+                            href={hc.source_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#707a8a] hover:text-[#FCD535] transition-colors inline-block"
+                            title="Source Link"
+                          >
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+                        )}
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
+              {subCoaches.map((sc) => {
+                const isConfirmed = sc.status === "CONFIRMED";
+                const isRumored = sc.status === "RUMORED";
+                const hasStatus = !isPrevRoster && (isConfirmed || isRumored);
+
+                return (
+                  <span key={sc.id} className="inline-flex items-center gap-1 text-[#929aa5]">
+                    <span>{sc.name}</span>
+                    {hasStatus && (
+                      <span className="inline-flex items-center gap-1 ml-0.5">
+                        <span
+                          className={`text-[8px] sm:text-[9px] font-bold px-1 py-0.2 rounded font-mono ${
+                            isConfirmed
+                              ? "bg-[#0ecb81]/15 text-[#0ecb81] border border-[#0ecb81]/30"
+                              : "bg-[#FCD535]/15 text-[#FCD535] border border-[#FCD535]/30"
+                          }`}
+                        >
+                          {isConfirmed ? "CONFIRMED" : "RUMOR"}
+                        </span>
+                        {typeof sc.confidence === "number" && (
+                          <span
+                            className={`font-mono text-[9px] sm:text-[10px] font-bold ${
+                              sc.confidence === 100
+                                ? "text-[#0ecb81]"
+                                : sc.confidence >= 80
+                                ? "text-[#FCD535]"
+                                : "text-[#f6465d]"
+                            }`}
+                          >
+                            {sc.confidence}%
+                          </span>
+                        )}
+                        {sc.source_url && (
+                          <a
+                            href={sc.source_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#707a8a] hover:text-[#FCD535] transition-colors inline-block"
+                            title="Source Link"
+                          >
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+                        )}
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

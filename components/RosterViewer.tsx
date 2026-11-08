@@ -11,10 +11,12 @@ export default function RosterViewer({
   initialTeams,
   initialPlayers,
   initialCoaches = [],
+  expectedCoaches = [],
 }: {
   initialTeams: Team[];
   initialPlayers: Player[];
   initialCoaches?: Coach[];
+  expectedCoaches?: Coach[];
 }) {
   const [players, setPlayers] = useState<Player[]>(initialPlayers);
   const [activeLeague, setActiveLeague] = useState<League>("LCK");
@@ -59,6 +61,13 @@ export default function RosterViewer({
 
   const getTeamCoaches = (teamId: number) => {
     return initialCoaches.filter((c) => c.team_id === teamId);
+  };
+
+  const getExpectedCoaches = (teamId: number) => {
+    const list = expectedCoaches.filter(
+      (c) => (c.predicted_team_id ?? c.team_id) === teamId
+    );
+    return list.length > 0 ? list : getTeamCoaches(teamId);
   };
 
   return (
@@ -129,6 +138,7 @@ export default function RosterViewer({
                 teamRoster={getTeamRoster(team.id)}
                 expectedRoster={getExpectedRoster(team.id)}
                 coaches={getTeamCoaches(team.id)}
+                expectedCoaches={getExpectedCoaches(team.id)}
               />
             </motion.div>
           ))}

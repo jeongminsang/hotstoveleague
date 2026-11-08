@@ -1,5 +1,31 @@
 import { Coach } from "./types";
 
+export interface CoachOverride {
+  predicted_team_id: number | null;
+  role: "HEAD_COACH" | "COACH";
+  name: string;
+  real_name: string;
+  confidence: number;
+  status: "CONFIRMED" | "RUMORED" | "FA" | "STAY";
+  source_url?: string;
+  ex_team_short?: string;
+}
+
+// 2027 시즌 예상 감코진 오버라이드 (검증된 정식 미디어 보도 기반)
+export const PREDICTED_COACH_OVERRIDES: Record<string, CoachOverride> = {
+  // G2: Mithy (헤드 코치 구두 합의 95% 루머, Sheep Esports 단독 보도)
+  "g2-mithy": {
+    predicted_team_id: 21,
+    role: "HEAD_COACH",
+    name: "Mithy",
+    real_name: "Alfonso Aguirre Rodríguez (알폰소 아기레)",
+    confidence: 95,
+    status: "RUMORED",
+    source_url: "https://www.sheepesports.com/en/articles/sources-mithy-set-to-join-g2-esports-as-head-coach-for-2027/en",
+    ex_team_short: "TH",
+  },
+};
+
 export const GLOBAL_COACHES: Coach[] = [
   // ==========================================
   // LPL (Teams 11 ~ 20 & 55 ~ 58)
