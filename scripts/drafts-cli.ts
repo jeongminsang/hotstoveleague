@@ -126,8 +126,8 @@ async function syncReview() {
         summary_zh: item.summary_zh || null,
         player_slug: item.player_slug || null,
         player_name: item.player_name || null,
-        current_team_short: item.current_team_short || null,
-        target_team_short: item.target_team_short || null,
+        from_team: item.current_team_short || null,
+        to_team: item.target_team_short || null,
         confidence: item.confidence,
       })
       .eq("id", item.id);
