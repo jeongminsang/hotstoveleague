@@ -10,6 +10,7 @@ import {
   MISSING_LPL_TEAMS,
   MISSING_LPL_PLAYERS,
 } from "@/lib/rumors-data";
+import { GLOBAL_COACHES } from "@/lib/coaches-data";
 
 export default async function Index() {
   if (!hasEnvVars) {
@@ -73,7 +74,12 @@ export default async function Index() {
     ),
   ];
   const rawPlayers = (playersData as Player[]) || [];
-  const coaches = (coachesData as Coach[]) || [];
+  const rawDbCoaches = (coachesData as Coach[]) || [];
+  const dbCoachTeamIds = new Set(rawDbCoaches.map((c) => c.team_id));
+  const coaches: Coach[] = [
+    ...rawDbCoaches,
+    ...GLOBAL_COACHES.filter((gc) => !dbCoachTeamIds.has(gc.team_id)),
+  ];
   const rawRumors = (rumorsData as Rumor[]) || [];
 
   // 1. 한화생명(HLE, id: 3) 정글러가 구버전 DB에서 Peanut으로 남아있을 경우 Kanavi(서진혁)로 즉시 보정
