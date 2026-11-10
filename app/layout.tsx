@@ -1,7 +1,7 @@
 import { LanguageProvider } from "@/components/language-provider";
 import Navbar from "@/components/Navbar";
 import VisitorCounter from "@/components/VisitorCounter";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
