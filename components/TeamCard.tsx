@@ -191,7 +191,10 @@ export default function TeamCard({
       <div className="p-2.5 sm:p-4 divide-y divide-[#2b3139]/60">
         <AnimatePresence mode="wait">
           {positions.map((pos) => {
-            const player = activeRoster.find((p) => p.position === pos);
+            // Find player for this position, prioritizing starters (is_starter === true)
+            const player = activeRoster
+              .filter((p) => p.position === pos)
+              .sort((a, b) => (b.is_starter ? 1 : 0) - (a.is_starter ? 1 : 0))[0];
             const override = player?.slug
               ? PREDICTED_PLAYER_OVERRIDES[player.slug.toLowerCase()]
               : undefined;
