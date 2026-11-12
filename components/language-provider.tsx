@@ -72,7 +72,7 @@ export const translations = {
   },
   en: {
     title: "Global LoL Stove League Transfer Predictions",
-    subtitle: "Real-time AI-extracted insider transfer rumors across global leagues, faster than Namuwiki.",
+    subtitle: "Real-time AI-extracted insider transfer rumors and official announcements across global leagues.",
     navHome: "🔥 HotStoveLeague",
     navOfficialAndRumors: "⚡ Official & Rumors",
     liveRadar: "⚡ Live Insider Radar",
