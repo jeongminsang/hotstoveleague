@@ -1,10 +1,10 @@
-import { createClient } from "@/utils/supabase/server";
+import { createPublicClient } from "@/utils/supabase/public";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Rumor, Team, Player } from "@/lib/types";
 import RumorsListClient from "@/components/RumorsListClient";
 import { MISSING_LPL_TEAMS, MISSING_LPL_PLAYERS } from "@/lib/rumors-data";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function RumorsPage() {
   if (!hasEnvVars) {
@@ -15,7 +15,7 @@ export default async function RumorsPage() {
     );
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const [{ data: rumorsData }, { data: teamsData }, { data: playersData }] =
     await Promise.all([

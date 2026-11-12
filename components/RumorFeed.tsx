@@ -67,6 +67,7 @@ export default function RumorFeed({ initialRumors = [] }: { initialRumors: Rumor
 
         <Link
           href="/rumors"
+          prefetch={true}
           className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-md bg-[#2b3139] text-[#FCD535] hover:bg-[#FCD535] hover:text-[#181a20] transition-colors shrink-0"
         >
           <span className="hidden xs:inline">{t("viewAllRumors")}</span>

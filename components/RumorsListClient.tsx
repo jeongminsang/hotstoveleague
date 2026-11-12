@@ -129,6 +129,7 @@ export default function RumorsListClient({
         <div>
           <Link
             href="/"
+            prefetch={true}
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#707a8a] hover:text-[#FCD535] transition-colors mb-1.5"
           >
             <ArrowLeft className="w-3.5 h-3.5" />

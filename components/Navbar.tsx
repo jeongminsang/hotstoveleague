@@ -21,6 +21,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4 sm:gap-8">
           <Link
             href="/"
+            prefetch={true}
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2 group select-none min-w-0"
           >
@@ -41,6 +42,7 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-1 font-medium text-sm">
             <Link
               href="/rumors"
+              prefetch={true}
               className={`px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 ${
                 isRumors
                   ? "text-[#181a20] bg-[#FCD535] font-semibold"

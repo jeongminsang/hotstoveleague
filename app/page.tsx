@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createPublicClient } from "@/utils/supabase/public";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Team, Player, Rumor, Coach } from "@/lib/types";
 import RosterViewer from "@/components/RosterViewer";
@@ -11,6 +11,8 @@ import {
   MISSING_LPL_PLAYERS,
 } from "@/lib/rumors-data";
 import { GLOBAL_COACHES, PREDICTED_COACH_OVERRIDES } from "@/lib/coaches-data";
+
+export const revalidate = 60;
 
 export default async function Index() {
   if (!hasEnvVars) {
@@ -40,28 +42,24 @@ export default async function Index() {
     );
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
-  // 1. 팀 목록, 선수 목록, 최근 루머 목록 조회
-  const { data: teamsData } = await supabase
-    .from("teams")
-    .select("*")
-    .order("id", { ascending: true });
-
-  const { data: playersData } = await supabase
-    .from("players")
-    .select("*");
-
-  const { data: coachesData } = await supabase
-    .from("coaches")
-    .select("*")
-    .order("id", { ascending: true });
-
-  const { data: rumorsData } = await supabase
-    .from("rumors")
-    .select("*")
-    .order("published_at", { ascending: false })
-    .limit(20);
+  // 1. 팀 목록, 선수 목록, 감코진 목록, 최근 루머 목록 병렬 조회
+  const [
+    { data: teamsData },
+    { data: playersData },
+    { data: coachesData },
+    { data: rumorsData },
+  ] = await Promise.all([
+    supabase.from("teams").select("*").order("id", { ascending: true }),
+    supabase.from("players").select("*"),
+    supabase.from("coaches").select("*").order("id", { ascending: true }),
+    supabase
+      .from("rumors")
+      .select("*")
+      .order("published_at", { ascending: false })
+      .limit(20),
+  ]);
 
   const rawTeams = (teamsData as Team[]) || [];
   const existingTeamShorts = new Set(
