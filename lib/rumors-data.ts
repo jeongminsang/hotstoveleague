@@ -152,60 +152,6 @@ export const INITIAL_RUMORS: SeedRumor[] = [
     published_at: "2026-11-05T11:45:00Z",
   },
   {
-    id: 37,
-    post_id: "rv-20261105-theshy-ig",
-    source: "WEIBO",
-    author: "恋恋红茶_244 (@恋恋红茶_244)",
-    author_en:
-      "Red Tea (@恋恋红茶_244)",
-    author_zh:
-      "恋恋红茶_244 (@恋恋红茶_244)",
-    raw_text:
-      "TheShy谈休息与比赛压力：这是我的职业，我就得打好。看看我们队的阵容，有Meiko、Rookie，还有我。我们都打了很多年，是现在赛场上的老将。",
-    summary:
-      "[웨이보/롄롄홍차] iG 더샤이(TheShy), 휴식기 복귀 후 '메이코·루키와 함께하는 프로 무대 계속 잘 해내고 싶다'며 2027 시즌 현역 지속 의지 피력 (Red Tea: TheShy affirms commitment alongside Rookie and Meiko at iG)",
-    summary_en:
-      "[Red Tea] iG top laner TheShy confirms commitment to continue competing alongside Rookie and Meiko in 2027.",
-    summary_zh:
-      "[微博/恋恋红茶] 辟谣 TheShy 赴韩加盟 HLE 的不实传闻，TheShy 与 Rookie 均将留在 LPL 并大概率留在 iG。",
-    player_slug: "theshy",
-    player_name: "TheShy",
-    current_team_short: "IG",
-    target_team_short: "IG",
-    target_team_id: 16,
-    league: "LPL",
-    confidence: 90,
-    post_url: "https://weibo.com/2266865584/RpWLblXCm",
-    published_at: "2026-11-05T02:32:00Z",
-  },
-  {
-    id: 36,
-    post_id: "rv-20261104-meiko-ig",
-    source: "WEIBO",
-    author: "恋恋红茶_244 (@恋恋红茶_244)",
-    author_en:
-      "Red Tea (@恋恋红茶_244)",
-    author_zh:
-      "恋恋红茶_244 (@恋恋红茶_244)",
-    raw_text:
-      "Meiko：明年还来吗？ 369：看你啊田野，明年看你来不来啊。 Meiko（握住369的手）：我肯定得来的啊，一起来。 #369说最后一舞##Meiko约369明年再来#",
-    summary:
-      "[웨이보/롄롄홍차] iG 서포터 메이코(Meiko), 2027 시즌 현역 연장 및 잔류 의사 확인 (Red Tea: Meiko confirms he will continue competing in 2027)",
-    summary_en:
-      "[Red Tea] iG support Meiko confirms he will continue competing in the 2027 season.",
-    summary_zh:
-      "[微博/恋恋红茶] 辅助 Meiko 续约留队，新赛季将继续与 TheShy、Rookie 共同征战。",
-    player_slug: "meiko",
-    player_name: "Meiko",
-    current_team_short: "IG",
-    target_team_short: "IG",
-    target_team_id: 16,
-    league: "LPL",
-    confidence: 92,
-    post_url: "https://weibo.com/2266865584/RpQgGC8RO",
-    published_at: "2026-11-04T10:00:25Z",
-  },
-  {
     id: 35,
     post_id: "rv-20261104-369-tes",
     source: "WEIBO",
@@ -1433,21 +1379,6 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       "[Weibo/Summoner Park] EDG dismisses departure rumors for jungler Monki, confirming he stays.",
     summary_zh:
       "[微博/召唤师Park] 辟谣 EDG 打野 Monki 离队传闻，确认留队。",
-  },
-  rookie: {
-    predicted_team_id: 16,
-    confidence: 90,
-    status: "CONFIRMED",
-    source_url: "https://weibo.com/2266865584/RpWLblXCm",
-    author: "恋恋红茶_244 (@恋恋红茶_244)",
-    author_en: "Lianlian Hongcha (@恋恋红茶_244)",
-    author_zh: "恋恋红茶_244 (@恋恋红茶_244)",
-    summary:
-      "[웨이보/롄롄홍차] iG 더샤이(TheShy)·루키(Rookie)·메이코(Meiko) 베테랑 코어 체제 유지 확인",
-    summary_en:
-      "[Weibo/Red Tea] iG confirms veteran core structure with TheShy, Rookie, and Meiko.",
-    summary_zh:
-      "[微博/恋恋红茶] 确认 iG 将维持 TheShy、Rookie、Meiko 的老将核心阵容。",
   },
   // LEC: Team Heretics, SK Gaming, NAVI, Dignitas, Disguised
   jackies: {
