@@ -1136,6 +1136,37 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       },
     ])
   ),
+  // LCK: T1 Zeus 복귀 루머 & Doran FA (@召唤师Park)
+  zeus: {
+    predicted_team_id: 1,
+    confidence: 80,
+    status: "RUMORED",
+    source_url: "https://www.sina.cn/news/detail/5364830732291767.html",
+    author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
+    author_zh: "召唤师Park (@召唤师Park)",
+    summary:
+      "[웨이보/소환사 Park] 제우스(Zeus), 2026 겨울 이적시장 T1 복귀 유력… 조 마쉬 대표 사과 및 다수 오퍼 거절 후 페이커와 S17 우승 도전",
+    summary_en:
+      "[Summoner Park] Zeus is rumored to return to T1 for 2027, turning down LPL/LCK offers to reunite with Faker.",
+    summary_zh:
+      "[微博/召唤师Park] Zeus 传闻将在冬季转会期重回 T1，放弃多家 LPL/LCK 邀约，携手 Faker 冲击 S17 冠军。",
+  },
+  doran: {
+    predicted_team_id: null,
+    confidence: 85,
+    status: "FA",
+    source_url: "https://www.sina.cn/news/detail/5364830732291767.html",
+    author: "召唤师Park (@召唤师Park)",
+    author_en: "Summoner Park (@召唤师Park)",
+    author_zh: "召唤师Park (@召唤师Park)",
+    summary:
+      "2026년 11월 T1 계약 만료 후 FA 전환 및 이탈 유력 (T1 Zeus 복귀설과 맞물린 탑 라인 변동)",
+    summary_en:
+      "Set to enter free agency as T1 contract expires in Nov 2026 amid Zeus return rumors.",
+    summary_zh:
+      "2026年11月与 T1 合同到期成为自由人，伴随 Zeus 回归传闻预计离队。",
+  },
   // LCK: 한진 브리온(BRO) 5인 전원 2027 시즌 재계약 오피셜 (@Brionesports)
   casting: {
     predicted_team_id: 7,
