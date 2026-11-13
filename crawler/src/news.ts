@@ -8,13 +8,59 @@ export interface RealNewsItem {
   snippet?: string;
 }
 
-const SEARCH_QUERIES = [
-  { q: '"Sheep Esports" LoL (roster OR transfer OR verbal OR sources) when:14d', author: "Sheep Esports", source: "NEWS" },
-  { q: '"LEC Wooloo" (sources OR verbal OR transfer) when:14d', author: "@LEC_Wooloo", source: "X" },
-  { q: '("Wooloo" OR "Sheep Esports") (LCK OR LPL OR LEC) (sources OR verbal OR transfer) when:14d', author: "Sheep Esports", source: "NEWS" },
-  { q: 'LCK (이적 OR 계약 OR FA OR 영입 OR 재계약) when:7d', author: "LCK Press", source: "NEWS" },
-  { q: 'LPL (转会 OR 官宣 OR 选手 OR 续约) when:7d', author: "LPL Press", source: "PRESS" },
+interface SearchQuery {
+  q: string;
+  author: string;
+  source: string;
+  hl: string;
+  gl: string;
+  ceid: string;
+}
+
+const SEARCH_QUERIES: SearchQuery[] = [
+  {
+    q: '"Sheep Esports" LoL (roster OR transfer OR verbal OR sources) when:7d',
+    author: "Sheep Esports",
+    source: "NEWS",
+    hl: "en-US",
+    gl: "US",
+    ceid: "US:en",
+  },
+  {
+    q: '"LEC Wooloo" (sources OR verbal OR transfer) when:7d',
+    author: "@LEC_Wooloo",
+    source: "X",
+    hl: "en-US",
+    gl: "US",
+    ceid: "US:en",
+  },
+  {
+    q: 'LCK (이적 OR 계약 OR FA OR 영입 OR 재계약) when:5d',
+    author: "LCK Press",
+    source: "NEWS",
+    hl: "ko",
+    gl: "KR",
+    ceid: "KR:ko",
+  },
+  {
+    q: '("召唤师Park" OR "涵艺" OR "恋恋红茶" OR "王玮晨") (转会 OR 续约 OR 签约 OR 离队 OR Zeus OR T1 OR LPL) when:5d',
+    author: "Weibo Insider",
+    source: "WEIBO",
+    hl: "zh-CN",
+    gl: "CN",
+    ceid: "CN:zh-Hans",
+  },
+  {
+    q: 'LPL (转会 OR 官宣 OR 续约 OR 自由人) when:5d',
+    author: "LPL Press",
+    source: "PRESS",
+    hl: "zh-CN",
+    gl: "CN",
+    ceid: "CN:zh-Hans",
+  },
 ];
+
+const MAX_PER_QUERY = 5;
 
 /**
  * Fetch real published articles from Google News RSS (zero API key / 100% free)
@@ -24,8 +70,9 @@ export async function fetchRealRumorArticles(): Promise<RealNewsItem[]> {
   const seenUrls = new Set<string>();
 
   for (const query of SEARCH_QUERIES) {
+    let countForQuery = 0;
     try {
-      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query.q)}&hl=en-US&gl=US&ceid=US:en`;
+      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query.q)}&hl=${query.hl}&gl=${query.gl}&ceid=${query.ceid}`;
       const res = await fetch(url, {
         headers: { "User-Agent": "HotStoveCrawler/2.0" },
       });
@@ -68,13 +115,12 @@ export async function fetchRealRumorArticles(): Promise<RealNewsItem[]> {
           author: query.author,
         });
 
-        if (articles.length >= 10) break;
+        countForQuery++;
+        if (countForQuery >= MAX_PER_QUERY) break;
       }
     } catch (e) {
       console.error(`[News Crawler] Query failed (${query.q}):`, e);
     }
-
-    if (articles.length >= 10) break;
   }
 
   return articles;
