@@ -32,7 +32,7 @@ export const PREDICTED_COACH_OVERRIDES: Record<string, CoachOverride> = {
     real_name: "Victor Quevrin (빅토르 퀘브린)",
     confidence: 90,
     status: "RUMORED",
-    source_url: "https://www.sheepesports.com/en/articles/sources-karmine-corp-to-promote-nayas-as-positional-coach/en",
+    source_url: "https://www.sheepesports.com/en/articles/sources-karmine-corp-promote-nayas-to-lec-as-positional-coach/en",
   },
 };
 
