@@ -1503,19 +1503,34 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       "[Wooloo/Sheep Esports] 随着 SK Gaming 签下 3XA，原下路 Jopa 离队。",
   },
   mikyx: {
-    predicted_team_id: null,
-    confidence: 95,
-    status: "FA",
-    source_url: "https://x.com/Sheep_Esports/status/2116940157848879493",
+    predicted_team_id: 21,
+    confidence: 90,
+    status: "RUMORED",
+    source_url: "https://www.sheepesports.com/en/articles/sources-mikyx-set-to-return-to-g2-esports-for-2027/en",
     author: "Sheep Esports (@Sheep_Esports)",
     author_en: "Sheep Esports (@Sheep_Esports)",
     author_zh: "Sheep Esports (@Sheep_Esports)",
     summary:
-      "[울루/Sheep Esports] SK Gaming이 2027 시즌 주전 서포터로 로스파(Lospa)를 영입함에 따라 기존 서포터 미키엑스(Mikyx) 결별",
+      "[Sheep Esports] 미키엑스(Mikyx), 2027 LEC 시즌 G2 Esports 복귀 구두 합의",
     summary_en:
-      "[Wooloo/Sheep Esports] With SK Gaming signing Lospa as starting support for 2027, Mikyx departs.",
+      "[Sheep Esports] Mikyx has reached a verbal agreement to return to G2 Esports for the 2027 LEC season.",
     summary_zh:
-      "[Wooloo/Sheep Esports] 随着 SK Gaming 签下 Lospa，原辅助 Mikyx 离队。",
+      "[Sheep Esports] 辅助 Mikyx 与 G2 Esports 达成口头协议，将在 2027 LEC 赛季重返老东家。",
+  },
+  noah: {
+    predicted_team_id: 6,
+    confidence: 90,
+    status: "RUMORED",
+    source_url: "https://www.sheepesports.com/en/articles/sources-noah-set-to-join-bnk-fearx-for-lck-2027/en",
+    author: "LCK Press / Sheep Esports",
+    author_en: "LCK Press / Sheep Esports",
+    author_zh: "LCK Press / Sheep Esports",
+    summary:
+      "노아(Noah, 오현택) 선수가 2027 LCK 시즌을 앞두고 BNK 피어엑스(BFX)에 합류할 예정입니다.",
+    summary_en:
+      "Bot laner Noah is set to join BNK FEARX for the 2027 LCK season.",
+    summary_zh:
+      "下路选手 Noah 将在 2027 LCK 赛季开始前加入 BNK FEARX。",
   },
   maynter: {
     predicted_team_id: null,
