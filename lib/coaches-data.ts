@@ -24,6 +24,16 @@ export const PREDICTED_COACH_OVERRIDES: Record<string, CoachOverride> = {
     source_url: "https://www.sheepesports.com/en/articles/sources-mithy-set-to-join-g2-esports-as-head-coach-for-2027/en",
     ex_team_short: "TH",
   },
+  // KC: Nayas (포지셔널 코치 승격 90% 루머, @LEC_Wooloo 보도)
+  "kc-nayas": {
+    predicted_team_id: 25,
+    role: "COACH",
+    name: "Nayas",
+    real_name: "Victor Quevrin (빅토르 퀘브린)",
+    confidence: 90,
+    status: "RUMORED",
+    source_url: "https://www.sheepesports.com/en/articles/sources-karmine-corp-to-promote-nayas-as-positional-coach/en",
+  },
 };
 
 export const GLOBAL_COACHES: Coach[] = [
