@@ -79,13 +79,29 @@ export default async function Index() {
     ...GLOBAL_COACHES.filter((gc) => !dbCoachTeamIds.has(gc.team_id)),
   ];
 
-  // 2027 시즌 예상 감코진 (루머 및 CONFIRMED 반영)
+  // 2027 시즌 예상 감코진 (1순위: DB coaches 레코드의 predicted_team_id/status, 2순위: PREDICTED_COACH_OVERRIDES 폴백)
   const coachOverridesList = Object.values(PREDICTED_COACH_OVERRIDES);
   const expectedCoaches: Coach[] = [];
 
   baseCoaches.forEach((bc) => {
-    // G2의 경우 Perkz 감독은 2027 시즌 결별로 2027 예상 명단에서 제외
-    if (bc.team_id === 21 && bc.name.toLowerCase() === "perkz") {
+    // DB에서 FA/이탈 처리된 코치 또는 G2 Perkz 결별 제외
+    if (
+      bc.status === "FA" ||
+      bc.predicted_team_id === null ||
+      (bc.team_id === 21 && bc.name.toLowerCase() === "perkz")
+    ) {
+      return;
+    }
+
+    // DB에 이미 2027 예상 상태/팀이 저장된 경우 최우선 적용
+    if (
+      bc.predicted_team_id !== undefined &&
+      (bc.predicted_team_id !== bc.team_id || (bc.status && bc.status !== "STAY"))
+    ) {
+      expectedCoaches.push({
+        ...bc,
+        predicted_team_id: bc.predicted_team_id,
+      });
       return;
     }
 
@@ -106,7 +122,7 @@ export default async function Index() {
     } else {
       expectedCoaches.push({
         ...bc,
-        predicted_team_id: bc.team_id,
+        predicted_team_id: bc.predicted_team_id ?? bc.team_id,
       });
     }
   });
