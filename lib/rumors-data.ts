@@ -1153,19 +1153,19 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       "[微博/召唤师Park] Zeus 传闻将在冬季转会期重回 T1，放弃多家 LPL/LCK 邀约，携手 Faker 冲击 S17 冠军。",
   },
   doran: {
-    predicted_team_id: null,
-    confidence: 85,
-    status: "FA",
-    source_url: "https://www.sina.cn/news/detail/5364830732291767.html",
-    author: "召唤师Park (@召唤师Park)",
-    author_en: "Summoner Park (@召唤师Park)",
-    author_zh: "召唤师Park (@召唤师Park)",
+    predicted_team_id: 8,
+    confidence: 40,
+    status: "RUMORED",
+    source_url: "https://arca.live/b/leagueoflegends/189245712?p=1",
+    author: "커뮤니티 루머 (듀마갤/아카라이브)",
+    author_en: "Community Rumor (Arca.live)",
+    author_zh: "社区传闻 (Arca.live)",
     summary:
-      "2026년 11월 T1 계약 만료 후 FA 전환 및 이탈 유력 (T1 Zeus 복귀설과 맞물린 탑 라인 변동)",
+      "[커뮤니티 루머] 듀마갤 썰쟁이 발 도란(Doran) 선수 키움 DRX(KRX) 합의 완료 찌라시 (공식 확인 전)",
     summary_en:
-      "Set to enter free agency as T1 contract expires in Nov 2026 amid Zeus return rumors.",
+      "[Community Rumor] Unverified community leak linking Doran to Kiwoom DRX (KRX) for 2027.",
     summary_zh:
-      "2026年11月与 T1 合同到期成为自由人，伴随 Zeus 回归传闻预计离队。",
+      "[社区传闻] 社区爆料称 Doran 已与 Kiwoom DRX (KRX) 达成一致（未获官方证实）。",
   },
   // LCK: 한진 브리온(BRO) 5인 전원 2027 시즌 재계약 오피셜 (@Brionesports)
   casting: {
