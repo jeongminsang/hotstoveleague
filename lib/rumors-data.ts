@@ -1547,6 +1547,38 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     summary_zh:
       "[Wooloo/Sheep Esports] NAVI 允许上单 Maynter 接触其他战队(自由人)。",
   },
+  skewmond: {
+    predicted_team_id: 25,
+    confidence: 85,
+    status: "RUMORED",
+    source_url:
+      "https://www.sheepesports.com/en/articles/sources-skewmond-won-t-continue-on-g2-esports-active-roster-in-2027/en",
+    author: "Sheep Esports",
+    author_en: "Sheep Esports",
+    author_zh: "Sheep Esports",
+    summary:
+      "G2를 떠나는 스큐몬드(SkewMond)를 두고 카르민 코프(KC)와 바이탈리티(VIT)가 관심을 보이고 있습니다.",
+    summary_en:
+      "Karmine Corp and Vitality are interested in G2 jungler SkewMond after he won't continue on G2's active roster in 2027.",
+    summary_zh:
+      "离开 G2 的打野 SkewMond 受到 Karmine Corp 和 Vitality 的关注。",
+  },
+  carzzy: {
+    predicted_team_id: 23,
+    confidence: 90,
+    status: "RUMORED",
+    source_url:
+      "https://dotesports.com/league-of-legends/news/brokeblade-carzzy-mkoi-2027",
+    author: "LEC Wooloo (@LEC_Wooloo)",
+    author_en: "LEC Wooloo (@LEC_Wooloo)",
+    author_zh: "LEC Wooloo (@LEC_Wooloo)",
+    summary:
+      "원거리 딜러 카르지(Carzzy)가 2027 LEC 시즌 모비스타 KOI(MDK)로 복귀할 예정입니다.",
+    summary_en:
+      "Bot laner Carzzy is set to return to Movistar KOI (MDK) for the 2027 LEC season.",
+    summary_zh:
+      "下路选手 Carzzy 将在 2027 LEC 赛季重返 Movistar KOI (MDK)。",
+  },
   poby: {
     predicted_team_id: null,
     confidence: 95,
