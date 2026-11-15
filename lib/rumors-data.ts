@@ -1157,15 +1157,15 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     confidence: 40,
     status: "RUMORED",
     source_url: "https://arca.live/b/leagueoflegends/189245712?p=1",
-    author: "커뮤니티 루머 (듀마갤/아카라이브)",
-    author_en: "Community Rumor (Arca.live)",
-    author_zh: "社区传闻 (Arca.live)",
+    author: "arca",
+    author_en: "arca",
+    author_zh: "arca",
     summary:
-      "[커뮤니티 루머] 듀마갤 썰쟁이 발 도란(Doran) 선수 키움 DRX(KRX) 합의 완료 찌라시 (공식 확인 전)",
+      "도란(Doran) 선수의 키움 DRX(KRX) 이적 합의 루머",
     summary_en:
-      "[Community Rumor] Unverified community leak linking Doran to Kiwoom DRX (KRX) for 2027.",
+      "Rumor of Doran reaching an agreement to join Kiwoom DRX (KRX) for 2027.",
     summary_zh:
-      "[社区传闻] 社区爆料称 Doran 已与 Kiwoom DRX (KRX) 达成一致（未获官方证实）。",
+      "传闻 Doran 已就 2027 赛季加入 Kiwoom DRX (KRX) 达成一致。",
   },
   // LCK: 한진 브리온(BRO) 5인 전원 2027 시즌 재계약 오피셜 (@Brionesports)
   casting: {
