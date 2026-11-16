@@ -1579,6 +1579,22 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     summary_zh:
       "下路选手 Carzzy 将在 2027 LEC 赛季重返 Movistar KOI (MDK)。",
   },
+  kryze: {
+    predicted_team_id: 27,
+    confidence: 90,
+    status: "RUMORED",
+    source_url:
+      "https://www.reddit.com/r/leagueoflegends/comments/1xuli69/sources_kryze_set_to_join_sk_gaming_in_lec_2027/",
+    author: "LEC Wooloo (@LEC_Wooloo)",
+    author_en: "LEC Wooloo (@LEC_Wooloo)",
+    author_zh: "LEC Wooloo (@LEC_Wooloo)",
+    summary:
+      "탑 라이너 크라이즈(Kryze)가 2027 LEC 시즌 SK 게이밍(SK)에 합류할 예정입니다.",
+    summary_en:
+      "Top laner Kryze is set to join SK Gaming for the 2027 LEC season.",
+    summary_zh:
+      "上单选手 Kryze 将在 2027 LEC 赛季加入 SK Gaming。",
+  },
   poby: {
     predicted_team_id: null,
     confidence: 95,
