@@ -1595,6 +1595,37 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
     summary_zh:
       "上单选手 Kryze 将在 2027 LEC 赛季加入 SK Gaming。",
   },
+  vladi: {
+    predicted_team_id: 22,
+    confidence: 90,
+    status: "RUMORED",
+    source_url:
+      "https://www.reddit.com/r/fnatic/comments/1xud59i/sourcesvladi_set_to_resign_with_fnatic_for_2027/",
+    author: "Sheep Esports",
+    author_en: "Sheep Esports",
+    author_zh: "Sheep Esports",
+    summary:
+      "미드 라이너 블라디(Vladi)가 2027 LEC 시즌 프나틱(FNC)과 재계약할 예정입니다.",
+    summary_en:
+      "Mid laner Vladi is set to re-sign with Fnatic for the 2027 LEC season.",
+    summary_zh:
+      "中单选手 Vladi 预计将与 Fnatic 续约至 2027 LEC 赛季。",
+  },
+  canyon: {
+    predicted_team_id: null,
+    confidence: 80,
+    status: "FA",
+    source_url: "https://www.sina.cn/news/detail/5365788786558812.html",
+    author: "Sina News",
+    author_en: "Sina News",
+    author_zh: "新浪新闻",
+    summary:
+      "젠지(GEN)와의 재계약 협상 결렬 이후 캐니언(Canyon)이 FA 시장에 나오며 LPL 팀들의 오퍼를 받고 있습니다.",
+    summary_en:
+      "After renewal talks with Gen.G stalled, Canyon enters free agency with offers from LPL teams.",
+    summary_zh:
+      "与 Gen.G 续约失败后，Canyon 进入自由市场并收到了来自 LPL 战队的报价。",
+  },
   poby: {
     predicted_team_id: null,
     confidence: 95,
