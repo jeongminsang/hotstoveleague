@@ -34,6 +34,16 @@ export const PREDICTED_COACH_OVERRIDES: Record<string, CoachOverride> = {
     status: "RUMORED",
     source_url: "https://www.sheepesports.com/en/articles/sources-karmine-corp-promote-nayas-to-lec-as-positional-coach/en",
   },
+  // T1: Roach (1군 신임 감독 부임 유력, 인벤 단독 보도)
+  "t1-roach": {
+    predicted_team_id: 1,
+    role: "HEAD_COACH",
+    name: "Roach",
+    real_name: "Kim Kang-hee (김강희)",
+    confidence: 90,
+    status: "RUMORED",
+    source_url: "https://www.inven.co.kr/webzine/news/?news=323445",
+  },
 };
 
 export const GLOBAL_COACHES: Coach[] = [
