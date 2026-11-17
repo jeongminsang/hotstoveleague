@@ -11,30 +11,8 @@ export interface CoachOverride {
   ex_team_short?: string;
 }
 
-// 2027 시즌 예상 감코진 오버라이드 (검증된 정식 미디어 보도 기반)
-export const PREDICTED_COACH_OVERRIDES: Record<string, CoachOverride> = {
-  // G2: Mithy (헤드 코치 구두 합의 95% 루머, Sheep Esports 단독 보도)
-  "g2-mithy": {
-    predicted_team_id: 21,
-    role: "HEAD_COACH",
-    name: "Mithy",
-    real_name: "Alfonso Aguirre Rodríguez (알폰소 아기레)",
-    confidence: 95,
-    status: "RUMORED",
-    source_url: "https://www.sheepesports.com/en/articles/sources-mithy-set-to-join-g2-esports-as-head-coach-for-2027/en",
-    ex_team_short: "TH",
-  },
-  // KC: Nayas (포지셔널 코치 승격 90% 루머, @LEC_Wooloo 보도)
-  "kc-nayas": {
-    predicted_team_id: 25,
-    role: "COACH",
-    name: "Nayas",
-    real_name: "Victor Quevrin (빅토르 퀘브린)",
-    confidence: 90,
-    status: "RUMORED",
-    source_url: "https://www.sheepesports.com/en/articles/sources-karmine-corp-promote-nayas-to-lec-as-positional-coach/en",
-  },
-};
+// 2027 시즌 예상 감코진 오버라이드 (DB coaches 테이블로 이관 완료)
+export const PREDICTED_COACH_OVERRIDES: Record<string, CoachOverride> = {};
 
 export const GLOBAL_COACHES: Coach[] = [
   // ==========================================
