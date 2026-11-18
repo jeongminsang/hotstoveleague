@@ -1275,11 +1275,11 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       "[Wooloo/Sheep Esports] 下路 Taeyoon、打野 Raptor 与辅助 Kellin 大概率在 2027 赛季加盟 KT Rolster。",
   },
   cuzz: {
-    predicted_team_id: null,
-    confidence: 93,
-    status: "FA",
-    source_url: "https://x.com/Sheep_Esports/status/2111841342414336494",
-    author: "Sheep Esports (@Sheep_Esports)",
+    predicted_team_id: 10,
+    confidence: 100,
+    status: "CONFIRMED",
+    source_url: "https://www.inven.co.kr/webzine/news/?news=323503&site=lol",
+    author: "Inven",
     author_en: "Sheep Esports (@Sheep_Esports)",
     author_zh: "Sheep Esports (@Sheep_Esports)",
     summary:
