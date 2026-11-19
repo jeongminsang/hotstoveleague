@@ -1136,22 +1136,6 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       },
     ])
   ),
-  // LCK: T1 Zeus 복귀 루머 & Doran FA (@召唤师Park)
-  zeus: {
-    predicted_team_id: 1,
-    confidence: 80,
-    status: "RUMORED",
-    source_url: "https://www.sina.cn/news/detail/5364830732291767.html",
-    author: "召唤师Park (@召唤师Park)",
-    author_en: "Summoner Park (@召唤师Park)",
-    author_zh: "召唤师Park (@召唤师Park)",
-    summary:
-      "[웨이보/소환사 Park] 제우스(Zeus), 2026 겨울 이적시장 T1 복귀 유력… 조 마쉬 대표 사과 및 다수 오퍼 거절 후 페이커와 S17 우승 도전",
-    summary_en:
-      "[Summoner Park] Zeus is rumored to return to T1 for 2027, turning down LPL/LCK offers to reunite with Faker.",
-    summary_zh:
-      "[微博/召唤师Park] Zeus 传闻将在冬季转会期重回 T1，放弃多家 LPL/LCK 邀约，携手 Faker 冲击 S17 冠军。",
-  },
   doran: {
     predicted_team_id: 8,
     confidence: 40,
@@ -1610,21 +1594,6 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       "Mid laner Vladi is set to re-sign with Fnatic for the 2027 LEC season.",
     summary_zh:
       "中单选手 Vladi 预计将与 Fnatic 续约至 2027 LEC 赛季。",
-  },
-  canyon: {
-    predicted_team_id: null,
-    confidence: 80,
-    status: "FA",
-    source_url: "https://www.sina.cn/news/detail/5365788786558812.html",
-    author: "Sina News",
-    author_en: "Sina News",
-    author_zh: "新浪新闻",
-    summary:
-      "젠지(GEN)와의 재계약 협상 결렬 이후 캐니언(Canyon)이 FA 시장에 나오며 LPL 팀들의 오퍼를 받고 있습니다.",
-    summary_en:
-      "After renewal talks with Gen.G stalled, Canyon enters free agency with offers from LPL teams.",
-    summary_zh:
-      "与 Gen.G 续约失败后，Canyon 进入自由市场并收到了来自 LPL 战队的报价。",
   },
   poby: {
     predicted_team_id: null,
