@@ -1136,6 +1136,19 @@ export const PREDICTED_PLAYER_OVERRIDES: Record<
       },
     ])
   ),
+  zeus: {
+    predicted_team_id: 1,
+    confidence: 95,
+    status: "RUMORED",
+    source_url:
+      "https://www.sheepesports.com/en/articles/sources-zeus-set-to-return-to-t1-ahead-of-lck-2027/en",
+    author: "Sheep Esports",
+    author_en: "Sheep Esports",
+    author_zh: "Sheep Esports",
+    summary: "제우스(Zeus) 선수가 친정팀 T1과 3년 계약에 합의했습니다.",
+    summary_en: "Zeus reached a three-year agreement to return to T1.",
+    summary_zh: "Zeus 已与老东家 T1 达成三年合约协议。",
+  },
   doran: {
     predicted_team_id: 8,
     confidence: 40,
