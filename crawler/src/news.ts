@@ -43,7 +43,7 @@ const SEARCH_QUERIES: SearchQuery[] = [
     ceid: "KR:ko",
   },
   {
-    q: '("召唤师Park" OR "涵艺" OR "恋恋红茶" OR "王玮晨") (转会 OR 续约 OR 签约 OR 离队 OR Zeus OR T1 OR LPL) when:5d',
+    q: '("召唤师Park" OR "涵艺" OR "恋恋红茶" OR "王玮晨" OR "_尧阿尧y_") (转会 OR 续约 OR 签约 OR 离队 OR Zeus OR T1 OR LPL) when:5d',
     author: "Weibo Insider",
     source: "WEIBO",
     hl: "zh-CN",
