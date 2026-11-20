@@ -32,6 +32,25 @@ const TEAM_NAME_TO_SHORT: Record<string, { short: string; id: number; league: st
   "Shopify Rebellion": { short: "SR", id: 35, league: "LCS" },
   Disguised: { short: "DSG", id: 37, league: "LCS" },
   LYON: { short: "LYN", id: 38, league: "LCS" },
+  "Secret Whales": { short: "TSW", id: 39, league: "LCP" },
+  "Team Secret Whales": { short: "TSW", id: 39, league: "LCP" },
+  "GAM Esports": { short: "GAM", id: 40, league: "LCP" },
+  "Fukuoka SoftBank HAWKS gaming": { short: "SHG", id: 41, league: "LCP" },
+  "CTBC Flying Oyster": { short: "CFO", id: 42, league: "LCP" },
+  "MVK Esports": { short: "MVK", id: 43, league: "LCP" },
+  "Deep Cross Gaming": { short: "DCG", id: 44, league: "LCP" },
+  "DetonatioN FocusMe": { short: "DFM", id: 45, league: "LCP" },
+  "Ground Zero Gaming": { short: "GZ", id: 46, league: "LCP" },
+  "paiN Gaming": { short: "PNG", id: 47, league: "CBLOL" },
+  LOUD: { short: "LLL", id: 48, league: "CBLOL" },
+  "Vivo Keyd Stars": { short: "VKS", id: 49, league: "CBLOL" },
+  "RED Canids": { short: "RED", id: 50, league: "CBLOL" },
+  FURIA: { short: "FUR", id: 51, league: "CBLOL" },
+  "Fluxo W7M": { short: "W7M", id: 52, league: "CBLOL" },
+  Leviatan: { short: "LEV", id: 53, league: "CBLOL" },
+  "Leviatán": { short: "LEV", id: 53, league: "CBLOL" },
+  "LØS": { short: "LOS", id: 54, league: "CBLOL" },
+  "Los Grandes": { short: "LOS", id: 54, league: "CBLOL" },
 };
 
 function cleanPlayerName(raw: string): string {
@@ -66,7 +85,7 @@ export async function runLeaguepediaAutoPublish(env: Env): Promise<{
   const queryUrl =
     `https://lol.fandom.com/api.php?action=cargoquery&format=json&tables=RosterRumors` +
     `&fields=Date,Player,TeamStart,TeamEnd,RegionEnd,RoleEnd,Status,SourceLink,SourceSite,NotHappening` +
-    `&where=Date%3E=%27${since}%27+AND+(RegionEnd=%27Korea%27+OR+RegionEnd=%27China%27+OR+RegionEnd=%27EMEA%27+OR+RegionEnd=%27North%20America%27)` +
+    `&where=Date%3E=%27${since}%27+AND+(RegionEnd=%27Korea%27+OR+RegionEnd=%27China%27+OR+RegionEnd=%27EMEA%27+OR+RegionEnd=%27North%20America%27+OR+RegionEnd=%27Brazil%27+OR+RegionEnd=%27APAC%27)` +
     `&order_by=Date+DESC&limit=50`;
 
   const resp = await fetch(queryUrl, {
