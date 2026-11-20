@@ -2,6 +2,7 @@ import { Env, CandidateDraft } from "./types";
 import { fetchRealRumorArticles } from "./news";
 import { parseRealNewsWithGemini } from "./gemini";
 import { runLeaguepediaAutoPublish } from "./leaguepedia";
+import { runInvenExclusiveHarvest } from "./inven";
 import {
   getSupabaseClient,
   filterExistingDrafts,
@@ -17,6 +18,10 @@ export async function runDraftHarvestPipeline(env: Env): Promise<{
   console.log("[Draft Crawler] 1. Running Leaguepedia auto-publish...");
   const lpResult = await runLeaguepediaAutoPublish(env);
   console.log(`[Draft Crawler] Leaguepedia: fetched=${lpResult.fetched}, published=${lpResult.published}, skipped=${lpResult.skipped}`);
+
+  console.log("[Draft Crawler] 1.5. Running Inven [단독]/[오피셜] harvest...");
+  const invenResult = await runInvenExclusiveHarvest(env);
+  console.log(`[Draft Crawler] Inven: scanned=${invenResult.scanned}, saved=${invenResult.saved}`);
 
   console.log("[Draft Crawler] 2. Searching for real published rumor articles...");
 
