@@ -1,6 +1,7 @@
 import { Env, CandidateDraft } from "./types";
 import { fetchRealRumorArticles } from "./news";
 import { parseRealNewsWithGemini } from "./gemini";
+import { runLeaguepediaAutoPublish } from "./leaguepedia";
 import {
   getSupabaseClient,
   filterExistingDrafts,
@@ -13,7 +14,11 @@ export async function runDraftHarvestPipeline(env: Env): Promise<{
   newDraftCount: number;
   savedCount: number;
 }> {
-  console.log("[Draft Crawler] 1. Searching for real published rumor articles...");
+  console.log("[Draft Crawler] 1. Running Leaguepedia auto-publish...");
+  const lpResult = await runLeaguepediaAutoPublish(env);
+  console.log(`[Draft Crawler] Leaguepedia: fetched=${lpResult.fetched}, published=${lpResult.published}, skipped=${lpResult.skipped}`);
+
+  console.log("[Draft Crawler] 2. Searching for real published rumor articles...");
 
   // 1. Fetch real articles via Google News RSS (zero quota, 100% free, real links)
   const realArticles = await fetchRealRumorArticles();
