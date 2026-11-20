@@ -141,5 +141,64 @@ export async function runLeaguepediaAutoPublish(env: Env): Promise<{
     }
   }
 
+  // Also poll RosterChanges for official Join / Re-sign announcements
+  const changesUrl =
+    `https://lol.fandom.com/api.php?action=cargoquery&format=json&tables=RosterChanges` +
+    `&fields=Date_Sort,Player,Team,Role,Direction,Source` +
+    `&where=Date_Sort%3E=%27${since}%27+AND+(Direction=%27Join%27+OR+Direction=%27Re-sign%27)` +
+    `&order_by=Date_Sort+DESC&limit=50`;
+
+  const chResp = await fetch(changesUrl, {
+    headers: { "User-Agent": "HotStoveLeagueBot/1.0 (https://github.com/jeongminsang/hotstoveleague)" },
+  });
+  if (chResp.ok) {
+    const chData: { cargoquery?: Array<{ title: Record<string, string> }> } = await chResp.json();
+    for (const item of chData.cargoquery || []) {
+      const t = item.title;
+      const targetTeam = TEAM_NAME_TO_SHORT[t.Team];
+      if (!targetTeam) continue;
+
+      const playerName = cleanPlayerName(t.Player || "");
+      const playerSlug = toSlug(playerName);
+      const sourceUrl = (t.Source || "").split(";;;")[0].trim();
+      if (!sourceUrl.startsWith("http")) continue;
+
+      const dateStr = (t["Date Sort"] || since).slice(0, 10);
+      const postId = `lp-official-${dateStr}-${playerSlug}-${targetTeam.short.toLowerCase()}`;
+      const res = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/publish_transfer_event`, {
+        method: "POST",
+        headers: {
+          apikey: env.SUPABASE_KEY,
+          Authorization: `Bearer ${env.SUPABASE_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          p_post_id: postId,
+          p_entity_type: "PLAYER",
+          p_player_slug: playerSlug,
+          p_player_name: playerName,
+          p_current_team_short: "FA",
+          p_target_team_id: targetTeam.id,
+          p_target_team_short: targetTeam.short,
+          p_league: targetTeam.league,
+          p_status: "CONFIRMED",
+          p_confidence: 100,
+          p_source: targetTeam.short,
+          p_author: targetTeam.short,
+          p_post_url: sourceUrl,
+          p_raw_text: `[Official] ${playerName} joins ${targetTeam.short}`,
+          p_summary: `[오피셜] ${targetTeam.short}, ${playerName} 영입/재계약 공식 발표`,
+          p_summary_en: `[Official] ${targetTeam.short} officially signs/re-signs ${playerName} for 2027.`,
+          p_summary_zh: `[官宣] ${targetTeam.short} 正式宣布签下/续约 ${playerName}。`,
+          p_published_at: `${dateStr}T12:00:00+09:00`,
+        }),
+      });
+      if (res.ok) {
+        const rpcRes = (await res.json()) as { action?: string };
+        if (rpcRes?.action === "published") published++;
+      }
+    }
+  }
+
   return { fetched: rows.length, published, skipped };
 }
