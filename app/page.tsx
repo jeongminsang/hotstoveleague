@@ -218,7 +218,7 @@ export default async function Index() {
       is_starter: false,
       confidence: 94,
       status: "RUMORED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.deft.source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES.deft?.source_url,
     },
     {
       id: 9003,
@@ -231,7 +231,7 @@ export default async function Index() {
       is_starter: true,
       confidence: 98,
       status: "CONFIRMED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.hype.source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES.hype?.source_url,
     },
     {
       id: 9004,
@@ -244,7 +244,7 @@ export default async function Index() {
       is_starter: false,
       confidence: 95,
       status: "RUMORED",
-      source_url: PREDICTED_PLAYER_OVERRIDES["3xa"].source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES["3xa"]?.source_url,
     },
     {
       id: 9005,
@@ -257,7 +257,7 @@ export default async function Index() {
       is_starter: false,
       confidence: 95,
       status: "RUMORED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.zicssi.source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES.zicssi?.source_url,
     },
     {
       id: 9006,
@@ -270,7 +270,7 @@ export default async function Index() {
       is_starter: false,
       confidence: 95,
       status: "CONFIRMED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.slowq.source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES.slowq?.source_url,
     },
     {
       id: 9007,
@@ -283,7 +283,7 @@ export default async function Index() {
       is_starter: false,
       confidence: 82,
       status: "RUMORED",
-      source_url: PREDICTED_PLAYER_OVERRIDES.aetinoth.source_url,
+      source_url: PREDICTED_PLAYER_OVERRIDES.aetinoth?.source_url,
     },
   ];
 
