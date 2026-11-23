@@ -1,106 +1,168 @@
 import { Env, CandidateDraft } from "./types";
 import { fetchRealRumorArticles } from "./news";
 import { parseRealNewsWithGemini } from "./gemini";
-import { runLeaguepediaAutoPublish } from "./leaguepedia";
+import { runLeaguepediaAutoPublish, autoPublishCandidateDraft } from "./leaguepedia";
 import { runInvenExclusiveHarvest } from "./inven";
+import { runWeiboDirectHarvest } from "./weibo";
 import {
   getSupabaseClient,
   filterExistingDrafts,
   insertRumorDrafts,
 } from "./supabase";
 
-export async function runDraftHarvestPipeline(env: Env): Promise<{
+export async function runDraftHarvestPipeline(
+  env: Env,
+  mode: "auto" | "lp" | "weibo" = "auto"
+): Promise<{
+  mode: string;
+  leaguepedia: { fetched: number; published: number; skipped: number };
+  inven: { scanned: number; saved: number; autoPublished: number };
+  weibo: { accountsChecked: number; postsMatched: number; saved: number; autoPublished: number };
   realArticlesFound: number;
   validRumorsParsed: number;
+  autoPublishedCount: number;
   newDraftCount: number;
   savedCount: number;
 }> {
-  console.log("[Draft Crawler] 1. Running Leaguepedia auto-publish...");
-  const lpResult = await runLeaguepediaAutoPublish(env);
-  console.log(`[Draft Crawler] Leaguepedia: fetched=${lpResult.fetched}, published=${lpResult.published}, skipped=${lpResult.skipped}`);
+  const isEvenHour = new Date().getUTCHours() % 2 === 0;
+  const runLpInven = mode === "lp" || (mode === "auto" && isEvenHour);
+  const runWeiboNews = mode === "weibo" || (mode === "auto" && !isEvenHour);
+  const activeMode = runLpInven ? "even-hour(leaguepedia+inven)" : "odd-hour(weibo+news)";
 
-  console.log("[Draft Crawler] 1.5. Running Inven [단독]/[오피셜] harvest...");
-  const invenResult = await runInvenExclusiveHarvest(env);
-  console.log(`[Draft Crawler] Inven: scanned=${invenResult.scanned}, saved=${invenResult.saved}`);
+  let lpResult = { fetched: 0, published: 0, skipped: 0 };
+  let invenResult = { scanned: 0, saved: 0, autoPublished: 0 };
+  let weiboResult = { accountsChecked: 0, postsMatched: 0, saved: 0, autoPublished: 0 };
+
+  if (runLpInven) {
+    console.log("[Draft Crawler] 1. Running Leaguepedia auto-publish...");
+    lpResult = await runLeaguepediaAutoPublish(env);
+    console.log(
+      `[Draft Crawler] Leaguepedia: fetched=${lpResult.fetched}, published=${lpResult.published}, skipped=${lpResult.skipped}`
+    );
+
+    console.log("[Draft Crawler] 1.5. Running Inven [단독]/[오피셜] harvest...");
+    invenResult = await runInvenExclusiveHarvest(env);
+    console.log(
+      `[Draft Crawler] Inven: scanned=${invenResult.scanned}, saved=${invenResult.saved}, autoPublished=${invenResult.autoPublished}`
+    );
+  }
+
+  if (runWeiboNews) {
+    console.log("[Draft Crawler] 1.8. Running Direct Weibo Insiders & Official Teams harvest...");
+    weiboResult = await runWeiboDirectHarvest(env);
+    console.log(
+      `[Draft Crawler] Weibo: accounts=${weiboResult.accountsChecked}, matched=${weiboResult.postsMatched}, saved=${weiboResult.saved}, autoPublished=${weiboResult.autoPublished}`
+    );
+  }
+
+  if (!runWeiboNews) {
+    return {
+      mode: activeMode,
+      leaguepedia: lpResult,
+      inven: invenResult,
+      weibo: weiboResult,
+      realArticlesFound: 0,
+      validRumorsParsed: 0,
+      autoPublishedCount: 0,
+      newDraftCount: 0,
+      savedCount: 0,
+    };
+  }
 
   console.log("[Draft Crawler] 2. Searching for real published rumor articles...");
-
-  // 1. Fetch real articles via Google News RSS (zero quota, 100% free, real links)
   const realArticles = await fetchRealRumorArticles();
   console.log(`[Draft Crawler] Found ${realArticles.length} real news items.`);
 
   if (realArticles.length === 0) {
-    return { realArticlesFound: 0, validRumorsParsed: 0, newDraftCount: 0, savedCount: 0 };
+    return {
+      leaguepedia: lpResult,
+      inven: invenResult,
+      weibo: weiboResult,
+      realArticlesFound: 0,
+      validRumorsParsed: 0,
+      autoPublishedCount: 0,
+      newDraftCount: 0,
+      savedCount: 0,
+    };
   }
 
-  // 2. Parse transfer details and multilingual summaries using Gemini
+  const supabase = env.SUPABASE_URL && env.SUPABASE_KEY ? getSupabaseClient(env) : null;
+  let unseenArticles = realArticles;
+  if (supabase) {
+    const preCandidates = realArticles.map((a) => ({ post_id: a.id } as CandidateDraft));
+    const unseenIds = new Set((await filterExistingDrafts(supabase, preCandidates)).map((d) => d.post_id));
+    unseenArticles = realArticles.filter((a) => unseenIds.has(a.id));
+  }
+
   const candidateDrafts: CandidateDraft[] = [];
-  for (const article of realArticles) {
+  let autoPublishedCount = 0;
+
+  for (const article of unseenArticles.slice(0, 3)) {
     if (!env.GEMINI_API_KEY) break;
     const parsed = await parseRealNewsWithGemini(env.GEMINI_API_KEY, article);
     if (parsed) {
       candidateDrafts.push(parsed);
+      const pubOk = await autoPublishCandidateDraft(env, parsed);
+      if (pubOk) autoPublishedCount++;
     }
   }
 
-  console.log(`[Draft Crawler] Extracted ${candidateDrafts.length} valid transfer rumors from real sources.`);
+  console.log(`[Draft Crawler] Extracted ${candidateDrafts.length} valid transfer rumors.`);
 
-  if (candidateDrafts.length === 0) {
+  if (candidateDrafts.length === 0 || !env.SUPABASE_URL || !env.SUPABASE_KEY) {
     return {
+      leaguepedia: lpResult,
+      inven: invenResult,
+      weibo: weiboResult,
       realArticlesFound: realArticles.length,
-      validRumorsParsed: 0,
+      validRumorsParsed: candidateDrafts.length,
+      autoPublishedCount,
       newDraftCount: 0,
       savedCount: 0,
     };
   }
 
-  if (!env.SUPABASE_URL || !env.SUPABASE_KEY) {
-    console.warn("[Draft Crawler] Supabase credentials missing. Returning count only.");
+  try {
+    const supabase = getSupabaseClient(env);
+    const newDrafts = await filterExistingDrafts(supabase, candidateDrafts);
+
+    if (newDrafts.length === 0) {
+      return {
+        mode: activeMode,
+        leaguepedia: lpResult,
+        inven: invenResult,
+        weibo: weiboResult,
+        realArticlesFound: realArticles.length,
+        validRumorsParsed: candidateDrafts.length,
+        autoPublishedCount,
+        newDraftCount: 0,
+        savedCount: 0,
+      };
+    }
+
+    const savedCount = await insertRumorDrafts(supabase, newDrafts);
     return {
+      mode: activeMode,
+      leaguepedia: lpResult,
+      inven: invenResult,
+      weibo: weiboResult,
       realArticlesFound: realArticles.length,
       validRumorsParsed: candidateDrafts.length,
-      newDraftCount: candidateDrafts.length,
-      savedCount: 0,
+      autoPublishedCount,
+      newDraftCount: newDrafts.length,
+      savedCount,
     };
+  } catch (err) {
+    console.error("[Draft Crawler] Error saving drafts to Supabase:", err);
+    throw err;
   }
-
-  // 3. Filter out items already in rumors or rumor_drafts
-  const supabase = getSupabaseClient(env);
-  const newDrafts = await filterExistingDrafts(supabase, candidateDrafts);
-  console.log(`[Draft Crawler] ${newDrafts.length} new drafts after deduplication.`);
-
-  if (newDrafts.length === 0) {
-    return {
-      realArticlesFound: realArticles.length,
-      validRumorsParsed: candidateDrafts.length,
-      newDraftCount: 0,
-      savedCount: 0,
-    };
-  }
-
-  // 4. Insert into rumor_drafts table as 'pending'
-  const savedCount = await insertRumorDrafts(supabase, newDrafts);
-  console.log(`[Draft Crawler] Successfully saved ${savedCount} pending drafts into Supabase.`);
-
-  return {
-    realArticlesFound: realArticles.length,
-    validRumorsParsed: candidateDrafts.length,
-    newDraftCount: newDrafts.length,
-    savedCount,
-  };
 }
 
 export default {
-  /**
-   * Cloudflare Cron Trigger (Runs every 6 hours)
-   */
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
     ctx.waitUntil(runDraftHarvestPipeline(env));
   },
 
-  /**
-   * HTTP Handler for manual trigger or healthcheck
-   */
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
