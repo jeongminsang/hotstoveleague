@@ -100,6 +100,7 @@ export default async function Index() {
     ) {
       expectedCoaches.push({
         ...bc,
+        role: bc.predicted_role || bc.role,
         predicted_team_id: bc.predicted_team_id,
       });
       return;

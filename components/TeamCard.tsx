@@ -191,10 +191,28 @@ export default function TeamCard({
       <div className="p-2.5 sm:p-4 divide-y divide-[#2b3139]/60">
         <AnimatePresence mode="wait">
           {positions.map((pos) => {
-            // Find player for this position, prioritizing starters (is_starter === true)
+            // Find player for this position: 2026 prioritizes starters; 2027 prioritizes active incoming/starter moves over passive STAY incumbents.
+            const getExpectedPriority = (p: Player) => {
+              const s = p.status || "STAY";
+              const isIncomingMove =
+                p.current_team_id !== team.id && (s === "CONFIRMED" || s === "RUMORED");
+              if (s === "CONFIRMED" && (p.is_starter || isIncomingMove)) return 4;
+              if (s === "RUMORED" && (p.is_starter || isIncomingMove)) return 3;
+              if (p.is_starter) return 2;
+              return isIncomingMove ? 1 : 0;
+            };
             const player = activeRoster
               .filter((p) => p.position === pos)
-              .sort((a, b) => (b.is_starter ? 1 : 0) - (a.is_starter ? 1 : 0))[0];
+              .sort((a, b) => {
+                if (isPrevRoster) {
+                  return (b.is_starter ? 1 : 0) - (a.is_starter ? 1 : 0);
+                }
+                const rankDiff = getExpectedPriority(b) - getExpectedPriority(a);
+                if (rankDiff !== 0) return rankDiff;
+                const confDiff = (b.confidence ?? 0) - (a.confidence ?? 0);
+                if (confDiff !== 0) return confDiff;
+                return (b.is_starter ? 1 : 0) - (a.is_starter ? 1 : 0);
+              })[0];
             const override = player?.slug
               ? PREDICTED_PLAYER_OVERRIDES[player.slug.toLowerCase()]
               : undefined;
