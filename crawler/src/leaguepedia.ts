@@ -432,6 +432,7 @@ export async function runLeaguepediaAutoPublish(env: Env): Promise<{
   });
   if (chResp.ok) {
     const chData: { cargoquery?: Array<{ title: Record<string, string> }> } = await chResp.json();
+    const groupCounters = new Map<string, number>();
     for (const item of chData.cargoquery || []) {
       if (subrequestBudget <= 0) break;
       const t = item.title;
@@ -440,11 +441,20 @@ export async function runLeaguepediaAutoPublish(env: Env): Promise<{
 
       const playerName = cleanPlayerName(t.Player || "");
       const playerSlug = toSlug(playerName);
-      const sourceUrl = (t.Source || "").split(";;;")[0].trim();
-      if (!sourceUrl.startsWith("http")) continue;
+      const sourceUrls = (t.Source || "")
+        .split(":::")
+        .map((part) => part.split(";;;")[0].trim())
+        .filter((u) => u.startsWith("http"));
+      if (sourceUrls.length === 0) continue;
 
       const dateStr = (t["Date Sort"] || since).slice(0, 10);
       const isLeave = t.Direction === "Leave";
+      const groupKey = `${dateStr}:${teamInfo.short}:${t.Direction}`;
+      const idx = groupCounters.get(groupKey) || 0;
+      groupCounters.set(groupKey, idx + 1);
+
+      const matchedBySlug = sourceUrls.find((u) => u.toLowerCase().includes(playerSlug));
+      const sourceUrl = matchedBySlug || sourceUrls[Math.min(idx, sourceUrls.length - 1)];
       const { entityType, position } = normalizeRole(t.Role);
       const postId = `lp-official-${dateStr}-${playerSlug}-${teamInfo.short.toLowerCase()}-${isLeave ? "fa" : "join"}`;
       if (existingPostIds.has(postId)) {
