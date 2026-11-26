@@ -1101,16 +1101,6 @@ export const INITIAL_RUMORS: SeedRumor[] = [
 // 오피셜 구단/선수 계정 및 1티어 원천 소식통(@Sheep_Esports, @AR0Nqc, 웨이보 한이·롄롄홍차·소환사Park·왕웨이천)에서 본문과 100% 일치하는 로스터 변동만 반영
 export const PREDICTED_PLAYER_OVERRIDES: Record<string, any> = {};
 
-export const MISSING_LPL_TEAMS: Team[] = [
-  {
-    id: 58,
-    name: "ThunderTalk Gaming",
-    short_name: "TT",
-    league: "LPL",
-    light_logo_url: "/logos/tt.png",
-    dark_logo_url: "/logos/tt.png",
-    primary_color: "#00B4FF",
-  },
-];
+export const MISSING_LPL_TEAMS: Team[] = [];
 
 export const MISSING_LPL_PLAYERS: Player[] = [];
