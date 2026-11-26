@@ -67,6 +67,7 @@ export default async function RumorsPage() {
 
   for (const p of rawPlayers) {
     if (p.status === "STAY") continue;
+    if (!p.source_url) continue;
     const key = `${p.name.toLowerCase()}|${p.predicted_team_id ?? "FA"}`;
     if (existingKeys.has(key)) continue;
     existingKeys.add(key);
@@ -116,6 +117,7 @@ export default async function RumorsPage() {
 
   for (const c of (coachesData as any[]) || []) {
     if (c.status === "STAY") continue;
+    if (!c.source_url) continue;
     const key = `${(c.name || "").toLowerCase()}|${c.predicted_team_id ?? "FA"}`;
     if (existingKeys.has(key)) continue;
     existingKeys.add(key);
